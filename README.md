@@ -7,5 +7,6 @@
 ## Deployment on Render
 
 このレポジトリをフォークして、GitHub に接続しワンクリックでデプロイしましょう！
+(注意: 下記のページに飛んだ後、URL を入れるのではなく、GitHub マークを押して連携してください)
 
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://dashboard.render.com/select-repo?type=blueprint)
