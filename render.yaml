@@ -1,3 +1,11 @@
+databases:
+  # データベースサーバ
+  - name: django-baby-database
+    region: singapore
+    plan: free
+    databaseName: django_baby_db_name
+    user: app_user
+
 services:
   # Django
   - type: web
@@ -19,11 +27,3 @@ services:
       - key: WEB_CONCURRENCY
         value: 2
     autoDeploy: true
-
-databases:
-  # データベースサーバ
-  - name: django-baby-database
-    region: singapore
-    plan: free
-    databaseName: django_baby_db_name
-    user: app_user
