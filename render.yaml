@@ -1,6 +1,6 @@
 databases:
   # データベースサーバ
-  - name: django-baby-database
+  - name: django_baby_db_name
     region: singapore
     plan: free
     databaseName: django_baby_db_name
