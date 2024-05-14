@@ -10,11 +10,9 @@
 
     <title>伝統工芸品・職人</title>
 
-    <link rel="stylesheet"
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
-          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
-          crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
 </head>
 <body>
 <header class="container mt-4 mb-4">
@@ -43,15 +41,15 @@
 
     <h1> 朝日焼きの器 </h1>
 
-    {% comment %} 3つの画像の詳細ページへのリンクを作成 {% endcomment %}
+   
     <div class="row mt-4">
-        <div class="col">
+        {% comment %} <div class="col"> {% endcomment %}
             <div class="card">
                 {% comment %} <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="..."> {% endcomment %}
                 <div class="card-body">
                     <h5 class="card-title">器1</h5>
                     {% comment %} あらゆる角度からの食器の画像一覧を並べる {% endcomment %}
-                    <div class="container">
+                    <div class="container mb-5">
                         <div class="row no-gutters">
                             {% for i in numbers %}
                                 <div class="col-1">
@@ -63,12 +61,25 @@
                             {% endfor %}
                         </div>
                     </div>
-                    
-                    
-                    
-                </div>  
+                    <!-- スライダーのコンテナ-->
+                    <div class="swiper-container g-4 " style = "overflow: hidden;">
+                        <!-- スライダーのwrapper -->
+                        <div class="swiper-wrapper">
+                            {% for i in numbers %}
+                                <div class="swiper-slide">
+                                    <img src="media/export_20220223173209/{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <!-- スライダーのページネーション -->
+                        <div class="swiper-pagination"></div>
+                        <!-- スライダーのナビゲーション -->
+                        <div class="swiper-button-prev"></div>
+                        <div class="swiper-button-next"></div>    
+                    </div>  
+                </div>
             </div>  
-        </div>
+        {% comment %} </div> {% endcomment %}
         
         
 
@@ -85,5 +96,28 @@
 
 
 </main>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+    const swiper = new Swiper(".swiper-container", {
+        slidesPerView: 1,
+        loop: true,
+        breakpoints: {
+            768: {
+                slidesPerView: 5,
+            },
+        },
+        pagination : {
+            el: ".swiper-pagination",
+            type: "fraction",
+        },
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+    });
+</script>
 </body>
+
+
 </html>
