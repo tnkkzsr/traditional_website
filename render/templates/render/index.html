@@ -24,6 +24,12 @@
             <h1 class="display-4">伝統工芸品の判定・データ収集サイト
             </h1>
         </div>
+    </div>  
+
+    <div class="row text-center justify-content-center mt-4">
+        <div class="col">
+             {{user}}さん、ご協力ありがとうございます。
+        </div>
     </div>
 
     <div class="row text-center justify-content-center mt-4">
@@ -33,19 +39,59 @@
         </div>
     </div>
 
-    3つの画像の詳細ページへのリンクを作成
+    {% comment %} 3つの画像の詳細ページへのリンクを作成 {% endcomment %}
     <div class="row mt-4">
         <div class="col">
             <div class="card">
-                <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="...">
+                {% comment %} <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="..."> {% endcomment %}
                 <div class="card-body">
                     <h5 class="card-title
                     ">食器1</h5>
                     <p class="card-text">食器1の説明</p>
-                    <a href="{% url 'render:detail' 1 %}" class="btn btn-primary">詳細</a>
+                    {% comment %} あらゆる角度からの食器の画像一覧を並べる {% endcomment %}
+                    <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="...">
+                    <a href="" class="btn btn-primary">詳細</a>
                 </div>  
             </div>  
         </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card">
+                {% comment %} <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="..."> {% endcomment %}
+                <div class="card-body">
+                    <h5 class="card-title
+                    ">食器2</h5>
+                    <p class="card-text">食器2の説明</p>
+                    <a href="" class="btn btn-primary">選択ページへ</a>
+                </div>  
+            </div>  
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <div class="card">
+                {% comment %} <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="..."> {% endcomment %}
+                <div class="card-body">
+                    <h5 class="card-title
+                    ">食器3</h5>
+                    <p class="card-text">食器3の説明</p>
+                    <a href="" class="btn btn-primary">選択ページへ</a>
+                </div>  
+            </div>  
+        </div>
+    </div>
+
+    {% comment %} 3つの食器の選択が終わったら、以下のボタンを押してください {% endcomment %}
+    <div class="row mt-4">
+        <div class="col">
+            <a href="" class="btn btn-primary">次へ</a>
+        </div>
+    </div>
+
+
 </main>
 </body>
 </html>
