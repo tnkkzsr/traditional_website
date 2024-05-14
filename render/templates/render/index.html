@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 
 <!doctype html>
 <html lang="en">
@@ -13,6 +14,7 @@
           href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
           integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
           crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 <header class="container mt-4 mb-4">
@@ -39,50 +41,40 @@
         </div>
     </div>
 
+    <h1> 朝日焼きの器 </h1>
+
     {% comment %} 3つの画像の詳細ページへのリンクを作成 {% endcomment %}
     <div class="row mt-4">
         <div class="col">
             <div class="card">
                 {% comment %} <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="..."> {% endcomment %}
                 <div class="card-body">
-                    <h5 class="card-title
-                    ">食器1</h5>
-                    <p class="card-text">食器1の説明</p>
+                    <h5 class="card-title">器1</h5>
                     {% comment %} あらゆる角度からの食器の画像一覧を並べる {% endcomment %}
-                    <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="...">
-                    <a href="" class="btn btn-primary">詳細</a>
+                    <div class="container">
+                        <div class="row no-gutters">
+                            {% for i in numbers %}
+                                <div class="col-1">
+                                    <img src="media/export_20220223173209/{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                                </div>
+                                {% if forloop.counter|divisibleby:12 and not forloop.last %}
+                                    </div><div class="row no-gutters">
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    
+                    
                 </div>  
             </div>  
         </div>
+        
+        
+
     </div>
 
-    <div class="row mt-4">
-        <div class="col">
-            <div class="card">
-                {% comment %} <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="..."> {% endcomment %}
-                <div class="card-body">
-                    <h5 class="card-title
-                    ">食器2</h5>
-                    <p class="card-text">食器2の説明</p>
-                    <a href="" class="btn btn-primary">選択ページへ</a>
-                </div>  
-            </div>  
-        </div>
-    </div>
 
-    <div class="row mt-4">
-        <div class="col">
-            <div class="card">
-                {% comment %} <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="..."> {% endcomment %}
-                <div class="card-body">
-                    <h5 class="card-title
-                    ">食器3</h5>
-                    <p class="card-text">食器3の説明</p>
-                    <a href="" class="btn btn-primary">選択ページへ</a>
-                </div>  
-            </div>  
-        </div>
-    </div>
 
     {% comment %} 3つの食器の選択が終わったら、以下のボタンを押してください {% endcomment %}
     <div class="row mt-4">
