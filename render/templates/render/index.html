@@ -36,7 +36,7 @@
             以下の三つの食器についてそれぞれ正面の画像だと思うものを選択してください
         </div>
     </div>
-    
+
     <h1>朝日焼きの器</h1>
     <div class="row mt-4">
         <div class="card">
@@ -47,7 +47,7 @@
                     <div class="row no-gutters">
                         {% for i in numbers %}
                             <div class="col-1">
-                                <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                                <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid image-item" data-image-item="{{ i|format_image_number }}.jpg">
                             </div>
                             {% if forloop.counter|divisibleby:12 and not forloop.last %}
                                 </div><div class="row no-gutters">
