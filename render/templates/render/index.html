@@ -53,7 +53,7 @@
                         <div class="row no-gutters">
                             {% for i in numbers %}
                                 <div class="col-1">
-                                    <img src="media/export_20220223173209/{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                                    <img src="{% static 'asahiyaki/export_20220223173209/'%}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
                                 </div>
                                 {% if forloop.counter|divisibleby:12 and not forloop.last %}
                                     </div><div class="row no-gutters">
@@ -67,7 +67,7 @@
                         <div class="swiper-wrapper">
                             {% for i in numbers %}
                                 <div class="swiper-slide">
-                                    <img src="media/export_20220223173209/{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                                    <img src="{% static 'asahiyaki/export_20220223173209/'%}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
                                 </div>
                             {% endfor %}
                         </div>
