@@ -23,77 +23,14 @@
     </div>  
 </header>
 
-<main class="container">
-   
-    <div class="row text-center justify-content-center mt-4">
-        <div class="col">
-             {{user}}さん、ご協力ありがとうございます。
-        </div>
-    </div>
-    <div class="row text-center justify-content-center mt-4">
-        <div class="col">
-            それぞれの伝統工芸品について、その特徴を把握し、データを収集するためのサイトです。<br>
-            以下の三つの食器についてそれぞれ正面の画像だと思うものを選択してください
-        </div>
-    </div>
+<div>
+    <a href="{% url "asahiyaki" %}">朝日焼き</a>
+</div>
 
-    <h1>朝日焼きの器</h1>
-    <div class="row mt-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">器1</h5>
-                <!-- 画像一覧の表示 -->
-                <div class=" mb-5">
-                    <div class="row no-gutters">
-                        {% for i in numbers %}
-                            <div class="col-1">
-                                <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid image-item" data-image-item="{{ i|format_image_number }}.jpg">
-                            </div>
-                            {% if forloop.counter|divisibleby:12 and not forloop.last %}
-                                </div><div class="row no-gutters">
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                </div>
+<div>
+    <a href="{% url "mokkogei" %}">中川木工芸</a>
+</div>
 
-                <!-- スライダーのコンテナ-->
-                <div class="swiper-container g-4" style="overflow: hidden;">
-                    <!-- スライダーのwrapper -->
-                    <div class="swiper-wrapper">
-                        {% for i in numbers %}
-                            <div class="swiper-slide" data-image="{{ i|format_image_number }}.jpg">
-                                <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <!-- スライダーのページネーション -->
-                    <div class="swiper-pagination"></div>
-                    <!-- スライダーのナビゲーション -->
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-button-next"></div>
-                </div>
-
-
-                <!-- 選択保存フォーム -->
-                <div class="container">
-                    <form id="selectionForm" method="post">
-                        {% csrf_token %}
-                        <input type="hidden" name="selected_image" id="selected_image" value="">
-                        <button type="submit" class="btn btn-primary mt-3">選択を保存</button>
-                    </form>
-                </div>
-
-
-            </div>
-        </div>
-    </div>
-    <!-- 次のボタン -->
-    <div class="row my-4">
-        <div class="col">
-            <a href="" class="btn btn-primary">次へ</a>
-        </div>
-    </div>
-</main>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{% static 'js/index.js' %}"></script>
