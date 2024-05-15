@@ -7,117 +7,95 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>伝統工芸品・職人</title>
-
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-</head>
-<body>
-<header class="container mt-4 mb-4">
     
-</header>
-<main class="container">
+</head>
+
+<body>
+<header class="container mt-4 mb-4"> 
     <div class="row text-center justify-content-center">
         <div class="col">
-            <h1 class="display-4">伝統工芸品の判定・データ収集サイト
-            </h1>
+            <h1 class="display-4">伝統工芸品の判定・データ収集サイト</h1>
         </div>
     </div>  
+</header>
 
+<main class="container">
+   
     <div class="row text-center justify-content-center mt-4">
         <div class="col">
              {{user}}さん、ご協力ありがとうございます。
         </div>
     </div>
-
     <div class="row text-center justify-content-center mt-4">
         <div class="col">
             それぞれの伝統工芸品について、その特徴を把握し、データを収集するためのサイトです。<br>
             以下の三つの食器についてそれぞれ正面の画像だと思うものを選択してください
         </div>
     </div>
-
-    <h1> 朝日焼きの器 </h1>
-
-   
+    
+    <h1>朝日焼きの器</h1>
     <div class="row mt-4">
-        {% comment %} <div class="col"> {% endcomment %}
-            <div class="card">
-                {% comment %} <img src="{% static 'images/1.jpg' %}" class="card-img-top" alt="..."> {% endcomment %}
-                <div class="card-body">
-                    <h5 class="card-title">器1</h5>
-                    {% comment %} あらゆる角度からの食器の画像一覧を並べる {% endcomment %}
-                    <div class="container mb-5">
-                        <div class="row no-gutters">
-                            {% for i in numbers %}
-                                <div class="col-1">
-                                    <img src="{% static 'asahiyaki/export_20220223173209/'%}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
-                                </div>
-                                {% if forloop.counter|divisibleby:12 and not forloop.last %}
-                                    </div><div class="row no-gutters">
-                                {% endif %}
-                            {% endfor %}
-                        </div>
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">器1</h5>
+                <!-- 画像一覧の表示 -->
+                <div class=" mb-5">
+                    <div class="row no-gutters">
+                        {% for i in numbers %}
+                            <div class="col-1">
+                                <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                            </div>
+                            {% if forloop.counter|divisibleby:12 and not forloop.last %}
+                                </div><div class="row no-gutters">
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                    <!-- スライダーのコンテナ-->
-                    <div class="swiper-container g-4 " style = "overflow: hidden;">
-                        <!-- スライダーのwrapper -->
-                        <div class="swiper-wrapper">
-                            {% for i in numbers %}
-                                <div class="swiper-slide">
-                                    <img src="{% static 'asahiyaki/export_20220223173209/'%}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
-                                </div>
-                            {% endfor %}
-                        </div>
-                        <!-- スライダーのページネーション -->
-                        <div class="swiper-pagination"></div>
-                        <!-- スライダーのナビゲーション -->
-                        <div class="swiper-button-prev"></div>
-                        <div class="swiper-button-next"></div>    
-                    </div>  
                 </div>
-            </div>  
-        {% comment %} </div> {% endcomment %}
-        
-        
 
+                <!-- スライダーのコンテナ-->
+                <div class="swiper-container g-4" style="overflow: hidden;">
+                    <!-- スライダーのwrapper -->
+                    <div class="swiper-wrapper">
+                        {% for i in numbers %}
+                            <div class="swiper-slide" data-image="{{ i|format_image_number }}.jpg">
+                                <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <!-- スライダーのページネーション -->
+                    <div class="swiper-pagination"></div>
+                    <!-- スライダーのナビゲーション -->
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                </div>
+
+
+                <!-- 選択保存フォーム -->
+                <div class="container">
+                    <form id="selectionForm" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" name="selected_image" id="selected_image" value="">
+                        <button type="submit" class="btn btn-primary mt-3">選択を保存</button>
+                    </form>
+                </div>
+
+
+            </div>
+        </div>
     </div>
-
-
-
-    {% comment %} 3つの食器の選択が終わったら、以下のボタンを押してください {% endcomment %}
-    <div class="row mt-4">
+    <!-- 次のボタン -->
+    <div class="row my-4">
         <div class="col">
             <a href="" class="btn btn-primary">次へ</a>
         </div>
     </div>
-
-
 </main>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
-<script>
-    const swiper = new Swiper(".swiper-container", {
-        slidesPerView: 1,
-        loop: true,
-        breakpoints: {
-            768: {
-                slidesPerView: 5,
-            },
-        },
-        pagination : {
-            el: ".swiper-pagination",
-            type: "fraction",
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-    });
-</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'js/index.js' %}"></script>
 </body>
-
-
 </html>
