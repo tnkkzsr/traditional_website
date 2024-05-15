@@ -1,111 +1,232 @@
-
 document.addEventListener("DOMContentLoaded", function() {
-
-    // Swiperの初期化
-    const swiper = new Swiper(".swiper-container", {
-        slidesPerView: 1,
-        loop: true,
-        breakpoints: {
-            768: {
-                slidesPerView: 3,
+    const swipers = {
+        a: new Swiper("#swiper-container-a", {
+            slidesPerView: 1,
+            loop: true,
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                },
             },
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            type: "fraction",
-        },
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-    });
+            pagination: {
+                el: ".swiper-pagination",
+                type: "fraction",
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        }),
+        b: new Swiper("#swiper-container-b", {
+            slidesPerView: 1,
+            loop: true,
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                type: "fraction",
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        }),
+        c: new Swiper("#swiper-container-c", {
+            slidesPerView: 1,
+            loop: true,
+            breakpoints: {
+                768: {
+                    slidesPerView: 3,
+                },
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                type: "fraction",
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        })
+    };
 
-    //画像一覧、スライドのクリックイベント
-    const ImageItems = document.querySelectorAll(".image-item");
-    let selectedItem = null;
-    const slideImages = document.querySelectorAll(".swiper-slide");
-    let selectedSlide = null;
+    const imageItemsA = document.querySelectorAll(".image-item-a");
+    const slideImagesA = document.querySelectorAll("#swiper-container-a .swiper-slide");
+    let selectedSlideA = null;
+    let selectedItemA = null;
 
-    ImageItems.forEach((item) => {
-        item.addEventListener("click", function() {
-            const selectedImage = item.getAttribute("data-image-item");
-            // 選択された画像をフォームにセット
-            document.getElementById("selected_image").value = selectedImage;
-            
+    const imageItemsB = document.querySelectorAll(".image-item-b");
+    const slideImagesB = document.querySelectorAll("#swiper-container-b .swiper-slide");
+    let selectedSlideB = null;
+    let selectedItemB = null;
 
-            // 以前選択された画像から選択クラスを削除
-            if (selectedItem) {
-                selectedItem.classList.remove("selected-image");
+    const imageItemsC = document.querySelectorAll(".image-item-c");
+    const slideImagesC = document.querySelectorAll("#swiper-container-c .swiper-slide");
+    let selectedSlideC = null;
+    let selectedItemC = null;
+
+    function addSelectedClass(element) {
+        element.classList.add("selected-image");
+    }
+
+    function removeSelectedClass(element) {
+        if (element) {
+            element.classList.remove("selected-image");
+        }
+    }
+
+    function handleClick(imageId, element, isSlide, formId) {
+        document.getElementById(`selected_image_${formId}`).value = imageId;
+
+        if (formId === 'a') {
+            if (isSlide) {
+                removeSelectedClass(selectedSlideA);
+                selectedSlideA = element;
+            } else {
+                removeSelectedClass(selectedItemA);
+                selectedItemA = element;
             }
+            addSelectedClass(element);
+            if (isSlide) {
+                imageItemsA.forEach(item => {
+                    if (item.getAttribute("data-image-item") === imageId) {
+                        removeSelectedClass(selectedItemA);
+                        addSelectedClass(item);
+                        selectedItemA = item;
+                    }
+                });
+            } else {
+                slideImagesA.forEach((slide, index) => {
+                    if (slide.getAttribute("data-image") === imageId) {
+                        removeSelectedClass(selectedSlideA);
+                        addSelectedClass(slide);
+                        selectedSlideA = slide;
+                        swipers.a.slideTo(index);
+                    }
+                });
+            }
+        } else if (formId === 'b') {
+            if (isSlide) {
+                removeSelectedClass(selectedSlideB);
+                selectedSlideB = element;
+            } else {
+                removeSelectedClass(selectedItemB);
+                selectedItemB = element;
+            }
+            addSelectedClass(element);
+            if (isSlide) {
+                imageItemsB.forEach(item => {
+                    if (item.getAttribute("data-image-item") === imageId) {
+                        removeSelectedClass(selectedItemB);
+                        addSelectedClass(item);
+                        selectedItemB = item;
+                    }
+                });
+            } else {
+                slideImagesB.forEach((slide, index) => {
+                    if (slide.getAttribute("data-image") === imageId) {
+                        removeSelectedClass(selectedSlideB);
+                        addSelectedClass(slide);
+                        selectedSlideB = slide;
+                        swipers.b.slideTo(index);
+                    }
+                });
+            }
+        } else if (formId === 'c') {
+            if (isSlide) {
+                removeSelectedClass(selectedSlideC);
+                selectedSlideC = element;
+            } else {
+                removeSelectedClass(selectedItemC);
+                selectedItemC = element;
+            }
+            addSelectedClass(element);
+            if (isSlide) {
+                imageItemsC.forEach(item => {
+                    if (item.getAttribute("data-image-item") === imageId) {
+                        removeSelectedClass(selectedItemC);
+                        addSelectedClass(item);
+                        selectedItemC = item;
+                    }
+                });
+            } else {
+                slideImagesC.forEach((slide, index) => {
+                    if (slide.getAttribute("data-image") === imageId) {
+                        removeSelectedClass(selectedSlideC);
+                        addSelectedClass(slide);
+                        selectedSlideC = slide;
+                        swipers.c.slideTo(index);
+                    }
+                });
+            }
+        }
+    }
 
-            // 現在の画像に選択クラスを追加
-            item.classList.add("selected-image");
-
-            // 現在の画像を記録
-            selectedItem = item;
-
-            // スライドの赤枠も選択画像に合わせて移動
-            slideImages.forEach((image,index) => {
-                image.classList.remove("selected-image");
-                if (image.getAttribute("data-image") === selectedImage) {
-                    image.classList.add("selected-image");
-                    selectedSlide = image;
-                    swiper.slideTo(index-1);
-                }
-            })
-            
-        });
-    });
-
-
-    // スライド画像のクリックイベント
-    slideImages.forEach((image) => {
+    imageItemsA.forEach(image => {
         image.addEventListener("click", function() {
-            // 選択されたスライドをフォームにセット
-            const selectedImage = image.getAttribute("data-image");
-            document.getElementById("selected_image").value = selectedImage;
-            
-
-            // 以前選択されたスライドから選択クラスを削除
-            if (selectedSlide) {
-                selectedSlide.classList.remove("selected-image");
-            }
-
-            // 現在のスライドに選択クラスを追加
-            image.classList.add("selected-image");
-
-            // 現在のスライドを記録
-            selectedSlide = image;
-
-            // スライドの赤枠も選択画像に合わせて移動
-            ImageItems.forEach((image) => {
-                image.classList.remove("selected-image");
-                if (image.getAttribute("data-image-item") === selectedImage) {
-                    image.classList.add("selected-image");
-                    selectedItem = image;
-                }
-            });
+            const imageId = this.getAttribute("data-image-item");
+            handleClick(imageId, this, false, 'a');
         });
     });
 
-    // // フォーム送信のAjax処理
-    // document.getElementById("selectionForm").addEventListener("submit", function(e) {
-    //     e.preventDefault();
-    //     const formData = new FormData(this);
+    slideImagesA.forEach(slide => {
+        slide.addEventListener("click", function() {
+            const imageId = this.getAttribute("data-image");
+            handleClick(imageId, this, true, 'a');
+        });
+    });
 
-    //     fetch("{% url 'save_selection' %}", {
-    //         method: "POST",
-    //         body: formData,
-    //         headers: {
-    //             "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
-    //         },
-    //     })
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         alert("選択が保存されました！");
-    //     })
-    //     .catch(error => {
-    //         alert("エラーが発生しました。もう一度お試しください。");
+    imageItemsB.forEach(image => {
+        image.addEventListener("click", function() {
+            const imageId = this.getAttribute("data-image-item");
+            handleClick(imageId, this, false, 'b');
+        });
+    });
+
+    slideImagesB.forEach(slide => {
+        slide.addEventListener("click", function() {
+            const imageId = this.getAttribute("data-image");
+            handleClick(imageId, this, true, 'b');
+        });
+    });
+
+    imageItemsC.forEach(image => {
+        image.addEventListener("click", function() {
+            const imageId = this.getAttribute("data-image-item");
+            handleClick(imageId, this, false, 'c');
+        });
+    });
+
+    slideImagesC.forEach(slide => {
+        slide.addEventListener("click", function() {
+            const imageId = this.getAttribute("data-image");
+            handleClick(imageId, this, true, 'c');
+        });
+    });
+
+    // document.querySelectorAll(".selectionForm").forEach(form => {
+    //     form.addEventListener("submit", function(e) {
+    //         e.preventDefault();
+    //         const formId = this.getAttribute("data-form-id");
+    //         const formData = new FormData(this);
+
+    //         fetch("{% url 'save_selection' %}", {
+    //             method: "POST",
+    //             body: formData,
+    //             headers: {
+    //                 "X-CSRFToken": formData.get("csrfmiddlewaretoken"),
+    //             },
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             alert(`選択が保存されました！ (${formId})`);
+    //         })
+    //         .catch(error => {
+    //             alert(`エラーが発生しました。もう一度お試しください。 (${formId})`);
+    //         });
     //     });
-    // }); 
+    // });
 });
