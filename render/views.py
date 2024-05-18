@@ -12,7 +12,6 @@ def index(request):
 def asahiyaki(request):
     numbers = list(range(1,25))
     context = {
-        "user": user,
         "numbers": numbers,
     }
     return render(request, "render/asahiyaki.html", context)
@@ -20,7 +19,6 @@ def asahiyaki(request):
 def mokkogei(request):
     numbers = list(range(1,25))
     context = {
-        "user": user,
         "numbers": numbers,
     }
     return render(request, "render/mokkogei.html", context)
