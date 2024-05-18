@@ -1984,3 +1984,382 @@ File /usr/local/lib/python3.9/site-packages/django/contrib/contenttypes/migratio
 File /usr/local/lib/python3.9/site-packages/django/contrib/sessions/backends/__init__.py first seen with mtime 1715658673.30811
 File /usr/local/lib/python3.9/site-packages/django/contrib/auth/migrations/0003_alter_user_email_max_length.py first seen with mtime 1715658672.96011
 File /usr/local/lib/python3.9/site-packages/django/contrib/sessions/middleware.py first seen with mtime 1715658673.30811
+File /code/render/templates/render/asahiyaki.html previous mtime: 1716021977.3721375, current mtime: 1716027718.798918
+/code/render/templates/render/asahiyaki.html notified as changed. Signal results: [(<function template_changed at 0x7fd15ccb7dc0>, True), (<function translation_file_changed at 0x7fd15ba3c8b0>, None)].
+"GET / HTTP/1.1" 200 1239
+"GET /static/js/index.js HTTP/1.1" 200 8180
+File /usr/local/lib/python3.9/site-packages/django/contrib/messages/storage/cookie.py first seen with mtime 1715658673.2151098
+File /usr/local/lib/python3.9/site-packages/django/template/context_processors.py first seen with mtime 1715658673.48311
+File /usr/local/lib/python3.9/site-packages/django/contrib/messages/storage/session.py first seen with mtime 1715658673.2151098
+File /usr/local/lib/python3.9/site-packages/django/contrib/messages/storage/fallback.py first seen with mtime 1715658673.2151098
+File /usr/local/lib/python3.9/site-packages/django/contrib/messages/context_processors.py first seen with mtime 1715658673.21311
+File /usr/local/lib/python3.9/site-packages/django/contrib/auth/context_processors.py first seen with mtime 1715658672.89811
+File /usr/local/lib/python3.9/site-packages/django/contrib/sessions/serializers.py first seen with mtime 1715658673.30811
+"GET /asahiyaki HTTP/1.1" 200 44247
+"GET /static/asahiyaki/export_20220223173209_white/06.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/03.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/01.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/02.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/05.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/04.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/14.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/20.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/11.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/09.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/22.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/07.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209/01.jpg HTTP/1.1" 200 52716
+"GET /static/asahiyaki/export_20220223173209_white/16.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/08.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/23.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/13.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/24.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/19.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/12.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/21.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/15.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/10.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/18.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209/02.jpg HTTP/1.1" 200 53131
+"GET /static/asahiyaki/export_20220223173209_white/17.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209/06.jpg HTTP/1.1" 200 54264
+"GET /static/asahiyaki/export_20220223173209/05.jpg HTTP/1.1" 200 54464
+"GET /static/asahiyaki/export_20220223173209/03.jpg HTTP/1.1" 200 52434
+"GET /static/asahiyaki/export_20220223173209/04.jpg HTTP/1.1" 200 54076
+"GET /static/asahiyaki/export_20220223173209/08.jpg HTTP/1.1" 200 53859
+"GET /static/asahiyaki/export_20220223173209/07.jpg HTTP/1.1" 200 52429
+"GET /static/asahiyaki/export_20220223173209/10.jpg HTTP/1.1" 200 53134
+"GET /static/asahiyaki/export_20220223173209/09.jpg HTTP/1.1" 200 53799
+"GET /static/asahiyaki/export_20220223173209/11.jpg HTTP/1.1" 200 52102
+"GET /static/asahiyaki/export_20220223173209/12.jpg HTTP/1.1" 200 54510
+"GET /static/asahiyaki/export_20220223173209/14.jpg HTTP/1.1" 200 54976
+"GET /static/asahiyaki/export_20220223173209/15.jpg HTTP/1.1" 200 54121
+"GET /static/asahiyaki/export_20220223173209/13.jpg HTTP/1.1" 200 55131
+"GET /static/asahiyaki/export_20220223173209/17.jpg HTTP/1.1" 200 54369
+"GET /static/asahiyaki/export_20220223173209/16.jpg HTTP/1.1" 200 54410
+"GET /static/asahiyaki/export_20220223173209/19.jpg HTTP/1.1" 200 53250
+"GET /static/asahiyaki/export_20220223173209/18.jpg HTTP/1.1" 200 54336
+"GET /static/asahiyaki/export_20220223173209/20.jpg HTTP/1.1" 200 53248
+"GET /static/asahiyaki/export_20220223173209/21.jpg HTTP/1.1" 200 52787
+"GET /static/asahiyaki/export_20220223173209/23.jpg HTTP/1.1" 200 52864
+"GET /static/asahiyaki/export_20220223173209/22.jpg HTTP/1.1" 200 54288
+"GET /static/asahiyaki/export_20220223173553/02.jpg HTTP/1.1" 200 44734
+"GET /static/asahiyaki/export_20220223173209/24.jpg HTTP/1.1" 200 54059
+"GET /static/asahiyaki/export_20220223173553/04.jpg HTTP/1.1" 200 44342
+"GET /static/asahiyaki/export_20220223173553/01.jpg HTTP/1.1" 200 44215
+"GET /static/asahiyaki/export_20220223173553/03.jpg HTTP/1.1" 200 45600
+"GET /static/asahiyaki/export_20220223173553/05.jpg HTTP/1.1" 200 44872
+"GET /static/asahiyaki/export_20220223173553/07.jpg HTTP/1.1" 200 44587
+"GET /static/asahiyaki/export_20220223173553/06.jpg HTTP/1.1" 200 44763
+"GET /static/asahiyaki/export_20220223173553/09.jpg HTTP/1.1" 200 44309
+"GET /static/asahiyaki/export_20220223173553/08.jpg HTTP/1.1" 200 44607
+"GET /static/asahiyaki/export_20220223173553/10.jpg HTTP/1.1" 200 44817
+"GET /static/asahiyaki/export_20220223173553/11.jpg HTTP/1.1" 200 44402
+"GET /static/asahiyaki/export_20220223173553/13.jpg HTTP/1.1" 200 45113
+"GET /static/asahiyaki/export_20220223173553/12.jpg HTTP/1.1" 200 44065
+"GET /static/asahiyaki/export_20220223173553/15.jpg HTTP/1.1" 200 44167
+"GET /static/asahiyaki/export_20220223173553/14.jpg HTTP/1.1" 200 44223
+"GET /static/asahiyaki/export_20220223173553/16.jpg HTTP/1.1" 200 43822
+"GET /static/asahiyaki/export_20220223173553/20.jpg HTTP/1.1" 200 43288
+"GET /static/asahiyaki/export_20220223173553/22.jpg HTTP/1.1" 200 44149
+"GET /static/asahiyaki/export_20220223173553/24.jpg HTTP/1.1" 200 44513
+"GET /static/asahiyaki/export_20220223173553/21.jpg HTTP/1.1" 200 43936
+"GET /static/asahiyaki/export_20220223173553/23.jpg HTTP/1.1" 200 43919
+"GET /static/asahiyaki/export_20220223174624/01.jpg HTTP/1.1" 200 45775
+"GET /static/asahiyaki/export_20220223174624/03.jpg HTTP/1.1" 200 45485
+"GET /static/asahiyaki/export_20220223174624/12.jpg HTTP/1.1" 200 44124
+"GET /static/asahiyaki/export_20220223174624/06.jpg HTTP/1.1" 200 45400
+"GET /static/asahiyaki/export_20220223174624/13.jpg HTTP/1.1" 200 44566
+"GET /static/asahiyaki/export_20220223174624/11.jpg HTTP/1.1" 200 44201
+"GET /static/asahiyaki/export_20220223174624/19.jpg HTTP/1.1" 200 44983
+"GET /static/asahiyaki/export_20220223174624/14.jpg HTTP/1.1" 200 43688
+"GET /static/asahiyaki/export_20220223174624/16.jpg HTTP/1.1" 200 44247
+"GET /static/asahiyaki/export_20220223174624/18.jpg HTTP/1.1" 200 44884
+"GET /static/asahiyaki/export_20220223174624/22.jpg HTTP/1.1" 200 45811
+"GET /static/asahiyaki/export_20220223174624/24.jpg HTTP/1.1" 200 46020
+"GET /static/asahiyaki/export_20220223174624/23.jpg HTTP/1.1" 200 45730
+File /usr/local/lib/python3.9/site-packages/django/conf/locale/ja/formats.py first seen with mtime 1715658672.6321099
+File /usr/local/lib/python3.9/site-packages/django/conf/locale/ja/__init__.py first seen with mtime 1715658672.6321099
+"GET /asahiyaki HTTP/1.1" 200 44247
+"GET /static/css/style.css HTTP/1.1" 200 202
+"GET /static/asahiyaki/export_20220223173209_white/01.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/02.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/05.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/03.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/04.jpg HTTP/1.1" 404 1889
+"GET /static/js/index.js HTTP/1.1" 200 8180
+"GET /static/asahiyaki/export_20220223173209_white/17.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/12.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/09.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/20.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/13.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209/01.jpg HTTP/1.1" 200 52716
+"GET /static/asahiyaki/export_20220223173209_white/24.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/08.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/23.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209/02.jpg HTTP/1.1" 200 53131
+"GET /static/asahiyaki/export_20220223173209_white/06.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/21.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/16.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/11.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/14.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/10.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/07.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/22.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/19.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/15.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/18.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173553/24.jpg HTTP/1.1" 200 44513
+"GET /static/asahiyaki/export_20220223173553/09.jpg HTTP/1.1" 200 44309
+"GET /static/asahiyaki/export_20220223173553/14.jpg HTTP/1.1" 200 44223
+"GET /static/asahiyaki/export_20220223173553/06.jpg HTTP/1.1" 200 44763
+"GET /static/asahiyaki/export_20220223173553/07.jpg HTTP/1.1" 200 44587
+"GET /static/asahiyaki/export_20220223173553/01.jpg HTTP/1.1" 200 44215
+"GET /static/asahiyaki/export_20220223173553/17.jpg HTTP/1.1" 200 42417
+"GET /static/asahiyaki/export_20220223173553/16.jpg HTTP/1.1" 200 43822
+"GET /static/asahiyaki/export_20220223173553/10.jpg HTTP/1.1" 200 44817
+"GET /static/asahiyaki/export_20220223173553/23.jpg HTTP/1.1" 200 43919
+"GET /static/asahiyaki/export_20220223173553/13.jpg HTTP/1.1" 200 45113
+"GET /static/asahiyaki/export_20220223173553/03.jpg HTTP/1.1" 200 45600
+"GET /static/asahiyaki/export_20220223173553/19.jpg HTTP/1.1" 200 42585
+"GET /static/asahiyaki/export_20220223173553/18.jpg HTTP/1.1" 200 42400
+"GET /static/asahiyaki/export_20220223173553/04.jpg HTTP/1.1" 200 44342
+"GET /static/asahiyaki/export_20220223173553/02.jpg HTTP/1.1" 200 44734
+"GET /static/asahiyaki/export_20220223173553/15.jpg HTTP/1.1" 200 44167
+"GET /static/asahiyaki/export_20220223173553/12.jpg HTTP/1.1" 200 44065
+"GET /static/asahiyaki/export_20220223173553/20.jpg HTTP/1.1" 200 43288
+"GET /static/asahiyaki/export_20220223173553/21.jpg HTTP/1.1" 200 43936
+"GET /static/asahiyaki/export_20220223173553/11.jpg HTTP/1.1" 200 44402
+"GET /static/asahiyaki/export_20220223173553/22.jpg HTTP/1.1" 200 44149
+"GET /static/asahiyaki/export_20220223173553/05.jpg HTTP/1.1" 200 44872
+"GET /static/asahiyaki/export_20220223173209/05.jpg HTTP/1.1" 200 54464
+"GET /static/asahiyaki/export_20220223173209/04.jpg HTTP/1.1" 200 54076
+"GET /static/asahiyaki/export_20220223173553/08.jpg HTTP/1.1" 200 44607
+"GET /static/asahiyaki/export_20220223173209/03.jpg HTTP/1.1" 200 52434
+"GET /static/asahiyaki/export_20220223173209/06.jpg HTTP/1.1" 200 54264
+"GET /static/asahiyaki/export_20220223173209/08.jpg HTTP/1.1" 200 53859
+"GET /static/asahiyaki/export_20220223173209/07.jpg HTTP/1.1" 200 52429
+"GET /static/asahiyaki/export_20220223173209/09.jpg HTTP/1.1" 200 53799
+"GET /static/asahiyaki/export_20220223173209/10.jpg HTTP/1.1" 200 53134
+"GET /static/asahiyaki/export_20220223173209/11.jpg HTTP/1.1" 200 52102
+"GET /static/asahiyaki/export_20220223173209/12.jpg HTTP/1.1" 200 54510
+"GET /static/asahiyaki/export_20220223173209/15.jpg HTTP/1.1" 200 54121
+"GET /static/asahiyaki/export_20220223173209/14.jpg HTTP/1.1" 200 54976
+"GET /static/asahiyaki/export_20220223173209/13.jpg HTTP/1.1" 200 55131
+"GET /static/asahiyaki/export_20220223173209/17.jpg HTTP/1.1" 200 54369
+"GET /static/asahiyaki/export_20220223173209/18.jpg HTTP/1.1" 200 54336
+"GET /static/asahiyaki/export_20220223173209/16.jpg HTTP/1.1" 200 54410
+"GET /static/asahiyaki/export_20220223173209/19.jpg HTTP/1.1" 200 53250
+"GET /static/asahiyaki/export_20220223173209/20.jpg HTTP/1.1" 200 53248
+"GET /static/asahiyaki/export_20220223173209/21.jpg HTTP/1.1" 200 52787
+"GET /static/asahiyaki/export_20220223173209/23.jpg HTTP/1.1" 200 52864
+"GET /static/asahiyaki/export_20220223173209/24.jpg HTTP/1.1" 200 54059
+"GET /static/asahiyaki/export_20220223174624/01.jpg HTTP/1.1" 200 45775
+"GET /static/asahiyaki/export_20220223174624/03.jpg HTTP/1.1" 200 45485
+"GET /static/asahiyaki/export_20220223174624/02.jpg HTTP/1.1" 200 45628
+"GET /static/asahiyaki/export_20220223173209/22.jpg HTTP/1.1" 200 54288
+"GET /static/asahiyaki/export_20220223174624/04.jpg HTTP/1.1" 200 45394
+"GET /static/asahiyaki/export_20220223174624/06.jpg HTTP/1.1" 200 45400
+"GET /static/asahiyaki/export_20220223174624/05.jpg HTTP/1.1" 200 45163
+"GET /static/asahiyaki/export_20220223174624/09.jpg HTTP/1.1" 200 43960
+"GET /static/asahiyaki/export_20220223174624/08.jpg HTTP/1.1" 200 44503
+"GET /static/asahiyaki/export_20220223174624/07.jpg HTTP/1.1" 200 44982
+"GET /static/asahiyaki/export_20220223174624/10.jpg HTTP/1.1" 200 43928
+"GET /static/asahiyaki/export_20220223174624/11.jpg HTTP/1.1" 200 44201
+"GET /static/asahiyaki/export_20220223174624/12.jpg HTTP/1.1" 200 44124
+"GET /static/asahiyaki/export_20220223174624/13.jpg HTTP/1.1" 200 44566
+"GET /static/asahiyaki/export_20220223174624/14.jpg HTTP/1.1" 200 43688
+"GET /static/asahiyaki/export_20220223174624/15.jpg HTTP/1.1" 200 43595
+"GET /static/asahiyaki/export_20220223174624/17.jpg HTTP/1.1" 200 44120
+"GET /static/asahiyaki/export_20220223174624/16.jpg HTTP/1.1" 200 44247
+"GET /static/asahiyaki/export_20220223174624/18.jpg HTTP/1.1" 200 44884
+"GET /static/asahiyaki/export_20220223174624/19.jpg HTTP/1.1" 200 44983
+"GET /static/asahiyaki/export_20220223174624/20.jpg HTTP/1.1" 200 44639
+"GET /static/asahiyaki/export_20220223174624/22.jpg HTTP/1.1" 200 45811
+"GET /static/asahiyaki/export_20220223174624/21.jpg HTTP/1.1" 200 45578
+"GET /static/asahiyaki/export_20220223174624/24.jpg HTTP/1.1" 200 46020
+"GET /static/asahiyaki/export_20220223174624/23.jpg HTTP/1.1" 200 45730
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.9/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+  File "/usr/local/lib/python3.9/site-packages/django/core/handlers/base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+  File "/usr/local/lib/python3.9/site-packages/django/urls/resolvers.py", line 702, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'render.urls' from '/code/render/urls.py'> (None:None) ''>, <URLPattern '' [name='index']>], [<URLResolver <module 'render.urls' from '/code/render/urls.py'> (None:None) ''>, <URLPattern 'asahiyaki' [name='asahiyaki']>], [<URLResolver <module 'render.urls' from '/code/render/urls.py'> (None:None) ''>, <URLPattern 'mokkogei' [name='mokkogei']>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'favicon.ico'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/template/base.py", line 880, in _resolve_lookup
+    current = current[bit]
+TypeError: 'URLResolver' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    current = getattr(current, bit)
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/template/base.py", line 896, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/template/base.py", line 903, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2741
+"GET /asahiyaki HTTP/1.1" 200 44247
+"GET /static/css/style.css HTTP/1.1" 200 202
+"GET /static/asahiyaki/export_20220223173209_white/05.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/01.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/04.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/03.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/06.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/02.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209/02.jpg HTTP/1.1" 200 53131
+"GET /static/js/index.js HTTP/1.1" 200 8180
+"GET /static/asahiyaki/export_20220223173209_white/20.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/23.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/13.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/15.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/14.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/08.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/19.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/16.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/07.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/10.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/09.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/17.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/24.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/11.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209/01.jpg HTTP/1.1" 200 52716
+"GET /static/asahiyaki/export_20220223173209_white/22.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/18.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/12.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173209_white/21.jpg HTTP/1.1" 404 1889
+"GET /static/asahiyaki/export_20220223173553/21.jpg HTTP/1.1" 200 43936
+"GET /static/asahiyaki/export_20220223173553/06.jpg HTTP/1.1" 200 44763
+"GET /static/asahiyaki/export_20220223173553/17.jpg HTTP/1.1" 200 42417
+"GET /static/asahiyaki/export_20220223173553/22.jpg HTTP/1.1" 200 44149
+"GET /static/asahiyaki/export_20220223173553/24.jpg HTTP/1.1" 200 44513
+"GET /static/asahiyaki/export_20220223173553/13.jpg HTTP/1.1" 200 45113
+"GET /static/asahiyaki/export_20220223173553/09.jpg HTTP/1.1" 200 44309
+"GET /static/asahiyaki/export_20220223173553/07.jpg HTTP/1.1" 200 44587
+"GET /static/asahiyaki/export_20220223173553/15.jpg HTTP/1.1" 200 44167
+"GET /static/asahiyaki/export_20220223173553/02.jpg HTTP/1.1" 200 44734
+"GET /static/asahiyaki/export_20220223173553/10.jpg HTTP/1.1" 200 44817
+"GET /static/asahiyaki/export_20220223173553/20.jpg HTTP/1.1" 200 43288
+"GET /static/asahiyaki/export_20220223173553/04.jpg HTTP/1.1" 200 44342
+"GET /static/asahiyaki/export_20220223173553/11.jpg HTTP/1.1" 200 44402
+"GET /static/asahiyaki/export_20220223173553/23.jpg HTTP/1.1" 200 43919
+"GET /static/asahiyaki/export_20220223173553/18.jpg HTTP/1.1" 200 42400
+"GET /static/asahiyaki/export_20220223173553/14.jpg HTTP/1.1" 200 44223
+"GET /static/asahiyaki/export_20220223173553/08.jpg HTTP/1.1" 200 44607
+"GET /static/asahiyaki/export_20220223173553/16.jpg HTTP/1.1" 200 43822
+"GET /static/asahiyaki/export_20220223173553/12.jpg HTTP/1.1" 200 44065
+"GET /static/asahiyaki/export_20220223173553/01.jpg HTTP/1.1" 200 44215
+"GET /static/asahiyaki/export_20220223173553/03.jpg HTTP/1.1" 200 45600
+"GET /static/asahiyaki/export_20220223173553/19.jpg HTTP/1.1" 200 42585
+"GET /static/asahiyaki/export_20220223173553/05.jpg HTTP/1.1" 200 44872
+"GET /static/asahiyaki/export_20220223173209/04.jpg HTTP/1.1" 200 54076
+"GET /static/asahiyaki/export_20220223173209/06.jpg HTTP/1.1" 200 54264
+"GET /static/asahiyaki/export_20220223173209/05.jpg HTTP/1.1" 200 54464
+"GET /static/asahiyaki/export_20220223173209/07.jpg HTTP/1.1" 200 52429
+"GET /static/asahiyaki/export_20220223173209/10.jpg HTTP/1.1" 200 53134
+"GET /static/asahiyaki/export_20220223173209/08.jpg HTTP/1.1" 200 53859
+"GET /static/asahiyaki/export_20220223173209/03.jpg HTTP/1.1" 200 52434
+"GET /static/asahiyaki/export_20220223173209/11.jpg HTTP/1.1" 200 52102
+"GET /static/asahiyaki/export_20220223173209/14.jpg HTTP/1.1" 200 54976
+"GET /static/asahiyaki/export_20220223173209/12.jpg HTTP/1.1" 200 54510
+"GET /static/asahiyaki/export_20220223173209/09.jpg HTTP/1.1" 200 53799
+"GET /static/asahiyaki/export_20220223173209/13.jpg HTTP/1.1" 200 55131
+"GET /static/asahiyaki/export_20220223173209/16.jpg HTTP/1.1" 200 54410
+"GET /static/asahiyaki/export_20220223173209/15.jpg HTTP/1.1" 200 54121
+"GET /static/asahiyaki/export_20220223173209/18.jpg HTTP/1.1" 200 54336
+"GET /static/asahiyaki/export_20220223173209/17.jpg HTTP/1.1" 200 54369
+"GET /static/asahiyaki/export_20220223173209/19.jpg HTTP/1.1" 200 53250
+"GET /static/asahiyaki/export_20220223173209/21.jpg HTTP/1.1" 200 52787
+"GET /static/asahiyaki/export_20220223173209/20.jpg HTTP/1.1" 200 53248
+"GET /static/asahiyaki/export_20220223173209/22.jpg HTTP/1.1" 200 54288
+"GET /static/asahiyaki/export_20220223173209/23.jpg HTTP/1.1" 200 52864
+"GET /static/asahiyaki/export_20220223173209/24.jpg HTTP/1.1" 200 54059
+"GET /static/asahiyaki/export_20220223174624/04.jpg HTTP/1.1" 200 45394
+"GET /static/asahiyaki/export_20220223174624/03.jpg HTTP/1.1" 200 45485
+"GET /static/asahiyaki/export_20220223174624/02.jpg HTTP/1.1" 200 45628
+"GET /static/asahiyaki/export_20220223174624/01.jpg HTTP/1.1" 200 45775
+"GET /static/asahiyaki/export_20220223174624/06.jpg HTTP/1.1" 200 45400
+"GET /static/asahiyaki/export_20220223174624/05.jpg HTTP/1.1" 200 45163
+"GET /static/asahiyaki/export_20220223174624/10.jpg HTTP/1.1" 200 43928
+"GET /static/asahiyaki/export_20220223174624/08.jpg HTTP/1.1" 200 44503
+"GET /static/asahiyaki/export_20220223174624/09.jpg HTTP/1.1" 200 43960
+"GET /static/asahiyaki/export_20220223174624/12.jpg HTTP/1.1" 200 44124
+"GET /static/asahiyaki/export_20220223174624/11.jpg HTTP/1.1" 200 44201
+"GET /static/asahiyaki/export_20220223174624/07.jpg HTTP/1.1" 200 44982
+"GET /static/asahiyaki/export_20220223174624/14.jpg HTTP/1.1" 200 43688
+"GET /static/asahiyaki/export_20220223174624/13.jpg HTTP/1.1" 200 44566
+"GET /static/asahiyaki/export_20220223174624/15.jpg HTTP/1.1" 200 43595
+"GET /static/asahiyaki/export_20220223174624/17.jpg HTTP/1.1" 200 44120
+"GET /static/asahiyaki/export_20220223174624/18.jpg HTTP/1.1" 200 44884
+"GET /static/asahiyaki/export_20220223174624/16.jpg HTTP/1.1" 200 44247
+"GET /static/asahiyaki/export_20220223174624/19.jpg HTTP/1.1" 200 44983
+"GET /static/asahiyaki/export_20220223174624/20.jpg HTTP/1.1" 200 44639
+"GET /static/asahiyaki/export_20220223174624/23.jpg HTTP/1.1" 200 45730
+"GET /static/asahiyaki/export_20220223174624/21.jpg HTTP/1.1" 200 45578
+"GET /static/asahiyaki/export_20220223174624/22.jpg HTTP/1.1" 200 45811
+"GET /static/asahiyaki/export_20220223174624/24.jpg HTTP/1.1" 200 46020
+Exception while resolving variable 'name' in template 'unknown'.
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/usr/local/lib/python3.9/site-packages/django/core/handlers/base.py", line 181, in _get_response
+    callback, callback_args, callback_kwargs = self.resolve_request(request)
+  File "/usr/local/lib/python3.9/site-packages/django/core/handlers/base.py", line 313, in resolve_request
+    resolver_match = resolver.resolve(request.path_info)
+  File "/usr/local/lib/python3.9/site-packages/django/urls/resolvers.py", line 702, in resolve
+    raise Resolver404({"tried": tried, "path": new_path})
+django.urls.exceptions.Resolver404: {'tried': [[<URLResolver <URLPattern list> (admin:admin) 'admin/'>], [<URLResolver <module 'render.urls' from '/code/render/urls.py'> (None:None) ''>, <URLPattern '' [name='index']>], [<URLResolver <module 'render.urls' from '/code/render/urls.py'> (None:None) ''>, <URLPattern 'asahiyaki' [name='asahiyaki']>], [<URLResolver <module 'render.urls' from '/code/render/urls.py'> (None:None) ''>, <URLPattern 'mokkogei' [name='mokkogei']>], [<URLPattern '^media/(?P<path>.*)$'>]], 'path': 'favicon.ico'}
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/template/base.py", line 880, in _resolve_lookup
+    current = current[bit]
+TypeError: 'URLResolver' object is not subscriptable
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/template/base.py", line 890, in _resolve_lookup
+    current = getattr(current, bit)
+AttributeError: 'URLResolver' object has no attribute 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/template/base.py", line 896, in _resolve_lookup
+    current = current[int(bit)]
+ValueError: invalid literal for int() with base 10: 'name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.9/site-packages/django/template/base.py", line 903, in _resolve_lookup
+    raise VariableDoesNotExist(
+django.template.base.VariableDoesNotExist: Failed lookup for key [name] in <URLResolver <URLPattern list> (admin:admin) 'admin/'>
+Not Found: /favicon.ico
+"GET /favicon.ico HTTP/1.1" 404 2741
+File /code/config/settings.py previous mtime: 1716022537.2182841, current mtime: 1716027773.1515667
+/code/config/settings.py notified as changed. Signal results: [(<function template_changed at 0x7fd15ccb7dc0>, None), (<function translation_file_changed at 0x7fd15ba3c8b0>, None)].
+/code/config/settings.py changed, reloading.
