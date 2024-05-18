@@ -43,7 +43,7 @@
                 <div class="row no-gutters" id="image-list-a">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid image-item-a" data-image-item="{{ i|format_image_number }}.jpg">
+                            <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-a" data-image-item="{{ i|format_image_number }}.jpg">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters">
@@ -57,8 +57,8 @@
                 <!-- スライダーのwrapper -->
                 <div class="swiper-wrapper">
                     {% for i in numbers %}
-                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.jpg">
-                            <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.png">
+                            <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
                         </div>
                     {% endfor %}
                 </div>
@@ -90,7 +90,7 @@
                 <div class="row no-gutters" id="image-list-b">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static 'asahiyaki/export_20220223173553/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid image-item-b" data-image-item="{{ i|format_image_number }}.jpg">
+                            <img src="{% static 'asahiyaki/export_20220223173553/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-b" data-image-item="{{ i|format_image_number }}.jpg">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters">
@@ -105,7 +105,7 @@
                 <div class="swiper-wrapper">
                     {% for i in numbers %}
                         <div class="swiper-slide" data-image="{{ i|format_image_number }}.jpg">
-                            <img src="{% static 'asahiyaki/export_20220223173553/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                            <img src="{% static 'asahiyaki/export_20220223173553/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
                         </div>
                     {% endfor %}
                 </div>
@@ -137,7 +137,7 @@
                 <div class="row no-gutters" id="image-list-c">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static 'asahiyaki/export_20220223174624/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid image-item-c" data-image-item="{{ i|format_image_number }}.jpg">
+                            <img src="{% static 'asahiyaki/export_20220223174624/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-c" data-image-item="{{ i|format_image_number }}.jpg">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters">
@@ -151,8 +151,8 @@
                 <!-- スライダーのwrapper -->
                 <div class="swiper-wrapper">
                     {% for i in numbers %}
-                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.jpg">
-                            <img src="{% static 'asahiyaki/export_20220223174624/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.png">
+                            <img src="{% static 'asahiyaki/export_20220223174624/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
                         </div>
                     {% endfor %}
                 </div>
