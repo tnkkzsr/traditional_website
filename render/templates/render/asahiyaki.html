@@ -28,11 +28,11 @@
     <div class="row text-center justify-content-center mt-4">
         <div class="col">
             それぞれの伝統工芸品について、その特徴を把握し、データを収集するためのサイトです。<br>
-            以下の三つの食器についてそれぞれ正面の画像だと思うものを選択してください
+            以下の三つの器についてそれぞれ正面の画像だと思うものを選択してください
         </div>
     </div>
 
-    <h1>朝日焼きの器</h1>
+    <h1>朝日焼きの</h1>
     
     <!-- 器A -->
     <div class="card mt-4">
@@ -43,7 +43,7 @@
                 <div class="row no-gutters" id="image-list-a">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-a" data-image-item="{{ i|format_image_number }}.jpg">
+                            <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-a" data-image-item="{{ i|format_image_number }}.png">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters">
@@ -137,7 +137,7 @@
                 <div class="row no-gutters" id="image-list-c">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static 'asahiyaki/export_20220223174624/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-c" data-image-item="{{ i|format_image_number }}.jpg">
+                            <img src="{% static 'asahiyaki/export_20220223174624/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-c" data-image-item="{{ i|format_image_number }}.png">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters">
