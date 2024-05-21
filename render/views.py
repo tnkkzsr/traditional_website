@@ -22,3 +22,4 @@ def mokkogei(request):
         "numbers": numbers,
     }
     return render(request, "render/mokkogei.html", context)
+
