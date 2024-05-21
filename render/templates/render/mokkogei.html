@@ -25,11 +25,14 @@
 
 <main class="container">
     
+<<<<<<< HEAD
 
+=======
+>>>>>>> develop
     <div class="row text-center justify-content-center mt-4">
         <div class="col">
             それぞれの伝統工芸品について、その特徴を把握し、データを収集するためのサイトです。<br>
-            以下の三つの食器についてそれぞれ正面の画像だと思うものを選択してください
+            以下の三つの器についてそれぞれ正面の画像だと思うものを選択してください
         </div>
     </div>
 
@@ -44,7 +47,7 @@
                 <div class="row no-gutters" id="image-list-a">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static 'mokkogei/export_20220315101651/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid image-item-a" data-image-item="{{ i|format_image_number }}.jpg">
+                            <img src="{% static 'mokkogei/video0001/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-a" data-image-item="{{ i|format_image_number }}.png">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters">
@@ -58,8 +61,8 @@
                 <!-- スライダーのwrapper -->
                 <div class="swiper-wrapper">
                     {% for i in numbers %}
-                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.jpg">
-                            <img src="{% static 'mokkogei/export_20220315101651/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.png">
+                            <img src="{% static 'mokkogei/video0001/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
                         </div>
                     {% endfor %}
                 </div>
@@ -91,7 +94,7 @@
                 <div class="row no-gutters" id="image-list-b">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static 'mokkogei/export_20220315102050/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid image-item-b" data-image-item="{{ i|format_image_number }}.jpg">
+                            <img src="{% static 'mokkogei/video0002/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-b" data-image-item="{{ i|format_image_number }}.png">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters">
@@ -105,8 +108,8 @@
                 <!-- スライダーのwrapper -->
                 <div class="swiper-wrapper">
                     {% for i in numbers %}
-                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.jpg">
-                            <img src="{% static 'mokkogei/export_20220315102050/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.png">
+                            <img src="{% static 'mokkogei/video0002/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
                         </div>
                     {% endfor %}
                 </div>
@@ -138,7 +141,7 @@
                 <div class="row no-gutters" id="image-list-c">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static 'mokkogei/export_20220315102409/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid image-item-c" data-image-item="{{ i|format_image_number }}.jpg">
+                            <img src="{% static 'mokkogei/video0003/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-c" data-image-item="{{ i|format_image_number }}.png">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters">
@@ -152,8 +155,8 @@
                 <!-- スライダーのwrapper -->
                 <div class="swiper-wrapper">
                     {% for i in numbers %}
-                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.jpg">
-                            <img src="{% static 'mokkogei/export_20220315102409/' %}{{ i|format_image_number }}.jpg" alt="Image {{ i }}" class="img-fluid">
+                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.png">
+                            <img src="{% static 'mokkogei/video0003/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
                         </div>
                     {% endfor %}
                 </div>

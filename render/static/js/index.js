@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
+
+    //スライダー機能の実装
     const swipers = {
         a: new Swiper("#swiper-container-a", {
             slidesPerView: 1,
             loop: true,
             breakpoints: {
                 768: {
-                    slidesPerView: 3,
+                    slidesPerView: 5,
                 },
             },
             pagination: {
@@ -22,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
             loop: true,
             breakpoints: {
                 768: {
-                    slidesPerView: 3,
+                    slidesPerView: 5,
                 },
             },
             pagination: {
@@ -39,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
             loop: true,
             breakpoints: {
                 768: {
-                    slidesPerView: 3,
+                    slidesPerView: 5,
                 },
             },
             pagination: {
@@ -53,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function() {
         })
     };
 
+    //画像選択機能の実装
     const imageItemsA = document.querySelectorAll(".image-item-a");
     const slideImagesA = document.querySelectorAll("#swiper-container-a .swiper-slide");
     let selectedSlideA = null;
