@@ -11,7 +11,8 @@ def index(request):
         form = UUIDForm(request.POST)
         if form.is_valid():
             uuid = form.cleaned_data["uuid"]
-            return redirect("asahiyaki",uuid)
+            
+            return redirect(f"/asahiyaki?uuid={uuid}")
     else:
         form = UUIDForm()
         
@@ -22,7 +23,8 @@ def index(request):
     return render(request, "render/index.html",context)
 
 
-def asahiyaki(request,uuid):
+def asahiyaki(request):
+    uuid = request.GET.get("uuid")
     user = get_object_or_404(User, uuid=uuid)   
     numbers = list(range(1,25))
     context = {
