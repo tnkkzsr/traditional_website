@@ -36,16 +36,16 @@
 
     <h1>朝日焼</h1>
     
-    <!-- 器A -->
+    {% for asahiyaki in asahiyakis%}
     <div class="card mt-4">
         <div class="card-body">
-            <h5 class="card-title">器A</h5>
+            <h5 class="card-title">{{asahiyaki.name}}</h5>
             <!-- 画像一覧の表示 -->
             <div class="mb-5">
-                <div class="row no-gutters" id="image-list-a">
+                <div class="row no-gutters" id="image-list-{{ forloop.counter }}">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-a" data-image-item="{{ i|format_image_number }}.png">
+                            <img src="{% static asahiyaki.image_path %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-{{ forloop.counter }}" data-image-item="{{ i|format_image_number }}">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters">
@@ -55,12 +55,12 @@
             </div>
 
             <!-- スライダーのコンテナ-->
-            <div class="swiper-container g-4" id="swiper-container-a" style="overflow: hidden;">
+            <div class="swiper-container g-4" id="swiper-container-{{ forloop.counter }}" style="overflow: hidden;">
                 <!-- スライダーのwrapper -->
                 <div class="swiper-wrapper">
                     {% for i in numbers %}
-                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.png">
-                            <img src="{% static 'asahiyaki/export_20220223173209/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
+                        <div class="swiper-slide" data-image="{{ i|format_image_number }}">
+                            <img src="{% static asahiyaki.image_path %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
                         </div>
                     {% endfor %}
                 </div>
@@ -73,109 +73,19 @@
 
             <!-- 選択保存フォーム -->
             <div class="container">
-                <form class="selectionForm" data-form-id="a" method="post">
+                <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="selected_image_a" id="selected_image_a" value="">
-                    <input type="hidden" name="dish_name" value="朝日焼きの器A">
+                    <input type="hidden" name="selected_image" id="selected_image_{{ forloop.counter }}" value="">
+                    <input type="hidden" name="dish_name" value="{{ asahiyaki.name }}">
+                    <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
                     <button type="submit" class="btn btn-primary mt-3">選択を保存</button>
                 </form>
             </div>
         </div>
     </div>
+    {% endfor %}
 
-    <!-- 器B -->
-    <div class="card mt-4">
-        <div class="card-body">
-            <h5 class="card-title">器B</h5>
-            <!-- 画像一覧の表示 -->
-            <div class="mb-5">
-                <div class="row no-gutters" id="image-list-b">
-                    {% for i in numbers %}
-                        <div class="col-1">
-                            <img src="{% static 'asahiyaki/export_20220223173553/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-b" data-image-item="{{ i|format_image_number }}.jpg">
-                        </div>
-                        {% if forloop.counter|divisibleby:12 and not forloop.last %}
-                            </div><div class="row no-gutters">
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-
-            <!-- スライダーのコンテナ-->
-            <div class="swiper-container g-4" id="swiper-container-b" style="overflow: hidden;">
-                <!-- スライダーのwrapper -->
-                <div class="swiper-wrapper">
-                    {% for i in numbers %}
-                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.jpg">
-                            <img src="{% static 'asahiyaki/export_20220223173553/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
-                        </div>
-                    {% endfor %}
-                </div>
-                <!-- スライダーのページネーション -->
-                <div class="swiper-pagination"></div>
-                <!-- スライダーのナビゲーション -->
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-
-            <!-- 選択保存フォーム -->
-            <div class="container">
-                <form class="selectionForm" data-form-id="b" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="selected_image_b" id="selected_image_b" value="">
-                    <input type="hidden" name="dish_name" value="朝日焼きの器B">
-                    <button type="submit" class="btn btn-primary mt-3">選択を保存</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- 器C -->
-    <div class="card mt-4">
-        <div class="card-body">
-            <h5 class="card-title">器C</h5>
-            <!-- 画像一覧の表示 -->
-            <div class="mb-5">
-                <div class="row no-gutters" id="image-list-c">
-                    {% for i in numbers %}
-                        <div class="col-1">
-                            <img src="{% static 'asahiyaki/export_20220223174624/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-c" data-image-item="{{ i|format_image_number }}.png">
-                        </div>
-                        {% if forloop.counter|divisibleby:12 and not forloop.last %}
-                            </div><div class="row no-gutters">
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-
-            <!-- スライダーのコンテナ-->
-            <div class="swiper-container g-4" id="swiper-container-c" style="overflow: hidden;">
-                <!-- スライダーのwrapper -->
-                <div class="swiper-wrapper">
-                    {% for i in numbers %}
-                        <div class="swiper-slide" data-image="{{ i|format_image_number }}.png">
-                            <img src="{% static 'asahiyaki/export_20220223174624/' %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
-                        </div>
-                    {% endfor %}
-                </div>
-                <!-- スライダーのページネーション -->
-                <div class="swiper-pagination"></div>
-                <!-- スライダーのナビゲーション -->
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-
-            <!-- 選択保存フォーム -->
-            <div class="container">
-                <form class="selectionForm" data-form-id="c" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="selected_image_c" id="selected_image_c" value="">
-                    <input type="hidden" name="dish_name" value="朝日焼きの器C">
-                    <button type="submit" class="btn btn-primary mt-3">選択を保存</button>
-                </form>
-            </div>
-        </div>
-    </div>
+    
 
 </main>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

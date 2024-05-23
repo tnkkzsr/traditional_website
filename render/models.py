@@ -53,7 +53,7 @@ class Asahiyaki(models.Model):
     image_path = models.CharField(max_length=255)
     
     def __str__(self):
-        return self.name
+        return self.name+ "_"+self.image_path
     
     
 class AsahiyakiEvaluation(BaseEvaluation):
