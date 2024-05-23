@@ -5,3 +5,6 @@ pillow
 dj-database-url
 whitenoise
 gunicorn
+graphviz
+pydot
+django-extensions
