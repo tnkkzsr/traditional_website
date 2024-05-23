@@ -4,7 +4,9 @@ import uuid
 # Create your models here.
 class User(models.Model):
     """
-    ユーザーモデル
+    ユーザーを管理するためのモデル
+    uuid: ユーザーを一意に識別するためのuuid
+    username: ユーザー名
     """
     # ユーザーを一意に識別するためのuuid
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
@@ -25,7 +27,7 @@ class BaseEvaluation(models.Model):
         ('C', 'C'),
     ]
     
-    # ユーザー
+    # Userモデルへの外部キー
     user = models.ForeignKey('User', on_delete=models.CASCADE)
     # ABC評価
     evaluation = models.CharField(max_length=1, choices=EVALUATION_CHOICES)
@@ -60,7 +62,7 @@ class AsahiyakiEvaluation(BaseEvaluation):
     ・	ABC評価
     ・	選択した正面画像
     """
-    # どの朝日焼に対する評価か
+    # Asahiyakiモデルへの外部キー
     asahiyaki = models.ForeignKey('Asahiyaki', on_delete=models.CASCADE)
     # 正面と選択した画像の名前
     front_image_name = models.CharField(max_length=100)
@@ -83,6 +85,7 @@ class NakagawaEvaluation(BaseEvaluation):
     中川木工芸の評価モデル
     ・	ABC評価のみ
     """
+    # Nakagawaモデルへの外部キー
     nakagawa = models.ForeignKey('Nakagawa', on_delete=models.CASCADE)
     
     def __str__(self):
