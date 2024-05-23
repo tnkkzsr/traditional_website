@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect ,get_object_or_404
 from django.contrib.auth import get_user_model
 from .forms import UUIDForm
-from .models import User
+from .models import User,Asahiyaki
 
 
 
@@ -24,6 +24,9 @@ def index(request):
 
 def asahiyaki(request):
     uuid = request.GET.get("uuid")
+    asahiyakis = Asahiyaki.objects.all()
+    for asahiyaki in asahiyakis:
+        print(asahiyaki.image_path)
     if not uuid:
         return redirect("/")
     user = User.objects.get_or_create(uuid=uuid, defaults={"username": f'User_{uuid}'})   
@@ -31,6 +34,7 @@ def asahiyaki(request):
     context = {
         "numbers": numbers,
         "user": user,
+        "asahiyakis": asahiyakis,
     }
     return render(request, "render/asahiyaki.html", context)
 
