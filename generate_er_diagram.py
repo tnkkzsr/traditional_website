@@ -8,6 +8,7 @@ import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')  # 'your_project_name'を実際のプロジェクト名に置き換えてください
 django.setup()
 
+
 def generate_er_diagram(app_label):
     app = apps.get_app_config(app_label)
     graph = pydot.Dot(graph_type='digraph')
