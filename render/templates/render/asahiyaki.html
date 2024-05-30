@@ -1,9 +1,8 @@
-{% load static %}
-{% load custom_filters %}
-
 <!doctype html>
 <html lang="en">
 <head>
+    {% load static %}
+    {% load custom_filters %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,7 +10,20 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    <link rel="icon" href="{% static 'favicon.ico' %}">
+    
+    <style>
+        .spritespin {
+            cursor: grab;
+        }
+        .spritespin:active {
+            cursor: grabbing;
+        }
+        .spritespin-guide {
+            text-align: center;
+            font-size: 0.9em;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
 <header class="container mt-4 mb-4"> 
@@ -41,7 +53,7 @@
                 <div class="row no-gutters image-item-{{ forloop.counter }}" id="image-list-{{ forloop.counter }}">
                     {% for i in numbers %}
                         <div class="col-1">
-                            <img src="{% static asahiyaki.image_path %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item image-item-{{ forloop.parentloop.counter }}" data-image-item="{{ i|format_image_number }}">
+                            <img src="{% static asahiyaki.image_path %}cropped/{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item image-item-{{ forloop.parentloop.counter }}" data-image-item="{{ i|format_image_number }}">
                         </div>
                         {% if forloop.counter|divisibleby:12 and not forloop.last %}
                             </div><div class="row no-gutters image-item-{{ forloop.parentloop.counter }}" id="image-list-{{ forloop.parentloop.counter }}">
@@ -55,7 +67,7 @@
                 <div class="swiper-wrapper">
                     {% for i in numbers %}
                         <div class="swiper-slide" data-image="{{ i|format_image_number }}">
-                            <img src="{% static asahiyaki.image_path %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
+                            <img src="{% static asahiyaki.image_path %}cropped/{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
                         </div>
                     {% endfor %}
                 </div>
@@ -64,6 +76,14 @@
                 <!-- スライダーのナビゲーション -->
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
+            </div>
+            <!-- 360度ビューア -->
+            <div class="spritespin-guide">ドラッグして回転させる</div>
+            <div class="cloudimage-360" id="spritespin-{{ forloop.counter }}"
+                data-folder="{% static asahiyaki.image_path %}cropped/"
+                data-filename="{index}.png"
+                data-amount="{{ numbers|length }}"
+                data-index-zero-base="true">
             </div>
             <!-- 選択保存フォーム -->
             <div class="container">
@@ -79,8 +99,14 @@
     </div>
     {% endfor %}
 </main>
+<script src="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-360-view/latest/js-cloudimage-360-view.min.js?func=proxy"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Initialize Cloudimage 360
+        window.CI360.init();
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{% static 'js/index.js' %}"></script>
 </body>
 </html>
