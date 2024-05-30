@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function() {
             loop: true,
             breakpoints: {
                 768: {
-                    slidesPerView: 5,
+                    slidesPerView: 3,
                 },
             },
             pagination: {
