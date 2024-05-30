@@ -19,87 +19,83 @@
             <h1 class="display-4">
                 {{ user.username }}さん、伝統工芸品の判定・データ収集サイト
             </h1>
+            <div>それぞれの器に評価をつけてください</div>
+            <div>ドラッグして360度回転させて、正面の画像を選択してください。</div>
+            <div>正面だと思うところで止めて、保存ボタンを押してください</div>
         </div>
     </div>  
 </header>
+
+
 <main class="container">
-    <div class="row text-center justify-content-center mt-4">
-        <div class="col">
-            それぞれの伝統工芸品について、その特徴を把握し、データを収集するためのサイトです。<br>
-            以下の三つの器についてそれぞれ正面の画像だと思うものを選択してください
-        </div>
-    </div>
-    <h1>朝日焼</h1>
+    <div class="row">  <!-- 行を追加 -->
+        {% for asahiyaki in asahiyakis %}
+        <div class="col-md-4">  <!-- 3列配置のためのカラム -->
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h5 class="card-title">{{ asahiyaki.name }}</h5>
+                    <!-- ABC評価の選択 -->
+                    <div class="mb-3">
+                        <label for="evaluation-select-{{ forloop.counter }}" class="form-label">ABC評価:</label>
+                        <select class="form-select" id="evaluation-select-{{ forloop.counter }}" name="evaluation">
+                            <option value="" selected></option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                        </select>
+                    </div>
+                    
 
-    {% for asahiyaki in asahiyakis %}
-    <div class="card mt-4">
-        <div class="card-body">
-
-            <h5 class="card-title">{{ asahiyaki.name }}</h5>
-
-            <!-- ABC評価の選択 -->
-            <div class="mb-3">
-                <label for="evaluation-{{ forloop.counter }}" class="form-label">ABC評価:</label>
-                <select class="form-select" id="evaluation-select-{{ forloop.counter }}" name="evaluation">
-                    <option value="" selected></option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                </select>
-            </div>
-            <div>ドラッグして360度回転させて、正面の画像を選択してください。</div>
-            <div>正面だと思うところで止めて、保存ボタンを押してください</div>
-
-            <div class="container">
-                <div
-                    class="cloudimage-360"
-                    id="gurkha-suv-{{ forloop.counter }}"
-                    data-folder="{% static asahiyaki.image_path %}cropped/"
-                    data-image-list-x='[
-                        "01.png",
-                        "02.png",
-                        "03.png",
-                        "04.png",
-                        "05.png",
-                        "06.png",
-                        "07.png",
-                        "08.png",
-                        "09.png",
-                        "10.png",
-                        "11.png",
-                        "12.png",
-                        "13.png",
-                        "14.png",
-                        "15.png",
-                        "16.png",
-                        "17.png",
-                        "18.png",
-                        "19.png",
-                        "20.png",
-                        "21.png",
-                        "22.png",
-                        "23.png",
-                        "24.png"
-                    ]'
-                    data-amount-x="24"
-                ></div>
-            </div>
-        
-            
-            <!-- 選択保存フォーム -->
-            <div class="container">
-                <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="selected_image" id="selected_image_{{ forloop.counter }}" value="">
-                    <input type="hidden" id="evaluation-{{forloop.counter}}" name="evaluation" value="">
-                    <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
-                    <button type="submit" class="btn btn-primary mt-3">選択を保存</button>
-                </form>
+                    <div class="container">
+                        <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
+                             data-folder="{% static asahiyaki.image_path %}cropped/"
+                             data-image-list-x='[
+                                "01.png",
+                                "02.png",
+                                "03.png",
+                                "04.png",
+                                "05.png",
+                                "06.png",
+                                "07.png",
+                                "08.png",
+                                "09.png",
+                                "10.png",
+                                "11.png",
+                                "12.png",
+                                "13.png",
+                                "14.png",
+                                "15.png",
+                                "16.png",
+                                "17.png",
+                                "18.png",
+                                "19.png",
+                                "20.png",
+                                "21.png",
+                                "22.png",
+                                "23.png",
+                                "24.png"
+                             ]'
+                             data-amount-x="24">
+                        </div>
+                    </div>
+                    
+                    <!-- 選択保存フォーム -->
+                    <div class="container">
+                        <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="selected_image" id="selected_image_{{ forloop.counter }}" value="">
+                            <input type="hidden" id="evaluation-{{forloop.counter}}" name="evaluation" value="">
+                            <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
+                            <button type="submit" class="btn btn-primary mt-3">選択を保存</button>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </main>
+
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="{% static 'js/index.js' %}"></script>
