@@ -11,19 +11,6 @@
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
    
-    <style>
-        .spritespin {
-            cursor: grab;
-        }
-        .spritespin:active {
-            cursor: grabbing;
-        }
-        .spritespin-guide {
-            text-align: center;
-            font-size: 0.9em;
-            color: #666;
-        }
-    </style>
 </head>
 <body>
 <header class="container mt-4 mb-4"> 
@@ -47,8 +34,22 @@
     {% for asahiyaki in asahiyakis %}
     <div class="card mt-4">
         <div class="card-body">
+
             <h5 class="card-title">{{ asahiyaki.name }}</h5>
-            <!-- スライダーのコンテナ-->
+
+            <!-- ABC評価の選択 -->
+            <div class="mb-3">
+                <label for="evaluation-{{ forloop.counter }}" class="form-label">ABC評価:</label>
+                <select class="form-select" id="evaluation-select-{{ forloop.counter }}" name="evaluation">
+                    <option value="" selected></option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                </select>
+            </div>
+            <div>ドラッグして360度回転させて、正面の画像を選択してください。</div>
+            <div>正面だと思うところで止めて、保存ボタンを押してください</div>
+
             <div class="container">
                 <div
                     class="cloudimage-360"
@@ -84,13 +85,13 @@
                 ></div>
             </div>
         
-            <button class="get-current-frame" data-id="gurkha-suv-{{ forloop.counter }}">Get Current Frame</button>
+            
             <!-- 選択保存フォーム -->
             <div class="container">
                 <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
                     {% csrf_token %}
                     <input type="hidden" name="selected_image" id="selected_image_{{ forloop.counter }}" value="">
-                    <input type="hidden" name="dish_name" value="{{ asahiyaki.name }}">
+                    <input type="hidden" id="evaluation-{{forloop.counter}}" name="evaluation" value="">
                     <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
                     <button type="submit" class="btn btn-primary mt-3">選択を保存</button>
                 </form>
@@ -109,27 +110,61 @@
 <script src="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-360-view/latest/js-cloudimage-360-view.min.js?func=proxy"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        console.log("DOM fully loaded and parsed");
-        const buttons = document.querySelectorAll('.get-current-frame');
-
-        buttons.forEach(function(button) {
-            button.addEventListener('click', function() {
+        const forms = document.querySelectorAll('.selectionForm');
+    
+        forms.forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // 通常のフォーム送信を防ぎます。
                 
-                const id = button.getAttribute('data-id');
-                try {
-                    const currentIndex = window.CI360.getActiveIndexByID(id, 'x');
-                    console.log('Current Index:', currentIndex);
-                    const viewer = document.getElementById(id);
-                    const images = JSON.parse(viewer.getAttribute('data-image-list-x'));
-                    const currentImage = images[currentIndex];
-                    console.log(`Current Frame: ${currentIndex + 1}, Image: ${currentImage}`);
-                } catch (error) {
-                    console.error("Error retrieving current frame:", error);
-                }
+                // どの器に対するデータかを識別するためのIDを取得
+                const formId = form.getAttribute('data-form-id');
+                
+                // 360度ビューアーで選択された画像のインデックスを取得
+                const selectedImageIndex = window.CI360.getActiveIndexByID('gurkha-suv-' + formId, 'x');
+                const viewer = document.getElementById('gurkha-suv-' + formId);
+                const images = JSON.parse(viewer.getAttribute('data-image-list-x'));
+                const selectedImage = images[selectedImageIndex];
+                
+                //ABC評価の選択を取得
+                const evaluationSelect = document.getElementById(`evaluation-select-${formId}`);
+
+                // CSRFトークンを取得
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+                
+                const postData = {
+                    selected_image: selectedImage,
+                    evaluation: evaluationSelect.value,
+                    asahiyaki: form.elements['asahiyaki'].value,  // asahiyaki IDを適切に取得
+                };
+
+                console.log(postData);
+    
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: JSON.stringify(postData)
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Success:', data);
+                    // ここに成功時の処理を記述できます。
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                });
             });
         });
     });
-</script>
+    </script>
+    
 
 </body>
 </html>
