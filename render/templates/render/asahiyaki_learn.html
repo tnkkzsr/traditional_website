@@ -17,7 +17,7 @@
     <div class="row text-center justify-content-center">
         <div class="col">
             <h1 class="display-4">
-                {{ user.username }}さん、伝統工芸品の判定・データ収集サイト
+                学習後の再評価ページ
             </h1>
             <div>それぞれの器に評価をつけてください</div>
             <div>ドラッグして360度回転させて、正面の画像を選択してください。</div>
@@ -26,8 +26,28 @@
     </div>  
 </header>
 
+ <!-- お手本画像セクション -->
+ <div class="row my-4">
+    <h2 class="col-12 text-center">お手本の画像</h2>
+    <div class="col-md-4 text-center">
+        <h3>A評価</h3>
+        <img src="path/to/imageA1.jpg" class="img-fluid">
+        <img src="path/to/imageA2.jpg" class="img-fluid">
+    </div>
+    <div class="col-md-4 text-center">
+        <h3>B評価</h3>
+        <img src="path/to/imageB1.jpg" class="img-fluid">
+        <img src="path/to/imageB2.jpg" class="img-fluid">
+    </div>
+    <div class="col-md-4 text-center">
+        <h3>C評価</h3>
+        <img src="path/to/imageC1.jpg" class="img-fluid">
+        <img src="path/to/imageC2.jpg" class="img-fluid">
+    </div>
+</div>
 
 <main class="container">
+    <h2 class="col-12 text-center">再評価してください</h2>
     <div class="row">  <!-- 行を追加 -->
         {% for asahiyaki in asahiyakis %}
         <div class="col-md-4">  <!-- 3列配置のためのカラム -->
@@ -107,10 +127,10 @@
         <div class="container my-4">
             <div class="row">
                 <div class="col text-center">
-                    <a href="{% url "asahiyaki_learn" %}" class="btn btn-primary">次のページ</a>
+                    <a href="" class="btn btn-primary">次のページ</a>
                 </div>
             </div>
-        </div>
+    </div>
 </main>
 
 
