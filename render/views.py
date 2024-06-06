@@ -58,6 +58,13 @@ def asahiyaki(request):
     }
     return render(request, "render/asahiyaki.html", context)
 
+def asahiyaki_learn(request):
+    asahiyakis = Asahiyaki.objects.all()
+    context = {
+        "asahiyakis": asahiyakis,
+    }
+    return render(request, "render/asahiyaki_learn.html", context)
+
 def mokkogei(request):
     numbers = list(range(1,25))
     context = {
