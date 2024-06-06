@@ -12,3 +12,9 @@
 .selected-image {
     border: 2px solid red;
 }
+
+.img-fluid {
+    max-width: 60%;
+    height: auto;
+    margin-bottom: 20px;
+}
