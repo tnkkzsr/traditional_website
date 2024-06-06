@@ -10,7 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-   
 </head>
 <body>
 <header class="container mt-4 mb-4"> 
@@ -36,16 +35,27 @@
                     <h5 class="card-title">{{ asahiyaki.name }}</h5>
                     <!-- ABC評価の選択 -->
                     <div class="mb-3">
-                        <label for="evaluation-select-{{ forloop.counter }}" class="form-label">ABC評価:</label>
-                        <select class="form-select" id="evaluation-select-{{ forloop.counter }}" name="evaluation">
-                            <option value="" selected></option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                        </select>
+                        <label class="form-label">評価:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-A-{{ forloop.counter }}" value="A">
+                            <label class="form-check-label" for="evaluation-A-{{ forloop.counter }}">
+                                A
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-B-{{ forloop.counter }}" value="B">
+                            <label class="form-check-label" for="evaluation-B-{{ forloop.counter }}">
+                                B
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-C-{{ forloop.counter }}" value="C">
+                            <label class="form-check-label" for="evaluation-C-{{ forloop.counter }}">
+                                C
+                            </label>
+                        </div>
                     </div>
                     
-
                     <div class="container">
                         <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
                              data-folder="{% static asahiyaki.image_path %}cropped/"
@@ -101,16 +111,15 @@
             </div>
         </div>
         {% endfor %}
+    </div>
 
-        
-
-        <div class="container my-4">
-            <div class="row">
-                <div class="col text-center">
-                    <a href="{% url "asahiyaki_learn" %}" class="btn btn-primary">次のページ</a>
-                </div>
+    <div class="container my-4">
+        <div class="row">
+            <div class="col text-center">
+                <a href="{% url "asahiyaki_learn" %}?uuid={{ user.uuid }}" class="btn btn-primary next-page-button">次のページ</a>
             </div>
         </div>
+    </div>
 </main>
 
 
@@ -124,22 +133,32 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const forms = document.querySelectorAll('.selectionForm');
+        const nextPageButton = document.querySelector('.next-page-button');  // 次のページへのボタン
     
         forms.forEach(function(form) {
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); // 通常のフォーム送信を防ぎます。
-                const submitButton = form.querySelector('button[type="submit"]'); 
+                const submitButton = form.querySelector('button[type="submit"]');
                 const formId = form.getAttribute('data-form-id');
                 const checkbox = document.getElementById(`fix-image-${formId}`);
                 const viewer = document.getElementById('gurkha-suv-' + formId);
                 const images = JSON.parse(viewer.getAttribute('data-image-list-x'));
                 const selectedImageIndex = window.CI360.getActiveIndexByID('gurkha-suv-' + formId, 'x');
                 const selectedImage = images[selectedImageIndex];
-                const evaluationSelect = document.getElementById(`evaluation-select-${formId}`);
+                const evaluationRadios = document.querySelectorAll(`input[name="evaluation-${formId}"]`);
+                let selectedEvaluation = '';
+
+                // ラジオボタンの選択値を取得
+                evaluationRadios.forEach(radio => {
+                    if (radio.checked) {
+                        selectedEvaluation = radio.value;
+                    }
+                });
+
                 // CSRFトークンを取得
                 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-                if (evaluationSelect.value === '') {
+                if (selectedEvaluation === '') {
                     alert('ABC評価を選択してください。');
                     return;
                 }
@@ -152,13 +171,9 @@
                 // データの準備
                 const postData = {
                     asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
-                    evaluation: evaluationSelect.value
+                    evaluation: selectedEvaluation,
+                    selected_image: selectedImage // 画像情報を含める
                 };
-    
-                // チェックボックスがチェックされていれば画像情報を含める
-                if (checkbox.checked) {
-                    postData.selected_image = selectedImage;
-                }
     
                 fetch(form.action, {
                     method: 'POST',
@@ -168,23 +183,31 @@
                         'X-CSRFToken': csrftoken
                     },
                     body: JSON.stringify(postData)
-                }).then(response => response.json())
-                  .then(data => {
-                      console.log('Success:', data);
-                      submitButton.textContent = '保存済み'; // ボタンのテキストを更新
-                      submitButton.classList.add('btn-success'); // 成功時のスタイル変更
-                      
-                  })
-                  .catch((error) => {
-                      console.error('Error:', error);
-                      alert('エラーが発生しました: ' + error.message);
-                  });
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                }).then(data => {
+                    console.log('Success:', data);
+                    submitButton.textContent = '保存済み';
+                    submitButton.classList.add('btn-success');
+                    form.setAttribute('data-saved', 'true');  // フォームの保存状態を更新
+                }).catch((error) => {
+                    console.error('Error:', error);
+                    alert('エラーが発生しました: ' + error.message);
+                });
             });
         });
+    
+        nextPageButton.addEventListener('click', function(event) {
+            const allFormsSaved = Array.from(forms).every(form => form.getAttribute('data-saved') === 'true');
+            if (!allFormsSaved) {
+                event.preventDefault();
+                alert('すべての評価を保存してから次へ進んでください。');
+            }
+        });
     });
-    
-    </script>
-    
-
+</script>
 </body>
 </html>

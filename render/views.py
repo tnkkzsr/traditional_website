@@ -29,7 +29,7 @@ def asahiyaki(request):
     if not uuid:
         return redirect("/")
     
-    asahiyakis = Asahiyaki.objects.all()
+    asahiyakis = Asahiyaki.objects.all()[:3]
     # ユーザーが存在しない場合は新規作成
     if not User.objects.filter(uuid=uuid).exists():
         User.objects.create(uuid=uuid)
@@ -40,12 +40,12 @@ def asahiyaki(request):
         asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
         selected_image = data['selected_image']        
         evaluation = data['evaluation']
-        akashiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki)
+        akashiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki,is_learned=False)
         # すでに評価が存在する場合は更新、存在しない場合は新規作成
         if akashiyaki_evaluation.exists():
             akashiyaki_evaluation.update(front_image_name=selected_image, evaluation=evaluation)
         else:
-            evaluation = AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, evaluation="A")
+            evaluation = AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, evaluation=evaluation,is_learned=False)
         return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
 
     
@@ -59,7 +59,29 @@ def asahiyaki(request):
     return render(request, "render/asahiyaki.html", context)
 
 def asahiyaki_learn(request):
-    asahiyakis = Asahiyaki.objects.all()
+    
+    uuid = request.GET.get("uuid")
+    
+    if not uuid:
+        return redirect("/")
+    
+    user = User.objects.get(uuid=uuid)   
+    asahiyakis = Asahiyaki.objects.all()[:3]
+    
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
+        selected_image = data['selected_image']        
+        evaluation = data['evaluation']
+        akashiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki,is_learned=True)
+        # すでに評価が存在する場合は更新、存在しない場合は新規作成
+        if akashiyaki_evaluation.exists():
+            akashiyaki_evaluation.update(front_image_name=selected_image, evaluation=evaluation)
+        else:
+            evaluation = AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, evaluation=evaluation,is_learned=True)
+        return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
+    
+    
     context = {
         "asahiyakis": asahiyakis,
     }
