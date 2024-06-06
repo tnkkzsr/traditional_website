@@ -48,7 +48,7 @@
 
 <main class="container">
     <h2 class="col-12 text-center">再評価してください</h2>
-    <div class="row">  <!-- 行を追加 -->
+    <div class="row" mb-4>  <!-- 行を追加 -->
         {% for asahiyaki in asahiyakis %}
         <div class="col-md-4">  <!-- 3列配置のためのカラム -->
             <div class="card mt-4">
@@ -56,16 +56,29 @@
                     <h5 class="card-title">{{ asahiyaki.name }}</h5>
                     <!-- ABC評価の選択 -->
                     <div class="mb-3">
-                        <label for="evaluation-select-{{ forloop.counter }}" class="form-label">ABC評価:</label>
-                        <select class="form-select" id="evaluation-select-{{ forloop.counter }}" name="evaluation">
-                            <option value="" selected></option>
-                            <option value="A">A</option>
-                            <option value="B">B</option>
-                            <option value="C">C</option>
-                        </select>
+                        <label class="form-label">ABC評価:</label>
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-A-{{ forloop.counter }}" value="A">
+                                <label class="form-check-label" for="evaluation-A-{{ forloop.counter }}">
+                                    A
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-B-{{ forloop.counter }}" value="B">
+                                <label class="form-check-label" for="evaluation-B-{{ forloop.counter }}">
+                                    B
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-C-{{ forloop.counter }}" value="C">
+                                <label class="form-check-label" for="evaluation-C-{{ forloop.counter }}">
+                                    C
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     
-
                     <div class="container">
                         <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
                              data-folder="{% static asahiyaki.image_path %}cropped/"
@@ -121,18 +134,7 @@
             </div>
         </div>
         {% endfor %}
-
-        
-
-        <div class="container my-4">
-            <div class="row">
-                <div class="col text-center">
-                    <a href="" class="btn btn-primary">次のページ</a>
-                </div>
-            </div>
-    </div>
-</main>
-
+</main >
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="{% static 'js/index.js' %}"></script>
@@ -155,11 +157,20 @@
                 const images = JSON.parse(viewer.getAttribute('data-image-list-x'));
                 const selectedImageIndex = window.CI360.getActiveIndexByID('gurkha-suv-' + formId, 'x');
                 const selectedImage = images[selectedImageIndex];
-                const evaluationSelect = document.getElementById(`evaluation-select-${formId}`);
+                const evaluationRadios = document.querySelectorAll(`input[name="evaluation-${formId}"]`);
+                let selectedEvaluation = '';
+
+                // ラジオボタンの選択値を取得
+                evaluationRadios.forEach(radio => {
+                    if (radio.checked) {
+                        selectedEvaluation = radio.value;
+                    }
+                });
+
                 // CSRFトークンを取得
                 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
 
-                if (evaluationSelect.value === '') {
+                if (selectedEvaluation === '') {
                     alert('ABC評価を選択してください。');
                     return;
                 }
@@ -172,7 +183,7 @@
                 // データの準備
                 const postData = {
                     asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
-                    evaluation: evaluationSelect.value
+                    evaluation: selectedEvaluation
                 };
     
                 // チェックボックスがチェックされていれば画像情報を含める
