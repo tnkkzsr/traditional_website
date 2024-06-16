@@ -16,7 +16,7 @@
     <div class="row text-center justify-content-center">
         <div class="col">
             <h1 class="display-4">
-                伝統工芸品の判定・データ収集サイト
+                学習後の再評価ページ
             </h1>
             <div>それぞれの器に評価をつけてください</div>
             <div>ドラッグして360度回転させて、正面の画像を選択してください。</div>
@@ -25,14 +25,138 @@
     </div>  
 </header>
 
+<!-- お手本画像セクション -->
+<div class="row my-4">
+    <h2 class="col-12 text-center">お手本の画像</h2>
+    <div class="col-md-4 text-center">
+        <h3>A評価</h3>
+        {% for asahiyaki in asahiyaki_samples_a %}
+            <div class="card mt-4 example-image-container">
+                <div class="card-body">
+                    <div class="cloudimage-360" id="sample-a-{{ forloop.counter }}"
+                         data-folder="{% static asahiyaki.image_path %}"
+                         data-image-list-x='[
+                            "01.png",
+                            "02.png",
+                            "03.png",
+                            "04.png",
+                            "05.png",
+                            "06.png",
+                            "07.png",
+                            "08.png",
+                            "09.png",
+                            "10.png",
+                            "11.png",
+                            "12.png",
+                            "13.png",
+                            "14.png",
+                            "15.png",
+                            "16.png",
+                            "17.png",
+                            "18.png",
+                            "19.png",
+                            "20.png",
+                            "21.png",
+                            "22.png",
+                            "23.png",
+                            "24.png"
+                         ]'
+                         data-amount-x="24">
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="col-md-4 text-center">
+        <h3>B評価</h3>
+        {% for asahiyaki in asahiyaki_samples_b %}
+            <div class="card mt-4 example-image-container">
+                <div class="card-body">
+                    <div class="cloudimage-360" id="sample-b-{{ forloop.counter }}"
+                         data-folder="{% static asahiyaki.image_path %}"
+                         data-image-list-x='[
+                            "01.png",
+                            "02.png",
+                            "03.png",
+                            "04.png",
+                            "05.png",
+                            "06.png",
+                            "07.png",
+                            "08.png",
+                            "09.png",
+                            "10.png",
+                            "11.png",
+                            "12.png",
+                            "13.png",
+                            "14.png",
+                            "15.png",
+                            "16.png",
+                            "17.png",
+                            "18.png",
+                            "19.png",
+                            "20.png",
+                            "21.png",
+                            "22.png",
+                            "23.png",
+                            "24.png"
+                         ]'
+                         data-amount-x="24">
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="col-md-4 text-center">
+        <h3>C評価</h3>
+        {% for asahiyaki in asahiyaki_samples_c %}
+            <div class="card mt-4 example-image-container">
+                <div class="card-body">
+                    <div class="cloudimage-360" id="sample-c-{{ forloop.counter }}"
+                         data-folder="{% static asahiyaki.image_path %}"
+                         data-image-list-x='[
+                            "01.png",
+                            "02.png",
+                            "03.png",
+                            "04.png",
+                            "05.png",
+                            "06.png",
+                            "07.png",
+                            "08.png",
+                            "09.png",
+                            "10.png",
+                            "11.png",
+                            "12.png",
+                            "13.png",
+                            "14.png",
+                            "15.png",
+                            "16.png",
+                            "17.png",
+                            "18.png",
+                            "19.png",
+                            "20.png",
+                            "21.png",
+                            "22.png",
+                            "23.png",
+                            "24.png"
+                         ]'
+                         data-amount-x="24">
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
 <main class="container">
-    <div class="row">  <!-- 行を追加 -->
+    <h2 class="col-12 text-center">再評価してください</h2>
+    <div class="row mb-4">  <!-- 行を追加 -->
         {% for asahiyaki in asahiyakis_not_example %}
         <div class="col-md-4">  <!-- 3列配置のためのカラム -->
             <div class="card mt-4">
                 <div class="card-body">
-                   
+                    <h5 class="card-title"></h5>
                     <!-- ABC評価の選択 -->
                     <div class="mb-3">
                         <label class="form-label">評価:</label>
@@ -55,7 +179,7 @@
                             </label>
                         </div>
                     </div>
-                    
+                        
                     <div class="container">
                         <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
                              data-folder="{% static asahiyaki.image_path %}"
@@ -112,16 +236,7 @@
         </div>
         {% endfor %}
     </div>
-
-    <div class="container my-4">
-        <div class="row">
-            <div class="col text-center">
-                <a href="{% url "asahiyaki_learn" %}?uuid={{ user.uuid }}" class="btn btn-primary next-page-button">次のページ</a>
-            </div>
-        </div>
-    </div>
-</main>
-
+</main >
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="{% static 'js/index.js' %}"></script>
@@ -133,12 +248,11 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const forms = document.querySelectorAll('.selectionForm');
-        const nextPageButton = document.querySelector('.next-page-button');  // 次のページへのボタン
     
         forms.forEach(function(form) {
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); // 通常のフォーム送信を防ぎます。
-                const submitButton = form.querySelector('button[type="submit"]');
+                const submitButton = form.querySelector('button[type="submit"]'); 
                 const formId = form.getAttribute('data-form-id');
                 const checkbox = document.getElementById(`fix-image-${formId}`);
                 const viewer = document.getElementById('gurkha-suv-' + formId);
@@ -171,9 +285,13 @@
                 // データの準備
                 const postData = {
                     asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
-                    evaluation: selectedEvaluation,
-                    selected_image: selectedImage // 画像情報を含める
+                    evaluation: selectedEvaluation
                 };
+    
+                // チェックボックスがチェックされていれば画像情報を含める
+                if (checkbox.checked) {
+                    postData.selected_image = selectedImage;
+                }
     
                 fetch(form.action, {
                     method: 'POST',
@@ -183,31 +301,21 @@
                         'X-CSRFToken': csrftoken
                     },
                     body: JSON.stringify(postData)
-                }).then(response => {
-                    if (!response.ok) {
-                        throw new Error('Network response was not ok');
-                    }
-                    return response.json();
-                }).then(data => {
-                    console.log('Success:', data);
-                    submitButton.textContent = '保存済み';
-                    submitButton.classList.add('btn-success');
-                    form.setAttribute('data-saved', 'true');  // フォームの保存状態を更新
-                }).catch((error) => {
-                    console.error('Error:', error);
-                    alert('エラーが発生しました: ' + error.message);
-                });
+                }).then(response => response.json())
+                  .then(data => {
+                      console.log('Success:', data);
+                      submitButton.textContent = '保存済み'; // ボタンのテキストを更新
+                      submitButton.classList.add('btn-success'); // 成功時のスタイル変更
+                      
+                  })
+                  .catch((error) => {
+                      console.error('Error:', error);
+                      alert('エラーが発生しました: ' + error.message);
+                  });
             });
-        });
-    
-        nextPageButton.addEventListener('click', function(event) {
-            const allFormsSaved = Array.from(forms).every(form => form.getAttribute('data-saved') === 'true');
-            if (!allFormsSaved) {
-                event.preventDefault();
-                alert('すべての評価を保存してから次へ進んでください。');
-            }
         });
     });
 </script>
+
 </body>
 </html>
