@@ -55,6 +55,8 @@ class Asahiyaki(models.Model):
     image_path = models.CharField(max_length=255)
     # 正解のABC評価
     correct_evaluation = models.CharField(max_length=1, choices=BaseEvaluation.EVALUATION_CHOICES,null=True, blank=True)
+    # お手本かどうか
+    is_example = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name+ "_"+self.image_path

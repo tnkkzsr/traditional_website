@@ -4,6 +4,8 @@ from .forms import UUIDForm
 from .models import User,Asahiyaki,AsahiyakiEvaluation
 import json
 from django.http import JsonResponse
+import random
+from django.db.models import F
 
 
 def index(request):
@@ -29,7 +31,11 @@ def asahiyaki(request):
     if not uuid:
         return redirect("/")
     
-    asahiyakis = Asahiyaki.objects.all()[:3]
+    # お手本の朝日焼を取得
+    asahiyakis_example = Asahiyaki.objects.filter(is_example=True)
+    #　お手本以外の朝日焼を取得
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] # ランダムな順序で取得
+    
     # ユーザーが存在しない場合は新規作成
     if not User.objects.filter(uuid=uuid).exists():
         User.objects.create(uuid=uuid)
@@ -53,7 +59,8 @@ def asahiyaki(request):
     numbers = list(range(1,25))
     context = {
         "numbers": numbers,
-        "asahiyakis": asahiyakis,
+        "asahiyakis_example": asahiyakis_example,
+        "asahiyakis_not_example": asahiyakis_not_example,
         "user": user,
     }
     return render(request, "render/asahiyaki.html", context)
@@ -66,7 +73,11 @@ def asahiyaki_learn(request):
         return redirect("/")
     
     user = User.objects.get(uuid=uuid)   
-    asahiyakis = Asahiyaki.objects.all()[:3]
+    asahiyaki_samples_a = Asahiyaki.objects.filter(is_example=True, correct_evaluation='A')
+    asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
+    asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
+    
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] # ランダムな順序で取得
     
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -83,7 +94,11 @@ def asahiyaki_learn(request):
     
     
     context = {
-        "asahiyakis": asahiyakis,
+        "asahiyaki_samples_a": asahiyaki_samples_a,
+        "asahiyaki_samples_b": asahiyaki_samples_b,
+        "asahiyaki_samples_c": asahiyaki_samples_c,
+        "asahiyakis_not_example": asahiyakis_not_example,
+        "user": user,
     }
     return render(request, "render/asahiyaki_learn.html", context)
 
