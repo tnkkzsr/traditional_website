@@ -10,7 +10,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-   
 </head>
 <body>
 <header class="container mt-4 mb-4"> 
@@ -26,62 +25,164 @@
     </div>  
 </header>
 
- <!-- お手本画像セクション -->
- <div class="row my-4">
+<!-- お手本画像セクション -->
+<div class="row my-4">
     <h2 class="col-12 text-center">お手本の画像</h2>
     <div class="col-md-4 text-center">
         <h3>A評価</h3>
-        <img src="{% static "asahiyaki/sample/01.png" %}" class="img-fluid">
-        <img src="{% static "asahiyaki/sample/01.png" %}" class="img-fluid">
+        {% for asahiyaki in asahiyaki_samples_a %}
+            <div class="card mt-4 example-image-container">
+                <div class="card-body">
+                    <div class="cloudimage-360" id="sample-a-{{ forloop.counter }}"
+                         data-folder="{% static asahiyaki.image_path %}"
+                         data-image-list-x='[
+                            "01.png",
+                            "02.png",
+                            "03.png",
+                            "04.png",
+                            "05.png",
+                            "06.png",
+                            "07.png",
+                            "08.png",
+                            "09.png",
+                            "10.png",
+                            "11.png",
+                            "12.png",
+                            "13.png",
+                            "14.png",
+                            "15.png",
+                            "16.png",
+                            "17.png",
+                            "18.png",
+                            "19.png",
+                            "20.png",
+                            "21.png",
+                            "22.png",
+                            "23.png",
+                            "24.png"
+                         ]'
+                         data-amount-x="24">
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
+    
     <div class="col-md-4 text-center">
         <h3>B評価</h3>
-        <img src="{% static "asahiyaki/sample/01.png" %}" class="img-fluid">
-        <img src="{% static "asahiyaki/sample/01.png" %}" class="img-fluid">
+        {% for asahiyaki in asahiyaki_samples_b %}
+            <div class="card mt-4 example-image-container">
+                <div class="card-body">
+                    <div class="cloudimage-360" id="sample-b-{{ forloop.counter }}"
+                         data-folder="{% static asahiyaki.image_path %}"
+                         data-image-list-x='[
+                            "01.png",
+                            "02.png",
+                            "03.png",
+                            "04.png",
+                            "05.png",
+                            "06.png",
+                            "07.png",
+                            "08.png",
+                            "09.png",
+                            "10.png",
+                            "11.png",
+                            "12.png",
+                            "13.png",
+                            "14.png",
+                            "15.png",
+                            "16.png",
+                            "17.png",
+                            "18.png",
+                            "19.png",
+                            "20.png",
+                            "21.png",
+                            "22.png",
+                            "23.png",
+                            "24.png"
+                         ]'
+                         data-amount-x="24">
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
+    
     <div class="col-md-4 text-center">
         <h3>C評価</h3>
-        <img src="{% static "asahiyaki/sample/01.png" %}" class="img-fluid">
-        <img src="{% static "asahiyaki/sample/01.png" %}" class="img-fluid">
+        {% for asahiyaki in asahiyaki_samples_c %}
+            <div class="card mt-4 example-image-container">
+                <div class="card-body">
+                    <div class="cloudimage-360" id="sample-c-{{ forloop.counter }}"
+                         data-folder="{% static asahiyaki.image_path %}"
+                         data-image-list-x='[
+                            "01.png",
+                            "02.png",
+                            "03.png",
+                            "04.png",
+                            "05.png",
+                            "06.png",
+                            "07.png",
+                            "08.png",
+                            "09.png",
+                            "10.png",
+                            "11.png",
+                            "12.png",
+                            "13.png",
+                            "14.png",
+                            "15.png",
+                            "16.png",
+                            "17.png",
+                            "18.png",
+                            "19.png",
+                            "20.png",
+                            "21.png",
+                            "22.png",
+                            "23.png",
+                            "24.png"
+                         ]'
+                         data-amount-x="24">
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 </div>
 
 <main class="container">
     <h2 class="col-12 text-center">再評価してください</h2>
-    <div class="row" mb-4>  <!-- 行を追加 -->
-        {% for asahiyaki in asahiyakis %}
+    <div class="row mb-4">  <!-- 行を追加 -->
+        {% for asahiyaki in asahiyakis_not_example %}
         <div class="col-md-4">  <!-- 3列配置のためのカラム -->
             <div class="card mt-4">
                 <div class="card-body">
-                    <h5 class="card-title">{{ asahiyaki.name }}</h5>
+                    <h5 class="card-title"></h5>
                     <!-- ABC評価の選択 -->
                     <div class="mb-3">
-                        <label class="form-label">ABC評価:</label>
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-A-{{ forloop.counter }}" value="A">
-                                <label class="form-check-label" for="evaluation-A-{{ forloop.counter }}">
-                                    A
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-B-{{ forloop.counter }}" value="B">
-                                <label class="form-check-label" for="evaluation-B-{{ forloop.counter }}">
-                                    B
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-C-{{ forloop.counter }}" value="C">
-                                <label class="form-check-label" for="evaluation-C-{{ forloop.counter }}">
-                                    C
-                                </label>
-                            </div>
+                        <label class="form-label">評価:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-A-{{ forloop.counter }}" value="A">
+                            <label class="form-check-label" for="evaluation-A-{{ forloop.counter }}">
+                                A
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-B-{{ forloop.counter }}" value="B">
+                            <label class="form-check-label" for="evaluation-B-{{ forloop.counter }}">
+                                B
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-C-{{ forloop.counter }}" value="C">
+                            <label class="form-check-label" for="evaluation-C-{{ forloop.counter }}">
+                                C
+                            </label>
                         </div>
                     </div>
-                    
+                        
                     <div class="container">
                         <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
-                             data-folder="{% static asahiyaki.image_path %}/"
+                             data-folder="{% static asahiyaki.image_path %}"
                              data-image-list-x='[
                                 "01.png",
                                 "02.png",
@@ -134,6 +235,7 @@
             </div>
         </div>
         {% endfor %}
+    </div>
 </main >
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -213,9 +315,7 @@
             });
         });
     });
-    
-    </script>
-    
+</script>
 
 </body>
 </html>

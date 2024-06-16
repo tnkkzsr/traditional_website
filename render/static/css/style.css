@@ -18,3 +18,11 @@
     height: auto;
     margin-bottom: 20px;
 }
+
+
+.example-image-container {
+    width: 66.66%; /* 2/3の幅に縮小 */
+    height: auto; /* アスペクト比を維持 */
+    margin: auto; /* 中央揃え */
+}
+

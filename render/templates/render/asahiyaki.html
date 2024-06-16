@@ -16,7 +16,7 @@
     <div class="row text-center justify-content-center">
         <div class="col">
             <h1 class="display-4">
-                {{ user.username }}さん、伝統工芸品の判定・データ収集サイト
+                伝統工芸品の判定・データ収集サイト
             </h1>
             <div>それぞれの器に評価をつけてください</div>
             <div>ドラッグして360度回転させて、正面の画像を選択してください。</div>
@@ -28,7 +28,7 @@
 
 <main class="container">
     <div class="row">  <!-- 行を追加 -->
-        {% for asahiyaki in asahiyakis %}
+        {% for asahiyaki in asahiyakis_not_example %}
         <div class="col-md-4">  <!-- 3列配置のためのカラム -->
             <div class="card mt-4">
                 <div class="card-body">
