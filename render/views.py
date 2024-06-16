@@ -119,11 +119,16 @@ from django.http import JsonResponse
 from .models import User, Asahiyaki, AsahiyakiEvaluation
 import json
 
+from django.shortcuts import render, redirect
+from django.http import JsonResponse
+from .models import User, Asahiyaki, AsahiyakiEvaluation
+import json
+
 def evaluation_results(request, user_uuid):
     user = User.objects.get(uuid=user_uuid)
     
-    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False)
-    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True)
+    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False).order_by('asahiyaki__id')
+    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True).order_by('asahiyaki__id')
     
     results_before_learning = []
     results_after_learning = []
@@ -137,6 +142,7 @@ def evaluation_results(request, user_uuid):
             correct_count_before += 1
         image_difference = int(evaluation.front_image_name.split(".")[0]) - 1  # 正しい正面画像が01.pngと仮定
         results_before_learning.append({
+            'asahiyaki_id': asahiyaki.id,
             'name': asahiyaki.name,
             'user_evaluation': evaluation.evaluation,
             'correct_evaluation': asahiyaki.correct_evaluation,
@@ -152,6 +158,7 @@ def evaluation_results(request, user_uuid):
             correct_count_after += 1
         image_difference = int(evaluation.front_image_name.split(".")[0]) - 1  # 正しい正面画像が01.pngと仮定
         results_after_learning.append({
+            'asahiyaki_id': asahiyaki.id,
             'name': asahiyaki.name,
             'user_evaluation': evaluation.evaluation,
             'correct_evaluation': asahiyaki.correct_evaluation,
