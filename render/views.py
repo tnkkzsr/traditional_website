@@ -29,7 +29,7 @@ def asahiyaki(request):
     if not uuid:
         return redirect("/")
     
-    asahiyakis = Asahiyaki.objects.all()[:3]
+    asahiyakis = Asahiyaki.objects.all()
     # ユーザーが存在しない場合は新規作成
     if not User.objects.filter(uuid=uuid).exists():
         User.objects.create(uuid=uuid)
