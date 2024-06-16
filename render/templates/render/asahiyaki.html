@@ -1,9 +1,8 @@
-{% load static %}
-{% load custom_filters %}
-
 <!doctype html>
 <html lang="en">
 <head>
+    {% load static %}
+    {% load custom_filters %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -11,85 +10,204 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-    
 </head>
-
 <body>
 <header class="container mt-4 mb-4"> 
     <div class="row text-center justify-content-center">
         <div class="col">
             <h1 class="display-4">
-                {{user.username}}さん、伝統工芸品の判定・データ収集サイト
+                伝統工芸品の判定・データ収集サイト
             </h1>
+            <div>それぞれの器に評価をつけてください</div>
+            <div>ドラッグして360度回転させて、正面の画像を選択してください。</div>
+            <div>正面だと思うところで止めて、保存ボタンを押してください</div>
         </div>
     </div>  
 </header>
 
+
 <main class="container">
-
-    <div class="row text-center justify-content-center mt-4">
-        <div class="col">
-            それぞれの伝統工芸品について、その特徴を把握し、データを収集するためのサイトです。<br>
-            以下の三つの器についてそれぞれ正面の画像だと思うものを選択してください
-        </div>
-    </div>
-
-    <h1>朝日焼</h1>
-    
-    {% for asahiyaki in asahiyakis%}
-    <div class="card mt-4">
-        <div class="card-body">
-            <h5 class="card-title">{{asahiyaki.name}}</h5>
-            <!-- 画像一覧の表示 -->
-            <div class="mb-5">
-                <div class="row no-gutters" id="image-list-{{ forloop.counter }}">
-                    {% for i in numbers %}
-                        <div class="col-1">
-                            <img src="{% static asahiyaki.image_path %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid image-item-{{ forloop.counter }}" data-image-item="{{ i|format_image_number }}">
+    <div class="row">  <!-- 行を追加 -->
+        {% for asahiyaki in asahiyakis_not_example %}
+        <div class="col-md-4">  <!-- 3列配置のためのカラム -->
+            <div class="card mt-4">
+                <div class="card-body">
+                   
+                    <!-- ABC評価の選択 -->
+                    <div class="mb-3">
+                        <label class="form-label">評価:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-A-{{ forloop.counter }}" value="A">
+                            <label class="form-check-label" for="evaluation-A-{{ forloop.counter }}">
+                                A
+                            </label>
                         </div>
-                        {% if forloop.counter|divisibleby:12 and not forloop.last %}
-                            </div><div class="row no-gutters">
-                        {% endif %}
-                    {% endfor %}
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-B-{{ forloop.counter }}" value="B">
+                            <label class="form-check-label" for="evaluation-B-{{ forloop.counter }}">
+                                B
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-C-{{ forloop.counter }}" value="C">
+                            <label class="form-check-label" for="evaluation-C-{{ forloop.counter }}">
+                                C
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="container">
+                        <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
+                             data-folder="{% static asahiyaki.image_path %}"
+                             data-image-list-x='[
+                                "01.png",
+                                "02.png",
+                                "03.png",
+                                "04.png",
+                                "05.png",
+                                "06.png",
+                                "07.png",
+                                "08.png",
+                                "09.png",
+                                "10.png",
+                                "11.png",
+                                "12.png",
+                                "13.png",
+                                "14.png",
+                                "15.png",
+                                "16.png",
+                                "17.png",
+                                "18.png",
+                                "19.png",
+                                "20.png",
+                                "21.png",
+                                "22.png",
+                                "23.png",
+                                "24.png"
+                             ]'
+                             data-amount-x="24">
+                        </div>
+                    </div>
+
+                    <!-- 画像固定用のチェックボックス -->
+                    <div class="form-check mt-2">
+                        <input class="form-check-input" type="checkbox" id="fix-image-{{ forloop.counter }}">
+                        <label class="form-check-label" for="fix-image-{{ forloop.counter }}">
+                            正面画像として選択
+                        </label>
+                    </div>
+                    
+                    <!-- 選択保存フォーム -->
+                    <div class="container">
+                        <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="selected_image" id="selected_image_{{ forloop.counter }}" value="">
+                            <input type="hidden" id="evaluation-{{forloop.counter}}" name="evaluation" value="">
+                            <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
+                            <button type="submit" class="btn btn-primary mt-3">上記の選択を保存</button>
+                        </form>
+                    </div>
                 </div>
             </div>
+        </div>
+        {% endfor %}
+    </div>
 
-            <!-- スライダーのコンテナ-->
-            <div class="swiper-container g-4" id="swiper-container-{{ forloop.counter }}" style="overflow: hidden;">
-                <!-- スライダーのwrapper -->
-                <div class="swiper-wrapper">
-                    {% for i in numbers %}
-                        <div class="swiper-slide" data-image="{{ i|format_image_number }}">
-                            <img src="{% static asahiyaki.image_path %}{{ i|format_image_number }}.png" alt="Image {{ i }}" class="img-fluid">
-                        </div>
-                    {% endfor %}
-                </div>
-                <!-- スライダーのページネーション -->
-                <div class="swiper-pagination"></div>
-                <!-- スライダーのナビゲーション -->
-                <div class="swiper-button-prev"></div>
-                <div class="swiper-button-next"></div>
-            </div>
-
-            <!-- 選択保存フォーム -->
-            <div class="container">
-                <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="selected_image" id="selected_image_{{ forloop.counter }}" value="">
-                    <input type="hidden" name="dish_name" value="{{ asahiyaki.name }}">
-                    <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
-                    <button type="submit" class="btn btn-primary mt-3">選択を保存</button>
-                </form>
+    <div class="container my-4">
+        <div class="row">
+            <div class="col text-center">
+                <a href="{% url "asahiyaki_learn" %}?uuid={{ user.uuid }}" class="btn btn-primary next-page-button">次のページ</a>
             </div>
         </div>
     </div>
-    {% endfor %}
-
-    
-
 </main>
+
+
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{% static 'js/index.js' %}"></script>
+<!--
+  Powered by Scaleflex team. All rights reserved.
+  JS Cloudimage 360 View is provided under the MIT License
+-->
+<script src="https://scaleflex.cloudimg.io/v7/plugins/js-cloudimage-360-view/latest/js-cloudimage-360-view.min.js?func=proxy"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const forms = document.querySelectorAll('.selectionForm');
+        const nextPageButton = document.querySelector('.next-page-button');  // 次のページへのボタン
+    
+        forms.forEach(function(form) {
+            form.addEventListener('submit', function(event) {
+                event.preventDefault(); // 通常のフォーム送信を防ぎます。
+                const submitButton = form.querySelector('button[type="submit"]');
+                const formId = form.getAttribute('data-form-id');
+                const checkbox = document.getElementById(`fix-image-${formId}`);
+                const viewer = document.getElementById('gurkha-suv-' + formId);
+                const images = JSON.parse(viewer.getAttribute('data-image-list-x'));
+                const selectedImageIndex = window.CI360.getActiveIndexByID('gurkha-suv-' + formId, 'x');
+                const selectedImage = images[selectedImageIndex];
+                const evaluationRadios = document.querySelectorAll(`input[name="evaluation-${formId}"]`);
+                let selectedEvaluation = '';
+
+                // ラジオボタンの選択値を取得
+                evaluationRadios.forEach(radio => {
+                    if (radio.checked) {
+                        selectedEvaluation = radio.value;
+                    }
+                });
+
+                // CSRFトークンを取得
+                const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                if (selectedEvaluation === '') {
+                    alert('ABC評価を選択してください。');
+                    return;
+                }
+
+                if (!checkbox.checked) {
+                    alert('正面画像を選択してください。');
+                    return;
+                }
+    
+                // データの準備
+                const postData = {
+                    asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
+                    evaluation: selectedEvaluation,
+                    selected_image: selectedImage // 画像情報を含める
+                };
+    
+                fetch(form.action, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    body: JSON.stringify(postData)
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                }).then(data => {
+                    console.log('Success:', data);
+                    submitButton.textContent = '保存済み';
+                    submitButton.classList.add('btn-success');
+                    form.setAttribute('data-saved', 'true');  // フォームの保存状態を更新
+                }).catch((error) => {
+                    console.error('Error:', error);
+                    alert('エラーが発生しました: ' + error.message);
+                });
+            });
+        });
+    
+        nextPageButton.addEventListener('click', function(event) {
+            const allFormsSaved = Array.from(forms).every(form => form.getAttribute('data-saved') === 'true');
+            if (!allFormsSaved) {
+                event.preventDefault();
+                alert('すべての評価を保存してから次へ進んでください。');
+            }
+        });
+    });
+</script>
 </body>
 </html>

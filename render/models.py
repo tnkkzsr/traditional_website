@@ -35,12 +35,14 @@ class BaseEvaluation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     # 更新日時
     updated_at = models.DateTimeField(auto_now=True)
+    #　学習したかどうか
+    is_learned = models.BooleanField(default=False)
     
     class Meta:
         abstract = True
 
     def __str__(self):
-        return f"Evaluation by {self.user.username}"
+        return f"is_learned:{self.is_learned} {self.user.username}"
 
 
     
@@ -51,6 +53,10 @@ class Asahiyaki(models.Model):
     name = models.CharField(max_length=100)
     # 画像フォルダのパス
     image_path = models.CharField(max_length=255)
+    # 正解のABC評価
+    correct_evaluation = models.CharField(max_length=1, choices=BaseEvaluation.EVALUATION_CHOICES,null=True, blank=True)
+    # お手本かどうか
+    is_example = models.BooleanField(default=False)
     
     def __str__(self):
         return self.name+ "_"+self.image_path
