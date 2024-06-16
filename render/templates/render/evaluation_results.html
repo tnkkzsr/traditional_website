@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>あなたの評価結果</title>
+    <title>評価結果</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -11,25 +11,25 @@
         <h1>あなたの評価結果</h1>
         
         <h2>学習前の評価結果</h2>
+        <p>正解率: {{ accuracy_before }}%</p>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>朝日焼の名前</th>
-                    <th>あなたの評価</th>
-                    <th>正解の評価</th>
+                    <th>朝日焼</th>
+                    <th>あなたのABC評価</th>
+                    <th>正解のABC評価</th>
                     <th>正誤</th>
-                    <th>選択した正面画像</th>
-                    <th>画像のズレ</th>
+                    <th>正しい正面からのズレ</th>
                 </tr>
             </thead>
             <tbody>
                 {% for result in results_before_learning %}
                     <tr>
-                        <td>{{ result.name }}</td>
+                        <td>{{ result.asahiyaki_id }}</td>
                         <td>{{ result.user_evaluation }}</td>
                         <td>{{ result.correct_evaluation }}</td>
-                        <td>{{ result.is_correct|yesno:"正解,不正解" }}</td>
-                        <td>{{ result.front_image_name }}</td>
+                        <td>{{ result.is_correct|yesno:"⚪︎,×" }}</td>
+                        
                         <td>{{ result.image_difference }}</td>
                     </tr>
                 {% endfor %}
@@ -37,25 +37,24 @@
         </table>
 
         <h2>学習後の評価結果</h2>
+        <p>正解率: {{ accuracy_after }}%</p>
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th>朝日焼の名前</th>
-                    <th>あなたの評価</th>
-                    <th>正解の評価</th>
+                    <th>朝日焼</th>
+                    <th>あなたのABC評価</th>
+                    <th>正解のABC評価</th>
                     <th>正誤</th>
-                    <th>選択した正面画像</th>
-                    <th>画像のズレ</th>
+                    <th>正しい正面からのズレ</th>
                 </tr>
             </thead>
             <tbody>
                 {% for result in results_after_learning %}
                     <tr>
-                        <td>{{ result.name }}</td>
+                        <td>{{ result.asahiyaki_id }}</td>
                         <td>{{ result.user_evaluation }}</td>
                         <td>{{ result.correct_evaluation }}</td>
-                        <td>{{ result.is_correct|yesno:"正解,不正解" }}</td>
-                        <td>{{ result.front_image_name }}</td>
+                        <td>{{ result.is_correct|yesno:"⚪︎,×" }}</td>
                         <td>{{ result.image_difference }}</td>
                     </tr>
                 {% endfor %}
