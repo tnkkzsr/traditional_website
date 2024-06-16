@@ -37,7 +37,7 @@ def asahiyaki(request):
     # お手本の朝日焼を取得
     asahiyakis_example = Asahiyaki.objects.filter(is_example=True)
     #　お手本以外の朝日焼を取得
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?') # ランダムな順序で取得
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] # ランダムな順序で取得
     
     # ユーザーが存在しない場合は新規作成
     if not User.objects.filter(uuid=uuid).exists():
@@ -80,7 +80,7 @@ def asahiyaki_learn(request):
     asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
     asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
     
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?') # ランダムな順序で取得
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] # ランダムな順序で取得
     
     if request.method == 'POST':
         data = json.loads(request.body)
