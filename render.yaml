@@ -2,7 +2,7 @@ databases:
   # データベースサーバ
   - name: django_baby_db_name
     region: singapore
-    plan: free
+    plan: starter
     databaseName: django_baby_db_name
     user: app_user
 
