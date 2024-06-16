@@ -238,6 +238,11 @@
     </div>
 </main >
 
+<!-- 結果ページに遷移 -->
+<div class="text-center my-4">
+    <a href="{% url 'evaluation_results' user_uuid %}" class="btn btn-primary">結果ページへ</a>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="{% static 'js/index.js' %}"></script>
 <!--
@@ -248,7 +253,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const forms = document.querySelectorAll('.selectionForm');
-    
+
         forms.forEach(function(form) {
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); // 通常のフォーム送信を防ぎます。
@@ -281,18 +286,14 @@
                     alert('正面画像を選択してください。');
                     return;
                 }
-    
+
                 // データの準備
                 const postData = {
                     asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
-                    evaluation: selectedEvaluation
+                    evaluation: selectedEvaluation,
+                    selected_image: selectedImage
                 };
-    
-                // チェックボックスがチェックされていれば画像情報を含める
-                if (checkbox.checked) {
-                    postData.selected_image = selectedImage;
-                }
-    
+
                 fetch(form.action, {
                     method: 'POST',
                     headers: {
@@ -304,9 +305,12 @@
                 }).then(response => response.json())
                   .then(data => {
                       console.log('Success:', data);
-                      submitButton.textContent = '保存済み'; // ボタンのテキストを更新
-                      submitButton.classList.add('btn-success'); // 成功時のスタイル変更
-                      
+                      if (data.redirect_url) {
+                          window.location.href = data.redirect_url; // 結果ページにリダイレクト
+                      } else {
+                          submitButton.textContent = '保存済み'; // ボタンのテキストを更新
+                          submitButton.classList.add('btn-success'); // 成功時のスタイル変更
+                      }
                   })
                   .catch((error) => {
                       console.error('Error:', error);

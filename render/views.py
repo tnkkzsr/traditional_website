@@ -7,6 +7,9 @@ from django.http import JsonResponse
 import random
 from django.db.models import F
 
+from django.db.models import Count
+
+
 
 def index(request):
     if request.method == "POST":
@@ -34,7 +37,7 @@ def asahiyaki(request):
     # お手本の朝日焼を取得
     asahiyakis_example = Asahiyaki.objects.filter(is_example=True)
     #　お手本以外の朝日焼を取得
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] # ランダムな順序で取得
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?') # ランダムな順序で取得
     
     # ユーザーが存在しない場合は新規作成
     if not User.objects.filter(uuid=uuid).exists():
@@ -77,7 +80,7 @@ def asahiyaki_learn(request):
     asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
     asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
     
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] # ランダムな順序で取得
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?') # ランダムな順序で取得
     
     if request.method == 'POST':
         data = json.loads(request.body)
@@ -99,6 +102,7 @@ def asahiyaki_learn(request):
         "asahiyaki_samples_c": asahiyaki_samples_c,
         "asahiyakis_not_example": asahiyakis_not_example,
         "user": user,
+        "user_uuid": user.uuid,
     }
     return render(request, "render/asahiyaki_learn.html", context)
 
@@ -109,3 +113,46 @@ def mokkogei(request):
     }
     return render(request, "render/mokkogei.html", context)
 
+
+def evaluation_results(request, user_uuid):
+    user = User.objects.get(uuid=user_uuid)
+    
+    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False)
+    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True)
+    
+    results_before_learning = []
+    results_after_learning = []
+    
+    for evaluation in evaluations_before_learning:
+        asahiyaki = evaluation.asahiyaki
+        is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
+        image_difference = int(evaluation.front_image_name.split(".")[0]) - 1  # 正しい正面画像が01.pngと仮定
+        results_before_learning.append({
+            'name': asahiyaki.name,
+            'user_evaluation': evaluation.evaluation,
+            'correct_evaluation': asahiyaki.correct_evaluation,
+            'is_correct': is_correct,
+            'front_image_name': evaluation.front_image_name,
+            'image_difference': image_difference
+        })
+
+    for evaluation in evaluations_after_learning:
+        asahiyaki = evaluation.asahiyaki
+        is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
+        image_difference = int(evaluation.front_image_name.split(".")[0]) - 1  # 正しい正面画像が01.pngと仮定
+        results_after_learning.append({
+            'name': asahiyaki.name,
+            'user_evaluation': evaluation.evaluation,
+            'correct_evaluation': asahiyaki.correct_evaluation,
+            'is_correct': is_correct,
+            'front_image_name': evaluation.front_image_name,
+            'image_difference': image_difference
+        })
+
+    context = {
+        'user': user,
+        'results_before_learning': results_before_learning,
+        'results_after_learning': results_after_learning,
+    }
+
+    return render(request, 'render/evaluation_results.html', context)
