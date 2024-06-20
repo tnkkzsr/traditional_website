@@ -85,7 +85,9 @@ def asahiyaki_learn(request):
     
     # asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] # ランダムな順序で取得
     # NOTE: 動作確認用に個数を制限
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:3] 
+    asahiyakis_not_example = list(Asahiyaki.objects.filter(is_example=False).order_by('id')[:6])
+    random.shuffle(asahiyakis_not_example)
+     
     
     if request.method == 'POST':
         data = json.loads(request.body)
