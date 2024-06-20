@@ -119,10 +119,6 @@ from django.http import JsonResponse
 from .models import User, Asahiyaki, AsahiyakiEvaluation
 import json
 
-from django.shortcuts import render, redirect
-from django.http import JsonResponse
-from .models import User, Asahiyaki, AsahiyakiEvaluation
-import json
 
 def evaluation_results(request, user_uuid):
     user = User.objects.get(uuid=user_uuid)
@@ -132,16 +128,22 @@ def evaluation_results(request, user_uuid):
     
     results_before_learning = []
     results_after_learning = []
+    
     correct_count_before = 0
     correct_count_after = 0
+
+    def calculate_image_difference(front_image_name):
+        image_number = int(front_image_name.split(".")[0])
+        difference = abs(image_number - 1)
+        return min(difference, 24 - difference)  # 最大のズレは12
 
     for evaluation in evaluations_before_learning:
         asahiyaki = evaluation.asahiyaki
         is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
         if is_correct:
             correct_count_before += 1
-        image_difference = int(evaluation.front_image_name.split(".")[0]) - 1  # 正しい正面画像が01.pngと仮定
-        results_before_learning.append({
+        image_difference = calculate_image_difference(evaluation.front_image_name)
+        result = {
             'asahiyaki_id': asahiyaki.id,
             'name': asahiyaki.name,
             'user_evaluation': evaluation.evaluation,
@@ -149,15 +151,17 @@ def evaluation_results(request, user_uuid):
             'is_correct': is_correct,
             'front_image_name': evaluation.front_image_name,
             'image_difference': image_difference
-        })
+        }
+        results_before_learning.append(result)
+       
 
     for evaluation in evaluations_after_learning:
         asahiyaki = evaluation.asahiyaki
         is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
         if is_correct:
             correct_count_after += 1
-        image_difference = int(evaluation.front_image_name.split(".")[0]) - 1  # 正しい正面画像が01.pngと仮定
-        results_after_learning.append({
+        image_difference = calculate_image_difference(evaluation.front_image_name)
+        result = {
             'asahiyaki_id': asahiyaki.id,
             'name': asahiyaki.name,
             'user_evaluation': evaluation.evaluation,
@@ -165,8 +169,9 @@ def evaluation_results(request, user_uuid):
             'is_correct': is_correct,
             'front_image_name': evaluation.front_image_name,
             'image_difference': image_difference
-        })
-
+        }
+        results_after_learning.append(result)
+        
     total_before = len(results_before_learning)
     total_after = len(results_after_learning)
     accuracy_before = (correct_count_before / total_before * 100) if total_before > 0 else 0
@@ -178,6 +183,7 @@ def evaluation_results(request, user_uuid):
         'results_after_learning': results_after_learning,
         'accuracy_before': accuracy_before,
         'accuracy_after': accuracy_after,
+       
     }
 
     return render(request, 'render/evaluation_results.html', context)
