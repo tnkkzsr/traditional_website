@@ -32,7 +32,6 @@
         <div class="col-md-4">  <!-- 3列配置のためのカラム -->
             <div class="card mt-4">
                 <div class="card-body">
-                   
                     <!-- ABC評価の選択 -->
                     <div class="mb-3">
                         <label class="form-label">評価:</label>
@@ -104,7 +103,8 @@
                             <input type="hidden" name="selected_image" id="selected_image_{{ forloop.counter }}" value="">
                             <input type="hidden" id="evaluation-{{forloop.counter}}" name="evaluation" value="">
                             <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
-                            <button type="submit" class="btn btn-primary mt-3">上記の選択を保存</button>
+                            <button type="submit" class="btn btn-primary mt-3 save-button">上記の選択を保存</button>
+                            <button type="button" class="btn btn-secondary mt-3 edit-button">編集</button>
                         </form>
                     </div>
                 </div>
@@ -136,9 +136,11 @@
         const nextPageButton = document.querySelector('.next-page-button');  // 次のページへのボタン
     
         forms.forEach(function(form) {
+            const saveButton = form.querySelector('button.save-button');
+            const editButton = form.querySelector('button.edit-button');
+
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); // 通常のフォーム送信を防ぎます。
-                const submitButton = form.querySelector('button[type="submit"]');
                 const formId = form.getAttribute('data-form-id');
                 const checkbox = document.getElementById(`fix-image-${formId}`);
                 const viewer = document.getElementById('gurkha-suv-' + formId);
@@ -174,7 +176,7 @@
                     evaluation: selectedEvaluation,
                     selected_image: selectedImage // 画像情報を含める
                 };
-    
+
                 fetch(form.action, {
                     method: 'POST',
                     headers: {
@@ -190,13 +192,33 @@
                     return response.json();
                 }).then(data => {
                     console.log('Success:', data);
-                    submitButton.textContent = '保存済み';
-                    submitButton.classList.add('btn-success');
+                    saveButton.textContent = '保存済み';
+                    saveButton.classList.add('btn-success');
+                    saveButton.classList.remove('btn-primary');
+                    saveButton.disabled = true; // 保存ボタンを無効化
                     form.setAttribute('data-saved', 'true');  // フォームの保存状態を更新
                 }).catch((error) => {
                     console.error('Error:', error);
                     alert('エラーが発生しました: ' + error.message);
                 });
+            });
+
+            // 編集ボタンのクリックイベントリスナー
+            editButton.addEventListener('click', function() {
+                const formId = form.getAttribute('data-form-id');
+                const saveButton = form.querySelector('button.save-button');
+                const evaluationRadios = document.querySelectorAll(`input[name="evaluation-${formId}"]`);
+                const checkbox = document.getElementById(`fix-image-${formId}`);
+                
+                // 評価とチェックボックスを有効化
+                evaluationRadios.forEach(radio => {
+                    radio.disabled = false;
+                });
+                checkbox.disabled = false;
+                saveButton.disabled = false; // 保存ボタンを有効化
+                saveButton.textContent = '上記の選択を保存'; // テキストを変更
+                saveButton.classList.remove('btn-success');
+                saveButton.classList.add('btn-primary');
             });
         });
     
