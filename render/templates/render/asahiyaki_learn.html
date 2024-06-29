@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     {% load static %}
-    {% load custom_filters %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -227,9 +226,8 @@
     </div>
 </main >
 
-<!-- 結果ページに遷移 -->
 <div class="text-center my-4">
-    <a href="{% url 'evaluation_results' user.uuid %}" class="btn btn-primary">結果ページへ</a>
+    <a href="#" class="btn btn-primary next-page-button">次のページへ</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -324,6 +322,8 @@
             if (!allFormsSaved) {
                 event.preventDefault();
                 alert('すべての評価を保存してから次へ進んでください。');
+            } else {
+                window.location.href = "{% url 'select_front' %}?uuid={{ user.uuid }}"; // 次のページへリダイレクト
             }
         });
     });

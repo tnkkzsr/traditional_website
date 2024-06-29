@@ -262,3 +262,42 @@ def asahiyaki_select_front(request):
         "user": user,
     }
     return render(request, "render/asahiyaki_select_front.html", context)
+
+
+def asahiyaki_front_select_learn(request):
+    uuid = request.GET.get("uuid")
+    
+    if not uuid:
+        return redirect("/")
+    
+    user = get_object_or_404(User, uuid=uuid)
+    asahiyaki_samples_a = Asahiyaki.objects.filter(is_example=True, correct_evaluation='A')
+    asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
+    asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
+    
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:3] 
+    
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
+            selected_image = data['selected_image']
+            asahiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki, is_learned=True)
+            
+            if asahiyaki_evaluation.exists():
+                asahiyaki_evaluation.update(front_image_name=selected_image)
+            else:
+                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, is_learned=True)
+            return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    
+    context = {
+        "asahiyaki_samples_a": asahiyaki_samples_a,
+        "asahiyaki_samples_b": asahiyaki_samples_b,
+        "asahiyaki_samples_c": asahiyaki_samples_c,
+        "asahiyakis_not_example": asahiyakis_not_example,
+        "user": user,
+        "user_uuid": user.uuid,
+    }
+    return render(request, "render/asahiyaki_front_select_learn.html", context)
