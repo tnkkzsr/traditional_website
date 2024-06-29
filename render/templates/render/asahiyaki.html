@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     {% load static %}
-    {% load custom_filters %}
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,6 +9,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <style>
+        .selected-image {
+            border: 2px solid red;
+        }
+    </style>
 </head>
 <body>
 <header class="container mt-4 mb-4"> 
@@ -19,19 +23,18 @@
                 伝統工芸品の判定・データ収集サイト
             </h1>
             <div>それぞれの器に評価をつけてください</div>
-            <div>ドラッグして360度回転させて、正面の画像を選択してください。</div>
-            <div>正面だと思うところで止めて、保存ボタンを押してください</div>
+            <div>ドラッグして360度回転させて、評価を行ってください。</div>
         </div>
     </div>  
 </header>
 
-
 <main class="container">
-    <div class="row">  <!-- 行を追加 -->
-        {% for asahiyaki in asahiyakis_not_example %}
-        <div class="col-md-4">  <!-- 3列配置のためのカラム -->
+    <div class="row">
+        {% for asahiyaki in asahiyakis %}
+        <div class="col-md-4">
             <div class="card mt-4">
                 <div class="card-body">
+                    <h5 class="card-title">{{ asahiyaki.name }}</h5>
                     <!-- ABC評価の選択 -->
                     <div class="mb-3">
                         <label class="form-label">評価:</label>
@@ -87,21 +90,11 @@
                              data-amount-x="24">
                         </div>
                     </div>
-
-                    <!-- 画像固定用のチェックボックス -->
-                    <div class="form-check mt-2">
-                        <input class="form-check-input" type="checkbox" id="fix-image-{{ forloop.counter }}">
-                        <label class="form-check-label" for="fix-image-{{ forloop.counter }}">
-                            正面画像として選択
-                        </label>
-                    </div>
                     
                     <!-- 選択保存フォーム -->
                     <div class="container">
                         <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="selected_image" id="selected_image_{{ forloop.counter }}" value="">
-                            <input type="hidden" id="evaluation-{{forloop.counter}}" name="evaluation" value="">
                             <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
                             <button type="submit" class="btn btn-primary mt-3 save-button">上記の選択を保存</button>
                             <button type="button" class="btn btn-secondary mt-3 edit-button">編集</button>
@@ -116,12 +109,11 @@
     <div class="container my-4">
         <div class="row">
             <div class="col text-center">
-                <a href="{% url "asahiyaki_learn" %}?uuid={{ user.uuid }}" class="btn btn-primary next-page-button">次のページ</a>
+                <a href="{% url 'asahiyaki_learn' %}?uuid={{ user.uuid }}" class="btn btn-primary next-page-button">次のページ</a>
             </div>
         </div>
     </div>
 </main>
-
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="{% static 'js/index.js' %}"></script>
@@ -142,7 +134,6 @@
             form.addEventListener('submit', function(event) {
                 event.preventDefault(); // 通常のフォーム送信を防ぎます。
                 const formId = form.getAttribute('data-form-id');
-                const checkbox = document.getElementById(`fix-image-${formId}`);
                 const viewer = document.getElementById('gurkha-suv-' + formId);
                 const images = JSON.parse(viewer.getAttribute('data-image-list-x'));
                 const selectedImageIndex = window.CI360.getActiveIndexByID('gurkha-suv-' + formId, 'x');
@@ -162,11 +153,6 @@
 
                 if (selectedEvaluation === '') {
                     alert('ABC評価を選択してください。');
-                    return;
-                }
-
-                if (!checkbox.checked) {
-                    alert('正面画像を選択してください。');
                     return;
                 }
     
@@ -208,13 +194,11 @@
                 const formId = form.getAttribute('data-form-id');
                 const saveButton = form.querySelector('button.save-button');
                 const evaluationRadios = document.querySelectorAll(`input[name="evaluation-${formId}"]`);
-                const checkbox = document.getElementById(`fix-image-${formId}`);
                 
-                // 評価とチェックボックスを有効化
+                // 評価を有効化
                 evaluationRadios.forEach(radio => {
                     radio.disabled = false;
                 });
-                checkbox.disabled = false;
                 saveButton.disabled = false; // 保存ボタンを有効化
                 saveButton.textContent = '上記の選択を保存'; // テキストを変更
                 saveButton.classList.remove('btn-success');
