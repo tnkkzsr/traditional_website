@@ -9,3 +9,4 @@ graphviz
 pydot
 django-extensions
 scikit-learn
+matplotlib
