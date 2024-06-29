@@ -113,73 +113,6 @@ from .models import User, Asahiyaki, AsahiyakiEvaluation
 import json
 
 
-def evaluation_results(request, user_uuid):
-    user = User.objects.get(uuid=user_uuid)
-    
-    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False).order_by('asahiyaki__id')
-    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True).order_by('asahiyaki__id')
-    
-    results_before_learning = []
-    results_after_learning = []
-    
-    correct_count_before = 0
-    correct_count_after = 0
-
-    def calculate_image_difference(front_image_name):
-        image_number = int(front_image_name.split(".")[0])
-        difference = abs(image_number - 1)
-        return min(difference, 24 - difference)  # 最大のズレは12
-
-    for evaluation in evaluations_before_learning:
-        asahiyaki = evaluation.asahiyaki
-        is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
-        if is_correct:
-            correct_count_before += 1
-        image_difference = calculate_image_difference(evaluation.front_image_name)
-        result = {
-            'asahiyaki_id': asahiyaki.id,
-            'name': asahiyaki.name,
-            'user_evaluation': evaluation.evaluation,
-            'correct_evaluation': asahiyaki.correct_evaluation,
-            'is_correct': is_correct,
-            'front_image_name': evaluation.front_image_name,
-            'image_difference': image_difference
-        }
-        results_before_learning.append(result)
-       
-
-    for evaluation in evaluations_after_learning:
-        asahiyaki = evaluation.asahiyaki
-        is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
-        if is_correct:
-            correct_count_after += 1
-        image_difference = calculate_image_difference(evaluation.front_image_name)
-        result = {
-            'asahiyaki_id': asahiyaki.id,
-            'name': asahiyaki.name,
-            'user_evaluation': evaluation.evaluation,
-            'correct_evaluation': asahiyaki.correct_evaluation,
-            'is_correct': is_correct,
-            'front_image_name': evaluation.front_image_name,
-            'image_difference': image_difference
-        }
-        results_after_learning.append(result)
-        
-    total_before = len(results_before_learning)
-    total_after = len(results_after_learning)
-    accuracy_before = (correct_count_before / total_before * 100) if total_before > 0 else 0
-    accuracy_after = (correct_count_after / total_after * 100) if total_after > 0 else 0
-
-    context = {
-        'user': user,
-        'results_before_learning': results_before_learning,
-        'results_after_learning': results_after_learning,
-        'accuracy_before': accuracy_before,
-        'accuracy_after': accuracy_after,
-       
-    }
-
-    return render(request, 'render/evaluation_results.html', context)
 
 
 from django.shortcuts import render, get_object_or_404
@@ -222,6 +155,8 @@ def evaluation_results(request, user_uuid):
     pred_y_after = []
     
     def calculate_image_difference(front_image_name):
+        if not front_image_name:
+            return 0  # もしくは他の適切なデフォルト値
         image_number = int(front_image_name.split(".")[0])
         difference = abs(image_number - 1)
         return min(difference, 24 - difference)  # 最大のズレは12
@@ -262,17 +197,19 @@ def evaluation_results(request, user_uuid):
     
     # 学習前の評価
     accuracy_before = (sum([r['is_correct'] for r in results_before_learning]) / len(results_before_learning) * 100) if results_before_learning else 0
+    f1_before = f1_score(true_y_before, pred_y_before, average='weighted') if results_before_learning else 0
     qwk_before = cohen_kappa_score(true_y_before, pred_y_before, weights='quadratic') if results_before_learning else 0
     cm_before = confusion_matrix(true_y_before, pred_y_before, labels=["A", "B", "C"]).tolist()
-    report_before = classification_report(true_y_before, pred_y_before)
-    cm_before_image_url = save_confusion_matrix_image(cm_before, ["A", "B", "C"], "confusion_matrix_before", f"cm_before_{user.uuid}.png")
+    report_before = classification_report(true_y_before, pred_y_before, output_dict=True)
+    cm_before_image_url = save_confusion_matrix_image(cm_before, ["A", "B", "C"], "学習前の混同行列", f"cm_before_{user.uuid}.png")
 
     # 学習後の評価
     accuracy_after = (sum([r['is_correct'] for r in results_after_learning]) / len(results_after_learning) * 100) if results_after_learning else 0
+    f1_after = f1_score(true_y_after, pred_y_after, average='weighted') if results_after_learning else 0
     qwk_after = cohen_kappa_score(true_y_after, pred_y_after, weights='quadratic') if results_after_learning else 0
     cm_after = confusion_matrix(true_y_after, pred_y_after, labels=["A", "B", "C"]).tolist()
-    report_after = classification_report(true_y_after, pred_y_after)
-    cm_after_image_url = save_confusion_matrix_image(cm_after, ["A", "B", "C"], "confusion_matrix_after", f"cm_after_{user.uuid}.png")
+    report_after = classification_report(true_y_after, pred_y_after, output_dict=True)
+    cm_after_image_url = save_confusion_matrix_image(cm_after, ["A", "B", "C"], "学習後の混同行列", f"cm_after_{user.uuid}.png")
 
     context = {
         'user': user,
@@ -280,6 +217,8 @@ def evaluation_results(request, user_uuid):
         'results_after_learning': results_after_learning,
         'accuracy_before': accuracy_before,
         'accuracy_after': accuracy_after,
+        'f1_before': f1_before,
+        'f1_after': f1_after,
         'qwk_before': qwk_before,
         'qwk_after': qwk_after,
         'cm_before': cm_before,
