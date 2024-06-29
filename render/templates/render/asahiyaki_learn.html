@@ -19,8 +19,6 @@
                 学習後の再評価ページ
             </h1>
             <div>それぞれの器に評価をつけてください</div>
-            <div>ドラッグして360度回転させて、正面の画像を選択してください。</div>
-            <div>正面だと思うところで止めて、保存ボタンを押してください</div>
         </div>
     </div>  
 </header>
@@ -156,7 +154,7 @@
         <div class="col-md-4">  <!-- 3列配置のためのカラム -->
             <div class="card mt-4">
                 <div class="card-body">
-                    <h5 class="card-title"></h5>
+                    <h5 class="card-title">{{ asahiyaki.name }}</h5>
                     <!-- ABC評価の選択 -->
                     <div class="mb-3">
                         <label class="form-label">評価:</label>
@@ -213,20 +211,10 @@
                         </div>
                     </div>
 
-                    <!-- 画像固定用のチェックボックス -->
-                    <div class="form-check mt-2">
-                        <input class="form-check-input" type="checkbox" id="fix-image-{{ forloop.counter }}">
-                        <label class="form-check-label" for="fix-image-{{ forloop.counter }}">
-                            正面画像として選択
-                        </label>
-                    </div>
-                    
                     <!-- 選択保存フォーム -->
                     <div class="container">
                         <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="selected_image" id="selected_image_{{ forloop.counter }}" value="">
-                            <input type="hidden" id="evaluation-{{forloop.counter}}" name="evaluation" value="">
                             <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
                             <button type="submit" class="btn btn-primary mt-3 save-button">上記の選択を保存</button>
                             <button type="button" class="btn btn-secondary mt-3 edit-button">編集</button>
@@ -241,7 +229,7 @@
 
 <!-- 結果ページに遷移 -->
 <div class="text-center my-4">
-    <a href="{% url 'evaluation_results' user_uuid %}" class="btn btn-primary">結果ページへ</a>
+    <a href="{% url 'evaluation_results' user.uuid %}" class="btn btn-primary">結果ページへ</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -264,11 +252,6 @@
                 event.preventDefault(); // 通常のフォーム送信を防ぎます。
                 const submitButton = event.submitter; // フォーム送信時のボタンを取得
                 const formId = form.getAttribute('data-form-id');
-                const checkbox = document.getElementById(`fix-image-${formId}`);
-                const viewer = document.getElementById('gurkha-suv-' + formId);
-                const images = JSON.parse(viewer.getAttribute('data-image-list-x'));
-                const selectedImageIndex = window.CI360.getActiveIndexByID('gurkha-suv-' + formId, 'x');
-                const selectedImage = images[selectedImageIndex];
                 const evaluationRadios = document.querySelectorAll(`input[name="evaluation-${formId}"]`);
                 let selectedEvaluation = '';
 
@@ -287,16 +270,10 @@
                     return;
                 }
 
-                if (!checkbox.checked) {
-                    alert('正面画像を選択してください。');
-                    return;
-                }
-
                 // データの準備
                 const postData = {
                     asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
                     evaluation: selectedEvaluation,
-                    selected_image: selectedImage
                 };
 
                 fetch(form.action, {
@@ -307,23 +284,22 @@
                         'X-CSRFToken': csrftoken
                     },
                     body: JSON.stringify(postData)
-                }).then(response => response.json())
-                  .then(data => {
-                      console.log('Success:', data);
-                      if (data.redirect_url) {
-                          window.location.href = data.redirect_url; // 結果ページにリダイレクト
-                      } else {
-                          submitButton.textContent = '保存済み'; // ボタンのテキストを更新
-                          submitButton.classList.add('btn-success'); // 成功時のスタイル変更
-                          submitButton.classList.remove('btn-primary'); // 失敗時のスタイル変更
-                          submitButton.disabled = true; // 保存ボタンを無効化
-                          form.setAttribute('data-saved', 'true');  // フォームの保存状態を更新
-                      }
-                  })
-                  .catch((error) => {
-                      console.error('Error:', error);
-                      alert('エラーが発生しました: ' + error.message);
-                  });
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                }).then(data => {
+                    console.log('Success:', data);
+                    saveButton.textContent = '保存済み';
+                    saveButton.classList.add('btn-success');
+                    saveButton.classList.remove('btn-primary');
+                    saveButton.disabled = true; // 保存ボタンを無効化
+                    form.setAttribute('data-saved', 'true');  // フォームの保存状態を更新
+                }).catch((error) => {
+                    console.error('Error:', error);
+                    alert('エラーが発生しました: ' + error.message);
+                });
             });
 
             // 編集ボタンのクリックイベントリスナー
@@ -331,13 +307,11 @@
                 const formId = form.getAttribute('data-form-id');
                 const saveButton = form.querySelector('button.save-button');
                 const evaluationRadios = document.querySelectorAll(`input[name="evaluation-${formId}"]`);
-                const checkbox = document.getElementById(`fix-image-${formId}`);
                 
-                // 評価とチェックボックスを有効化
+                // 評価を有効化
                 evaluationRadios.forEach(radio => {
                     radio.disabled = false;
                 });
-                checkbox.disabled = false;
                 saveButton.disabled = false; // 保存ボタンを有効化
                 saveButton.textContent = '上記の選択を保存'; // テキストを変更
                 saveButton.classList.remove('btn-success');

@@ -8,4 +8,4 @@ gunicorn
 graphviz
 pydot
 django-extensions
-sklearn
+scikit-learn

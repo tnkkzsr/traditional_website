@@ -60,34 +60,33 @@ def asahiyaki(request):
 
 
 def asahiyaki_learn(request):
-    
     uuid = request.GET.get("uuid")
     
     if not uuid:
         return redirect("/")
     
-    user = User.objects.get(uuid=uuid)   
+    user = get_object_or_404(User, uuid=uuid)
     asahiyaki_samples_a = Asahiyaki.objects.filter(is_example=True, correct_evaluation='A')
     asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
     asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
     
-    # asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] # ランダムな順序で取得
-    # NOTE: 動作確認用に個数を制限
     asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:3] 
     
     if request.method == 'POST':
-        data = json.loads(request.body)
-        asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
-        selected_image = data['selected_image']        
-        evaluation = data['evaluation']
-        akashiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki,is_learned=True)
-        # すでに評価が存在する場合は更新、存在しない場合は新規作成
-        if akashiyaki_evaluation.exists():
-            akashiyaki_evaluation.update(front_image_name=selected_image, evaluation=evaluation)
-        else:
-            evaluation = AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, evaluation=evaluation,is_learned=True)
-        return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
-    
+        try:
+            data = json.loads(request.body)
+            asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
+            evaluation = data['evaluation']
+            asahiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki, is_learned=True)
+            
+            if asahiyaki_evaluation.exists():
+                asahiyaki_evaluation.update(evaluation=evaluation)
+            else:
+                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, evaluation=evaluation, is_learned=True)
+            
+            return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
     context = {
         "asahiyaki_samples_a": asahiyaki_samples_a,
@@ -95,9 +94,10 @@ def asahiyaki_learn(request):
         "asahiyaki_samples_c": asahiyaki_samples_c,
         "asahiyakis_not_example": asahiyakis_not_example,
         "user": user,
-        "user_uuid": user.uuid,
     }
     return render(request, "render/asahiyaki_learn.html", context)
+
+
 
 def mokkogei(request):
     numbers = list(range(1,25))
