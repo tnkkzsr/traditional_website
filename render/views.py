@@ -230,3 +230,35 @@ def evaluation_results(request, user_uuid):
     }
 
     return render(request, 'render/evaluation_results.html', context)
+
+
+def asahiyaki_select_front(request):
+    uuid = request.GET.get("uuid")
+    
+    if not uuid:
+        return redirect("/")
+    
+    user = get_object_or_404(User, uuid=uuid)
+    asahiyakis_a = Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)
+    
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
+            selected_image = data['selected_image']
+            
+            asahiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki, is_learned=False)
+            
+            if asahiyaki_evaluation.exists():
+                asahiyaki_evaluation.update(front_image_name=selected_image,)
+            else:
+                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, evaluation=evaluation, is_learned=True)
+            return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    
+    context = {
+        "asahiyakis_a": asahiyakis_a,
+        "user": user,
+    }
+    return render(request, "render/asahiyaki_select_front.html", context)
