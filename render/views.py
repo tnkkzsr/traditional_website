@@ -30,10 +30,14 @@ def index(request):
 def asahiyaki(request):
     uuid = request.GET.get("uuid")
     
-    if not uuid:
-        return redirect("/")
     
-    user = get_object_or_404(User, uuid=uuid)
+    user = User.objects.filter(uuid=uuid)
+    if not user.exists():
+        user = User.objects.create(uuid=uuid)
+    else:
+        user = user.first()
+    
+        
     asahiyakis = Asahiyaki.objects.filter(is_example=False)[:3]
     
     if request.method == 'POST':
@@ -201,7 +205,7 @@ def evaluation_results(request, user_uuid):
     qwk_before = cohen_kappa_score(true_y_before, pred_y_before, weights='quadratic') if results_before_learning else 0
     cm_before = confusion_matrix(true_y_before, pred_y_before, labels=["A", "B", "C"]).tolist()
     report_before = classification_report(true_y_before, pred_y_before, output_dict=True)
-    cm_before_image_url = save_confusion_matrix_image(cm_before, ["A", "B", "C"], "学習前の混同行列", f"cm_before_{user.uuid}.png")
+    cm_before_image_url = save_confusion_matrix_image(cm_before, ["A", "B", "C"], "confusion_matrix", f"cm_before_{user.uuid}.png")
 
     # 学習後の評価
     accuracy_after = (sum([r['is_correct'] for r in results_after_learning]) / len(results_after_learning) * 100) if results_after_learning else 0
@@ -209,7 +213,7 @@ def evaluation_results(request, user_uuid):
     qwk_after = cohen_kappa_score(true_y_after, pred_y_after, weights='quadratic') if results_after_learning else 0
     cm_after = confusion_matrix(true_y_after, pred_y_after, labels=["A", "B", "C"]).tolist()
     report_after = classification_report(true_y_after, pred_y_after, output_dict=True)
-    cm_after_image_url = save_confusion_matrix_image(cm_after, ["A", "B", "C"], "学習後の混同行列", f"cm_after_{user.uuid}.png")
+    cm_after_image_url = save_confusion_matrix_image(cm_after, ["A", "B", "C"], "confusion_matrix", f"cm_after_{user.uuid}.png")
 
     context = {
         'user': user,
@@ -238,7 +242,10 @@ def asahiyaki_select_front(request):
     if not uuid:
         return redirect("/")
     
+    
     user = get_object_or_404(User, uuid=uuid)
+    
+    
     asahiyakis_a = Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)
     
     if request.method == 'POST':
