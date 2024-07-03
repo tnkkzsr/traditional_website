@@ -22,15 +22,16 @@
         </div>
     </div>  
 </header>
-
+<h1>Enter your UUID</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+<div>
     {% comment %} <a href="{% url "asahiyaki" uuid %}">朝日焼き</a> {% endcomment %}
 </div>
-<div>
-    <a href="{% url "asahiyaki" %}?uuid={{uuid}}">朝日焼きの評価へ</a>
-</div>
-<div>
-    <a href="{% url "mokkogei" %}?uuid={{uuid}}">中川木工芸の評価へ</a>
-</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
