@@ -308,3 +308,41 @@ def asahiyaki_front_select_learn(request):
         "user_uuid": user.uuid,
     }
     return render(request, "render/asahiyaki_front_select_learn.html", context)
+
+def mokkogei(request):
+    numbers = list(range(1,25))
+    context = {
+        "numbers": numbers,
+    }
+    return render(request, "render/mokkogei.html", context)
+
+
+def mokkogei_learn(request):
+    uuid = request.GET.get("uuid")
+    
+    if not uuid:
+        return redirect("/")
+    
+    user = get_object_or_404(User, uuid=uuid)
+    
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user.mokkogei_evaluation = data['evaluation']
+            user.save()
+            return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    
+    context = {
+        "user": user,
+    }
+    return render(request, "render/mokkogei_learn.html", context)
+
+def mokkogei_results(request, user_uuid):
+    user = get_object_or_404(User, uuid=user_uuid)
+    
+    context = {
+        'user': user,
+    }
+    return render(request, 'render/mokkogei_results.html', context)
