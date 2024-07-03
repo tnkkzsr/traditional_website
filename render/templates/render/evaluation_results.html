@@ -12,7 +12,7 @@
 <div class="container mt-5">
     <h1>{{ user.uuid }}の評価結果</h1>
 
-    <h2>学習前のclassification_report</h2>
+    <h2>学習前の評価結果</h2>
     <p>正解率: {{ accuracy_before }}%</p>
     <p>QWK: {{ qwk_before }}</p>
     <table class="table table-bordered">
@@ -73,7 +73,7 @@
     </table>
     <img src="{{ cm_after_image_url }}" alt="学習後の混同行列" class="img-fluid" style="max-width: 600px;">
 
-    <h3>学習後のclassification_report</h3>
+    <h3>学習後の評価詳細</h3>
     <pre>{{ report_after }}</pre>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
