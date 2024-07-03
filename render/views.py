@@ -151,8 +151,11 @@ def save_confusion_matrix_image(cm, labels, title, filename):
     
     return os.path.join(settings.MEDIA_URL, filename)
 
-def evaluation_results(request, user_uuid):
-    user = get_object_or_404(User, uuid=user_uuid)
+def asahiyaki_result(request):
+    uuid = request.GET.get("uuid")
+    if not uuid:
+        return redirect("/")
+    user = get_object_or_404(User, uuid=uuid)
     
     evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False).order_by('asahiyaki__id')
     evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True).order_by('asahiyaki__id')
