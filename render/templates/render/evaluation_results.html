@@ -5,76 +5,134 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>評価結果</title>
+    <title>朝日焼きの評価結果</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        h1, h2, h3 {
+            margin-top: 20px;
+            color: #343a40;
+        }
+        .severe-mistake {
+            background-color: #ffdddd;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .img-fluid {
+            margin-top: 20px;
+            max-width: 100%;
+            height: auto;
+        }
+        .evaluation-img {
+            width: 100px;
+            height: auto;
+        }
+        .btn-primary {
+            margin-top: 20px;
+        }
+        pre {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
 <div class="container mt-5">
+    {% if user.username %}
+    <h1>{{ user.username }}の評価結果</h1>
+    {% else %}
     <h1>{{ user.uuid }}の評価結果</h1>
+    {% endif %}
+    
 
     <h2>学習前の評価結果</h2>
     <p>正解率: {{ accuracy_before }}%</p>
     <p>QWK: {{ qwk_before }}</p>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>朝日焼きID</th>
-                <th>名前</th>
-                <th>あなたの評価</th>
-                <th>正解の評価</th>
-                <th>正誤</th>
-                <th>正しい正面からのズレ</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for result in results_before_learning %}
-                <tr class="{% if result.user_evaluation == 'A' and result.correct_evaluation == 'C' or result.user_evaluation == 'C' and result.correct_evaluation == 'A' %}severe-mistake{% endif %}">
-                    <td>{{ result.asahiyaki_id }}</td>
-                    <td>{{ result.name }}</td>
-                    <td>{{ result.user_evaluation }}</td>
-                    <td>{{ result.correct_evaluation }}</td>
-                    <td>{{ result.is_correct|yesno:"正解,不正解" }}</td>
-                    <td>{{ result.image_difference }}</td>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>朝日焼き</th>
+                    <th>名前</th>
+                    <th>あなたの評価</th>
+                    <th>正解の評価</th>
+                    <th>正誤</th>
+                    <th>正しい正面からのズレ</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <img src="{{ cm_before_image_url }}" alt="学習前の混同行列" class="img-fluid" style="max-width: 600px;">
+            </thead>
+            <tbody>
+                {% for result in results_before_learning %}
+                    <tr class="{% if result.user_evaluation == 'A' and result.correct_evaluation == 'C' or result.user_evaluation == 'C' and result.correct_evaluation == 'A' %}severe-mistake{% endif %}">
+                        <td>
+                            <img src="{% static result.image_path %}01.png" alt="{{ result.asahiyaki.name }}" class="evaluation-img">
+                        </td>
+                        <td>{{ result.asahiyaki.name }}</td>
+                        <td>{{ result.user_evaluation }}</td>
+                        <td>{{ result.correct_evaluation }}</td>
+                        <td>{{ result.is_correct|yesno:"正解,不正解" }}</td>
+                        <td>{{ result.image_difference }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <img src="{{ cm_before_image_url }}" alt="学習前のconfusion_matrix" class="img-fluid">
 
-    <h3>学習前の評価詳細</h3>
+    <h3>classification_report</h3>
     <pre>{{ report_before }}</pre>
 
     <h2>学習後の評価結果</h2>
     <p>正解率: {{ accuracy_after }}%</p>
     <p>QWK: {{ qwk_after }}</p>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>朝日焼きID</th>
-                <th>名前</th>
-                <th>あなたの評価</th>
-                <th>正解の評価</th>
-                <th>正誤</th>
-                <th>正しい正面からのズレ</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for result in results_after_learning %}
-                <tr class="{% if result.user_evaluation == 'A' and result.correct_evaluation == 'C' or result.user_evaluation == 'C' and result.correct_evaluation == 'A' %}severe-mistake{% endif %}">
-                    <td>{{ result.asahiyaki_id }}</td>
-                    <td>{{ result.name }}</td>
-                    <td>{{ result.user_evaluation }}</td>
-                    <td>{{ result.correct_evaluation }}</td>
-                    <td>{{ result.is_correct|yesno:"正解,不正解" }}</td>
-                    <td>{{ result.image_difference }}</td>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>朝日焼き</th>
+                    <th>名前</th>
+                    <th>あなたの評価</th>
+                    <th>正解の評価</th>
+                    <th>正誤</th>
+                    <th>正しい正面からのズレ</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <img src="{{ cm_after_image_url }}" alt="学習後の混同行列" class="img-fluid" style="max-width: 600px;">
+            </thead>
+            <tbody>
+                {% for result in results_after_learning %}
+                    <tr class="{% if result.user_evaluation == 'A' and result.correct_evaluation == 'C' or result.user_evaluation == 'C' and result.correct_evaluation == 'A' %}severe-mistake{% endif %}">
+                        <td>
+                            <img src="{% static result.image_path %}01.png" alt="{{ result.asahiyaki.name }}" class="evaluation-img">
+                        </td>
+                        <td>{{ result.asahiyaki.name }}</td>
+                        <td>{{ result.user_evaluation }}</td>
+                        <td>{{ result.correct_evaluation }}</td>
+                        <td>{{ result.is_correct|yesno:"正解,不正解" }}</td>
+                        <td>{{ result.image_difference }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <img src="{{ cm_after_image_url }}" alt="学習後のconfusion_matrix" class="img-fluid">
 
+<<<<<<< HEAD
+    <h3>classification_report</h3>
+=======
     <h3>学習後の評価詳細</h3>
+>>>>>>> dev
     <pre>{{ report_after }}</pre>
+
+    <a href="{% url 'index' %}?uuid={{ user.uuid }}" class="btn btn-primary">ホームへ</a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>

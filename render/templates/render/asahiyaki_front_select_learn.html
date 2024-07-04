@@ -304,7 +304,11 @@
                 event.preventDefault();
                 alert('すべての評価を保存してから次へ進んでください。');
             } else {
+<<<<<<< HEAD
+                window.location.href = "{% url 'asahiyaki_result' %}?uuid={{user.uuid}}"; // 次のページへリダイレクト
+=======
                 window.location.href = "{% url 'evaluation_results' user.uuid %}"; // 次のページへリダイレクト
+>>>>>>> dev
             }
         });
     });

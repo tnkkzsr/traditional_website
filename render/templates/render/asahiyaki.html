@@ -23,7 +23,8 @@
                 伝統工芸品の判定・データ収集サイト
             </h1>
             <div>それぞれの器に評価をつけてください</div>
-            <div>ドラッグして360度回転させて、評価を行ってください。</div>
+            
+            <div>Aが最も良い評価、Cが最も悪い評価です。</div>
         </div>
     </div>  
 </header>
@@ -35,6 +36,9 @@
             <div class="card mt-4">
                 <div class="card-body">
                     <h5 class="card-title"></h5>
+<<<<<<< HEAD
+                    
+=======
                     <!-- ABC評価の選択 -->
                     <div class="mb-3">
                         <label class="form-label">評価:</label>
@@ -57,6 +61,7 @@
                             </label>
                         </div>
                     </div>
+>>>>>>> dev
                     
                     <div class="container">
                         <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
@@ -88,6 +93,28 @@
                                 "24.png"
                              ]'
                              data-amount-x="24">
+                        </div>
+                    </div>
+                    <!-- ABC評価の選択 -->
+                    <div class="mt-3">
+                        <label class="form-label">評価:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-A-{{ forloop.counter }}" value="A">
+                            <label class="form-check-label" for="evaluation-A-{{ forloop.counter }}">
+                                A
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-B-{{ forloop.counter }}" value="B">
+                            <label class="form-check-label" for="evaluation-B-{{ forloop.counter }}">
+                                B
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-C-{{ forloop.counter }}" value="C">
+                            <label class="form-check-label" for="evaluation-C-{{ forloop.counter }}">
+                                C
+                            </label>
                         </div>
                     </div>
                     
