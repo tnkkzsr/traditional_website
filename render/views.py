@@ -46,7 +46,7 @@ def asahiyaki(request):
     
         
     # asahiyakis = Asahiyaki.objects.filter(is_example=False)[:12]
-    asahiyakis = Asahiyaki.objects.filter(is_example=False).order_by('?')[:12]
+    asahiyakis = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3]
     
     if request.method == 'POST':
         try:
@@ -82,7 +82,7 @@ def asahiyaki_learn(request):
     asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
     asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
     
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:12] 
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] 
     
     
     if request.method == 'POST':
@@ -148,8 +148,12 @@ def save_confusion_matrix_image(cm, labels, title, filename):
     
     return os.path.join(settings.MEDIA_URL, filename)
 
-def evaluation_results(request, user_uuid):
-    user = get_object_or_404(User, uuid=user_uuid)
+def evaluation_results(request):
+    uuid = request.GET.get("uuid")
+    if not uuid:
+        return redirect("/")
+    
+    user = get_object_or_404(User, uuid=uuid)
     
     evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False).order_by('asahiyaki__id')
     evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True).order_by('asahiyaki__id')
