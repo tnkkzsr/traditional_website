@@ -36,8 +36,6 @@ def login(request):
 def asahiyaki(request):
     uuid = request.GET.get("uuid")
     
-    
-    
     user = User.objects.filter(uuid=uuid)
     if not user.exists():
         user = User.objects.create(uuid=uuid)
@@ -78,9 +76,8 @@ def asahiyaki_learn(request):
         return redirect("/")
     
     user = get_object_or_404(User, uuid=uuid)
-    asahiyaki_samples_a = Asahiyaki.objects.filter(is_example=True, correct_evaluation='A')
-    asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
-    asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
+    
+    asahiyaki_examples = Asahiyaki.objects.filter(is_example=True)
     
     asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] 
     
@@ -102,9 +99,7 @@ def asahiyaki_learn(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
     context = {
-        "asahiyaki_samples_a": asahiyaki_samples_a,
-        "asahiyaki_samples_b": asahiyaki_samples_b,
-        "asahiyaki_samples_c": asahiyaki_samples_c,
+        "asahiyaki_examples": asahiyaki_examples,
         "asahiyakis_not_example": asahiyakis_not_example,
         "user": user,
     }
@@ -288,9 +283,7 @@ def asahiyaki_front_select_learn(request):
         return redirect("/")
     
     user = get_object_or_404(User, uuid=uuid)
-    asahiyaki_samples_a = Asahiyaki.objects.filter(is_example=True, correct_evaluation='A')
-    asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
-    asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
+    asahiyaki_examples_a = Asahiyaki.objects.filter(is_example=True,correct_evaluation='A')
     
     asahiyakis_a = Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)
     
@@ -310,9 +303,7 @@ def asahiyaki_front_select_learn(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
     context = {
-        "asahiyaki_samples_a": asahiyaki_samples_a,
-        "asahiyaki_samples_b": asahiyaki_samples_b,
-        "asahiyaki_samples_c": asahiyaki_samples_c,
+        "asahiyaki_examples_a": asahiyaki_examples_a,
         "asahiyakis_not_example": asahiyakis_a,
         "user": user,
         "user_uuid": user.uuid,
@@ -361,9 +352,7 @@ def mokkogei_learn(request):
         return redirect("/")
     
     user = get_object_or_404(User, uuid=uuid)
-    asahiyaki_samples_a = Asahiyaki.objects.filter(is_example=True, correct_evaluation='A')
-    asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
-    asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
+    asahiyakis_examples = Asahiyaki.objects.filter(is_example=True)
     
     asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:3] 
     
@@ -384,9 +373,7 @@ def mokkogei_learn(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
     context = {
-        "asahiyaki_samples_a": asahiyaki_samples_a,
-        "asahiyaki_samples_b": asahiyaki_samples_b,
-        "asahiyaki_samples_c": asahiyaki_samples_c,
+        "asahiyaki_examples": asahiyakis_examples,
         "asahiyakis_not_example": asahiyakis_not_example,
         "user": user,
     }

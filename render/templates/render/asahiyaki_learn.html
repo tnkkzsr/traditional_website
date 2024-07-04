@@ -23,128 +23,139 @@
 </header>
 
 <!-- お手本画像セクション -->
-<div class="row my-4">
-    <h2 class="col-12 text-center">職人松林さんの評価例</h2>
-    <div class="col-md-4 text-center px-1"> <!-- パディングを減らす -->
-        <h3>A評価</h3>
-        {% for asahiyaki in asahiyaki_samples_a %}
-            <div class="card mt-4 example-image-container">
-                <div class="card-body">
-                    <div class="cloudimage-360" id="sample-a-{{ forloop.counter }}"
-                         data-folder="{% static asahiyaki.image_path %}"
-                         data-image-list-x='[
-                            "01.png",
-                            "02.png",
-                            "03.png",
-                            "04.png",
-                            "05.png",
-                            "06.png",
-                            "07.png",
-                            "08.png",
-                            "09.png",
-                            "10.png",
-                            "11.png",
-                            "12.png",
-                            "13.png",
-                            "14.png",
-                            "15.png",
-                            "16.png",
-                            "17.png",
-                            "18.png",
-                            "19.png",
-                            "20.png",
-                            "21.png",
-                            "22.png",
-                            "23.png",
-                            "24.png"
-                         ]'
-                         data-amount-x="24">
+<div class="container">
+    <!-- A評価 -->
+    <div class="row mb-4 text-center">
+        <div class="col-md-4">
+            <h3>A評価</h3>
+            {% for asahiyaki in asahiyaki_examples %}
+                {% if asahiyaki.correct_evaluation == 'A' %}
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <div class="cloudimage-360" id="rating-a-{{ forloop.counter }}"
+                                 data-folder="{% static asahiyaki.image_path %}"
+                                 data-image-list-x='[
+                                    "01.png",
+                                    "02.png",
+                                    "03.png",
+                                    "04.png",
+                                    "05.png",
+                                    "06.png",
+                                    "07.png",
+                                    "08.png",
+                                    "09.png",
+                                    "10.png",
+                                    "11.png",
+                                    "12.png",
+                                    "13.png",
+                                    "14.png",
+                                    "15.png",
+                                    "16.png",
+                                    "17.png",
+                                    "18.png",
+                                    "19.png",
+                                    "20.png",
+                                    "21.png",
+                                    "22.png",
+                                    "23.png",
+                                    "24.png"
+                                ]'
+                                 data-amount-x="24">
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-    
-    <div class="col-md-4 text-center px-1"> <!-- パディングを減らす -->
-        <h3>B評価</h3>
-        {% for asahiyaki in asahiyaki_samples_b %}
-            <div class="card mt-4 example-image-container">
-                <div class="card-body">
-                    <div class="cloudimage-360" id="sample-b-{{ forloop.counter }}"
-                         data-folder="{% static asahiyaki.image_path %}"
-                         data-image-list-x='[
-                            "01.png",
-                            "02.png",
-                            "03.png",
-                            "04.png",
-                            "05.png",
-                            "06.png",
-                            "07.png",
-                            "08.png",
-                            "09.png",
-                            "10.png",
-                            "11.png",
-                            "12.png",
-                            "13.png",
-                            "14.png",
-                            "15.png",
-                            "16.png",
-                            "17.png",
-                            "18.png",
-                            "19.png",
-                            "20.png",
-                            "21.png",
-                            "22.png",
-                            "23.png",
-                            "24.png"
-                         ]'
-                         data-amount-x="24">
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- B評価 -->
+        <div class="col-md-4">
+            <h3>B評価</h3>
+            {% for asahiyaki in asahiyaki_examples %}
+                {% if asahiyaki.correct_evaluation == 'B' %}
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <div class="cloudimage-360" id="rating-b-{{ forloop.counter }}"
+                                 data-folder="{% static asahiyaki.image_path %}"
+                                 data-image-list-x='[
+                                    "01.png",
+                                    "02.png",
+                                    "03.png",
+                                    "04.png",
+                                    "05.png",
+                                    "06.png",
+                                    "07.png",
+                                    "08.png",
+                                    "09.png",
+                                    "10.png",
+                                    "11.png",
+                                    "12.png",
+                                    "13.png",
+                                    "14.png",
+                                    "15.png",
+                                    "16.png",
+                                    "17.png",
+                                    "18.png",
+                                    "19.png",
+                                    "20.png",
+                                    "21.png",
+                                    "22.png",
+                                    "23.png",
+                                    "24.png"
+                                ]'
+                                 data-amount-x="24">
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}
-    </div>
-    
-    <div class="col-md-4 text-center px-1"> <!-- パディングを減らす -->
-        <h3>C評価</h3>
-        {% for asahiyaki in asahiyaki_samples_c %}
-            <div class="card mt-4 example-image-container">
-                <div class="card-body">
-                    <div class="cloudimage-360" id="sample-c-{{ forloop.counter }}"
-                         data-folder="{% static asahiyaki.image_path %}"
-                         data-image-list-x='[
-                            "01.png",
-                            "02.png",
-                            "03.png",
-                            "04.png",
-                            "05.png",
-                            "06.png",
-                            "07.png",
-                            "08.png",
-                            "09.png",
-                            "10.png",
-                            "11.png",
-                            "12.png",
-                            "13.png",
-                            "14.png",
-                            "15.png",
-                            "16.png",
-                            "17.png",
-                            "18.png",
-                            "19.png",
-                            "20.png",
-                            "21.png",
-                            "22.png",
-                            "23.png",
-                            "24.png"
-                         ]'
-                         data-amount-x="24">
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- C評価 -->
+        <div class="col-md-4">
+            <h3>C評価</h3>
+            {% for asahiyaki in asahiyaki_examples %}
+                {% if asahiyaki.correct_evaluation == 'C' %}
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <div class="cloudimage-360" id="rating-c-{{ forloop.counter }}"
+                                 data-folder="{% static asahiyaki.image_path %}"
+                                 data-image-list-x='[
+                                    "01.png",
+                                    "02.png",
+                                    "03.png",
+                                    "04.png",
+                                    "05.png",
+                                    "06.png",
+                                    "07.png",
+                                    "08.png",
+                                    "09.png",
+                                    "10.png",
+                                    "11.png",
+                                    "12.png",
+                                    "13.png",
+                                    "14.png",
+                                    "15.png",
+                                    "16.png",
+                                    "17.png",
+                                    "18.png",
+                                    "19.png",
+                                    "20.png",
+                                    "21.png",
+                                    "22.png",
+                                    "23.png",
+                                    "24.png"
+                                ]'
+                                 data-amount-x="24">
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
     </div>
 </div>
+
 
 
 <main class="container">
