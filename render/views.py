@@ -45,7 +45,7 @@ def asahiyaki(request):
         user = user.first()
     
         
-    asahiyakis = Asahiyaki.objects.filter(is_example=False)[:3]
+    asahiyakis = Asahiyaki.objects.filter(is_example=False)[:12]
     
     if request.method == 'POST':
         try:
@@ -81,7 +81,7 @@ def asahiyaki_learn(request):
     asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
     asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
     
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:3] 
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:12] 
     
     if request.method == 'POST':
         try:
@@ -110,12 +110,7 @@ def asahiyaki_learn(request):
 
 
 
-def mokkogei(request):
-    numbers = list(range(1,25))
-    context = {
-        "numbers": numbers,
-    }
-    return render(request, "render/mokkogei.html", context)
+
 
 
 from django.shortcuts import render, redirect
@@ -188,7 +183,8 @@ def asahiyaki_result(request):
             'correct_evaluation': asahiyaki.correct_evaluation,
             'is_correct': is_correct,
             'front_image_name': evaluation.front_image_name,
-            'image_difference': image_difference
+            'image_difference': image_difference,
+            "image_path": asahiyaki.image_path
         }
         results_before_learning.append(result)
 
@@ -205,7 +201,8 @@ def asahiyaki_result(request):
             'correct_evaluation': asahiyaki.correct_evaluation,
             'is_correct': is_correct,
             'front_image_name': evaluation.front_image_name,
-            'image_difference': image_difference
+            'image_difference': image_difference,
+            "image_path": asahiyaki.image_path
         }
         results_after_learning.append(result)
     
@@ -292,7 +289,7 @@ def asahiyaki_front_select_learn(request):
     asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
     asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
     
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:3] 
+    asahiyakis_a = Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)
     
     if request.method == 'POST':
         try:
@@ -313,7 +310,7 @@ def asahiyaki_front_select_learn(request):
         "asahiyaki_samples_a": asahiyaki_samples_a,
         "asahiyaki_samples_b": asahiyaki_samples_b,
         "asahiyaki_samples_c": asahiyaki_samples_c,
-        "asahiyakis_not_example": asahiyakis_not_example,
+        "asahiyakis_not_example": asahiyakis_a,
         "user": user,
         "user_uuid": user.uuid,
     }

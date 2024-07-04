@@ -25,7 +25,7 @@
 <!-- お手本画像セクション -->
 <div class="row my-4">
     <h2 class="col-12 text-center">職人松林さんの評価例</h2>
-    <div class="col-md-4 text-center">
+    <div class="col-md-4 text-center px-1"> <!-- パディングを減らす -->
         <h3>A評価</h3>
         {% for asahiyaki in asahiyaki_samples_a %}
             <div class="card mt-4 example-image-container">
@@ -65,7 +65,7 @@
         {% endfor %}
     </div>
     
-    <div class="col-md-4 text-center">
+    <div class="col-md-4 text-center px-1"> <!-- パディングを減らす -->
         <h3>B評価</h3>
         {% for asahiyaki in asahiyaki_samples_b %}
             <div class="card mt-4 example-image-container">
@@ -105,7 +105,7 @@
         {% endfor %}
     </div>
     
-    <div class="col-md-4 text-center">
+    <div class="col-md-4 text-center px-1"> <!-- パディングを減らす -->
         <h3>C評価</h3>
         {% for asahiyaki in asahiyaki_samples_c %}
             <div class="card mt-4 example-image-container">
@@ -146,6 +146,7 @@
     </div>
 </div>
 
+
 <main class="container">
     <h2 class="col-12 text-center">上記の評価例を踏まえて、再評価してください</h2>
     <div class="row mb-4">  <!-- 行を追加 -->
@@ -153,7 +154,7 @@
         <div class="col-md-4">  <!-- 3列配置のためのカラム -->
             <div class="card mt-4">
                 <div class="card-body">
-                    <h5 class="card-title">{{ asahiyaki.name }}</h5>
+                    <h5 class="card-title"></h5>
                     <!-- ABC評価の選択 -->
                     <div class="mb-3">
                         <label class="form-label">評価:</label>
