@@ -45,8 +45,12 @@ def asahiyaki(request):
         user = user.first()
     
         
+<<<<<<< HEAD
     # asahiyakis = Asahiyaki.objects.filter(is_example=False)[:12]
     asahiyakis = Asahiyaki.objects.filter(is_example=False).order_by('?')[:12]
+=======
+    asahiyakis = Asahiyaki.objects.filter(is_example=False)[:12]
+>>>>>>> dev
     
     if request.method == 'POST':
         try:
@@ -82,8 +86,12 @@ def asahiyaki_learn(request):
     asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
     asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
     
+<<<<<<< HEAD
     asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:12] 
     
+=======
+    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:12] 
+>>>>>>> dev
     
     if request.method == 'POST':
         try:
@@ -112,8 +120,11 @@ def asahiyaki_learn(request):
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> dev
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
@@ -148,11 +159,8 @@ def save_confusion_matrix_image(cm, labels, title, filename):
     
     return os.path.join(settings.MEDIA_URL, filename)
 
-def asahiyaki_result(request):
-    uuid = request.GET.get("uuid")
-    if not uuid:
-        return redirect("/")
-    user = get_object_or_404(User, uuid=uuid)
+def evaluation_results(request, user_uuid):
+    user = get_object_or_404(User, uuid=user_uuid)
     
     evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False).order_by('asahiyaki__id')
     evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True).order_by('asahiyaki__id')
