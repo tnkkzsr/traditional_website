@@ -45,12 +45,8 @@ def asahiyaki(request):
         user = user.first()
     
         
-<<<<<<< HEAD
     # asahiyakis = Asahiyaki.objects.filter(is_example=False)[:12]
     asahiyakis = Asahiyaki.objects.filter(is_example=False).order_by('?')[:12]
-=======
-    asahiyakis = Asahiyaki.objects.filter(is_example=False)[:12]
->>>>>>> dev
     
     if request.method == 'POST':
         try:
@@ -86,12 +82,8 @@ def asahiyaki_learn(request):
     asahiyaki_samples_b = Asahiyaki.objects.filter(is_example=True, correct_evaluation='B')
     asahiyaki_samples_c = Asahiyaki.objects.filter(is_example=True, correct_evaluation='C')
     
-<<<<<<< HEAD
     asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:12] 
     
-=======
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:12] 
->>>>>>> dev
     
     if request.method == 'POST':
         try:
@@ -120,11 +112,8 @@ def asahiyaki_learn(request):
 
 
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> dev
 
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
