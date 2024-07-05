@@ -6,6 +6,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
 from render.models import Asahiyaki
+Asahiyaki.objects.all().delete()
 
 # データのリスト
 data = [
@@ -27,6 +28,8 @@ data = [
     {'ID': 18, 'Name': 'C', 'Image Path': 'asahiyaki/export_20220914135509/', 'Correct Evaluation': 'C'},
     {'ID': 17, 'Name': 'C', 'Image Path': 'asahiyaki/export_20220914134013/', 'Correct Evaluation': 'C'},
     {'ID': 16, 'Name': 'C', 'Image Path': 'asahiyaki/export_20220914101558/', 'Correct Evaluation': 'C'},
+    {'ID': 19, 'Name': 'A見本3', 'Image Path': 'asahiyaki/export_20220507161704/', 'Correct Evaluation': 'A'},
+    {'ID': 20, 'Name': 'A見本4', 'Image Path': 'asahiyaki/export_20220507170746/', 'Correct Evaluation': 'A'},
 ]
 
 # データを一括で挿入

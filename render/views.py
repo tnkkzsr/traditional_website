@@ -77,7 +77,10 @@ def asahiyaki_learn(request):
     
     user = get_object_or_404(User, uuid=uuid)
     
-    asahiyaki_examples = Asahiyaki.objects.filter(is_example=True)
+    # asahiyaki_examples = Asahiyaki.objects.filter(is_example=True)
+    asahiyaki_examples_a = Asahiyaki.objects.filter(correct_evaluation='A',is_example=True).order_by('id')[:2]
+    asahiyaki_examples_b = Asahiyaki.objects.filter(correct_evaluation='B',is_example=True).order_by('id')[:2]
+    asahiyaki_examples_c = Asahiyaki.objects.filter(correct_evaluation='C',is_example=True).order_by('id')[:2]
     
     asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] 
     
@@ -99,9 +102,12 @@ def asahiyaki_learn(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
     context = {
-        "asahiyaki_examples": asahiyaki_examples,
+        # "asahiyaki_examples": asahiyaki_examples,
         "asahiyakis_not_example": asahiyakis_not_example,
         "user": user,
+        "asahiyaki_examples_a": asahiyaki_examples_a,
+        "asahiyaki_examples_b": asahiyaki_examples_b,
+        "asahiyaki_examples_c": asahiyaki_examples_c,
     }
     return render(request, "render/asahiyaki_learn.html", context)
 
