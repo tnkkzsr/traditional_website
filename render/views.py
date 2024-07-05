@@ -110,6 +110,8 @@ def asahiyaki_learn(request):
 
 
 
+
+
 from django.shortcuts import render, redirect
 from django.http import JsonResponse
 from .models import User, Asahiyaki, AsahiyakiEvaluation
