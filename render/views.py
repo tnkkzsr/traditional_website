@@ -35,6 +35,8 @@ def login(request):
 
 def asahiyaki(request):
     uuid = request.GET.get("uuid")
+    if not uuid:
+        return redirect("/")
     
     user = User.objects.filter(uuid=uuid)
     if not user.exists():
@@ -44,7 +46,9 @@ def asahiyaki(request):
     
         
     # asahiyakis = Asahiyaki.objects.filter(is_example=False)[:12]
-    asahiyakis = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3]
+    asahiyakis = list(Asahiyaki.objects.filter(is_example=False).order_by('id')[:12])
+    random.shuffle(asahiyakis)
+    
     
     if request.method == 'POST':
         try:
@@ -82,8 +86,8 @@ def asahiyaki_learn(request):
     asahiyaki_examples_b = Asahiyaki.objects.filter(correct_evaluation='B',is_example=True).order_by('id')[:2]
     asahiyaki_examples_c = Asahiyaki.objects.filter(correct_evaluation='C',is_example=True).order_by('id')[:2]
     
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] 
-    
+    asahiyakis_not_example = list(Asahiyaki.objects.filter(is_example=False).order_by('id')[:12])
+    random.shuffle(asahiyakis_not_example)
     
     if request.method == 'POST':
         try:
@@ -263,7 +267,8 @@ def asahiyaki_select_front(request):
     user = get_object_or_404(User, uuid=uuid)
     
     
-    asahiyakis_a = Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)
+    asahiyakis_a = list(Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)[:12])
+    random.shuffle(asahiyakis_a)
     
     if request.method == 'POST':
         try:
@@ -297,7 +302,9 @@ def asahiyaki_front_select_learn(request):
     user = get_object_or_404(User, uuid=uuid)
     asahiyaki_examples_a = Asahiyaki.objects.filter(is_example=True,correct_evaluation='A')
     
-    asahiyakis_a = Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)
+    asahiyakis_a = list(Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)[:12])
+    random.shuffle(asahiyakis_a)
+
     
     if request.method == 'POST':
         try:

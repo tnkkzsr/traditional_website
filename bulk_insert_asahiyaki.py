@@ -6,6 +6,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
 from render.models import Asahiyaki
+
+# 既存のデータを削除
 Asahiyaki.objects.all().delete()
 
 # データのリスト
@@ -32,9 +34,41 @@ data = [
     {'ID': 20, 'Name': 'A見本4', 'Image Path': 'asahiyaki/export_20220507170746/', 'Correct Evaluation': 'A'},
 ]
 
+# 名前に「見本」と入っているデータのis_exampleをTrueに設定
+for item in data:
+    if '見本' in item['Name']:
+        item['Is Example'] = True
+    else:
+        item['Is Example'] = False
+
+# 特定の画像パスを持つデータのcorrect_evaluationを'A'に設定
+specific_image_paths = [
+    'asahiyaki/export_20230922144953',
+    'asahiyaki/export_20230922105000',
+    'asahiyaki/export_20230922104715',
+    'asahiyaki/export_20230922100259',
+    'asahiyaki/export_20230517103830',
+    'asahiyaki/export_20230922105241',
+    'asahiyaki/export_20220915114205',
+    'asahiyaki/export_20220915112144',
+    'asahiyaki/export_20230517101007',
+]
+
+# 新しいデータをリストに追加
+next_id = max(item['ID'] for item in data) + 1
+for path in specific_image_paths:
+    data.append({'ID': next_id, 'Name': 'A', 'Image Path': path, 'Correct Evaluation': 'A', 'Is Example': False})
+    next_id += 1
+
 # データを一括で挿入
 asahiyaki_objects = [
-    Asahiyaki(id=item['ID'], name=item['Name'], image_path=item['Image Path'], correct_evaluation=item['Correct Evaluation'])
+    Asahiyaki(
+        id=item['ID'],
+        name=item['Name'],
+        image_path=item['Image Path'],
+        correct_evaluation=item['Correct Evaluation'],
+        is_example=item['Is Example']
+    )
     for item in data
 ]
 

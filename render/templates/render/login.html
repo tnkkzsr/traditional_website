@@ -22,12 +22,14 @@
         </div>
     </div>  
 </header>
-<h1>Enter your UUID</h1>
+
+<div class="container">
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Submit</button>
     </form>
+</div>
 <div>
     {% comment %} <a href="{% url "asahiyaki" uuid %}">朝日焼き</a> {% endcomment %}
 </div>
