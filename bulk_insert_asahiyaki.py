@@ -32,6 +32,15 @@ data = [
     {'ID': 16, 'Name': 'C', 'Image Path': 'asahiyaki/export_20220914101558/', 'Correct Evaluation': 'C'},
     {'ID': 19, 'Name': 'A見本3', 'Image Path': 'asahiyaki/export_20220507161704/', 'Correct Evaluation': 'A'},
     {'ID': 20, 'Name': 'A見本4', 'Image Path': 'asahiyaki/export_20220507170746/', 'Correct Evaluation': 'A'},
+    {'ID': 21, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922144953/', 'Correct Evaluation': 'A'},
+    {'ID': 22, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922105000/', 'Correct Evaluation': 'A'},
+    {'ID': 23, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922104715/', 'Correct Evaluation': 'A'},
+    {'ID': 24, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922100259/', 'Correct Evaluation': 'A'},
+    {'ID': 25, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230517103830/', 'Correct Evaluation': 'A'},
+    {'ID': 26, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922105241/', 'Correct Evaluation': 'A'},
+    {'ID': 27, 'Name': 'A', 'Image Path': 'asahiyaki/export_20220915114205/', 'Correct Evaluation': 'A'},
+    {'ID': 28, 'Name': 'A', 'Image Path': 'asahiyaki/export_20220915112144/', 'Correct Evaluation': 'A'},
+    {'ID': 29, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230517101007/', 'Correct Evaluation': 'A'},
 ]
 
 # 名前に「見本」と入っているデータのis_exampleをTrueに設定
@@ -41,24 +50,7 @@ for item in data:
     else:
         item['Is Example'] = False
 
-# 特定の画像パスを持つデータのcorrect_evaluationを'A'に設定
-specific_image_paths = [
-    'asahiyaki/export_20230922144953',
-    'asahiyaki/export_20230922105000',
-    'asahiyaki/export_20230922104715',
-    'asahiyaki/export_20230922100259',
-    'asahiyaki/export_20230517103830',
-    'asahiyaki/export_20230922105241',
-    'asahiyaki/export_20220915114205',
-    'asahiyaki/export_20220915112144',
-    'asahiyaki/export_20230517101007',
-]
 
-# 新しいデータをリストに追加
-next_id = max(item['ID'] for item in data) + 1
-for path in specific_image_paths:
-    data.append({'ID': next_id, 'Name': 'A', 'Image Path': path, 'Correct Evaluation': 'A', 'Is Example': False})
-    next_id += 1
 
 # データを一括で挿入
 asahiyaki_objects = [
