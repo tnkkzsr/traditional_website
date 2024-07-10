@@ -162,8 +162,16 @@ def evaluation_results(request):
     
     user = get_object_or_404(User, uuid=uuid)
     
-    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False).order_by('asahiyaki__id')
-    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True).order_by('asahiyaki__id')
+    # 学習前の評価をフィルタリング
+    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(
+        user=user, is_learned=False
+    ).exclude(evaluation="").order_by('asahiyaki__id')
+
+    # 学習後の評価をフィルタリング
+    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(
+        user=user, is_learned=True
+    ).exclude(evaluation="").order_by('asahiyaki__id')
+
     
     results_before_learning = []
     results_after_learning = []
@@ -281,7 +289,7 @@ def asahiyaki_select_front(request):
             if asahiyaki_evaluation.exists():
                 asahiyaki_evaluation.update(front_image_name=selected_image,)
             else:
-                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, evaluation=evaluation, is_learned=True)
+                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, is_learned=False)
             return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
