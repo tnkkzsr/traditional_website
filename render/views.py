@@ -51,19 +51,21 @@ def asahiyaki(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
+            print(data)  # デバッグ出力
+            nakagawa = Nakagawa.objects.get(id=data['nakagawa'])
             evaluation = data['evaluation']
-            asahiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki, is_learned=False)
+            nakagawa_evaluation = NakagawaEvaluation.objects.filter(user=user, nakagawa=nakagawa, is_learned=False)
             
-            if asahiyaki_evaluation.exists():
-                asahiyaki_evaluation.update(evaluation=evaluation)
+            if nakagawa_evaluation.exists():
+                nakagawa_evaluation.update(evaluation=evaluation)
             else:
-                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, evaluation=evaluation, is_learned=False)
+                NakagawaEvaluation.objects.create(user=user, nakagawa=nakagawa, evaluation=evaluation, is_learned=False)
             
             return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
         except Exception as e:
+            print(e)  # エラーをコンソールに出力
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-    
+        
     context = {
         "asahiyakis": asahiyakis,
         "user": user,
@@ -112,12 +114,6 @@ def asahiyaki_learn(request):
         "asahiyaki_examples_c": asahiyaki_examples_c,
     }
     return render(request, "render/asahiyaki_learn.html", context)
-
-
-
-
-
-
 
 
 from django.shortcuts import render, redirect
@@ -339,33 +335,36 @@ def mokkogei(request):
     uuid = request.GET.get("uuid")
     if not uuid:
         return redirect("/")
-    
+
     user = User.objects.filter(uuid=uuid)
     if not user.exists():
         user = User.objects.create(uuid=uuid)
     else:
         user = user.first()
-        
+
     mokkogeis = list(Nakagawa.objects.filter(is_example=False).order_by('id')[:12])
     random.shuffle(mokkogeis)
-    
+
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
             print(data)
-            nakagawa = Nakagawa.objects.get(id=data['nakagawa'])
+            nakagawa = Nakagawa.objects.get(id=data['mokkogei'])
             evaluation = data['evaluation']
-            nakagawa_evaluation = AsahiyakiEvaluation.objects.filter(user=user, nakagawa=nakagawa, is_learned=False)
-            
+            nakagawa_evaluation = NakagawaEvaluation.objects.filter(user=user, nakagawa=nakagawa, is_learned=False)
+
             if nakagawa_evaluation.exists():
                 nakagawa_evaluation.update(evaluation=evaluation)
             else:
-                NakagawaEvaluation.objects.create(user=user,nakagawa=nakagawa, evaluation=evaluation, is_learned=False)
-            
+                NakagawaEvaluation.objects.create(user=user, nakagawa=nakagawa, evaluation=evaluation, is_learned=False)
+
             return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
         except Exception as e:
+            print(f"Exception: {e}")  # 例外の詳細を出力
+            import traceback
+            traceback.print_exc()  # スタックトレースを出力
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-    
+
     context = {
         "mokkogeis": mokkogeis,
         "user": user,
@@ -380,8 +379,10 @@ def mokkogei_learn(request):
     
     user = get_object_or_404(User, uuid=uuid)
     
+    mokkogei_examples = Nakagawa.objects.filter(is_example=True)
     
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:3] 
+    mokkogei_not_example = list(Nakagawa.objects.filter(is_example=False).order_by('id')[:12] )
+    random.shuffle(mokkogei_not_example)
     
     if request.method == 'POST':
         try:
@@ -400,8 +401,8 @@ def mokkogei_learn(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
     context = {
-        "asahiyaki_examples": asahiyakis_examples,
-        "asahiyakis_not_example": asahiyakis_not_example,
+        "mokkogei_examples": mokkogei_examples,
+        "mokkogei_not_example": mokkogei_not_example,
         "user": user,
     }
     return render(request, "render/mokkogei_learn.html", context)

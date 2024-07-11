@@ -28,7 +28,7 @@
     <div class="row mb-4 text-center">
         <div class="col-md-4">
             <h3>A評価</h3>
-            {% for asahiyaki in asahiyaki_examples %}
+            {% for asahiyaki in mokkogei_examples %}
                 {% if asahiyaki.correct_evaluation == 'A' %}
                     <div class="card mt-4">
                         <div class="card-body">
@@ -71,7 +71,7 @@
         <!-- B評価 -->
         <div class="col-md-4">
             <h3>B評価</h3>
-            {% for asahiyaki in asahiyaki_examples %}
+            {% for asahiyaki in mokkogei_examples %}
                 {% if asahiyaki.correct_evaluation == 'B' %}
                     <div class="card mt-4">
                         <div class="card-body">
@@ -114,7 +114,7 @@
         <!-- C評価 -->
         <div class="col-md-4">
             <h3>C評価</h3>
-            {% for asahiyaki in asahiyaki_examples %}
+            {% for asahiyaki in mokkogei_examples %}
                 {% if asahiyaki.correct_evaluation == 'C' %}
                     <div class="card mt-4">
                         <div class="card-body">

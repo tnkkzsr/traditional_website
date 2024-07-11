@@ -159,9 +159,9 @@
     
                 // データの準備
                 const postData = {
-                 mokkogei: form.elements[ mokkogei'].value, // mokkogei IDを適切に取得
+                 mokkogei: form.elements['mokkogei'].value,
                     evaluation: selectedEvaluation,
-                    selected_image: selectedImage // 画像情報を含める
+                    
                 };
 
                 fetch(form.action, {
