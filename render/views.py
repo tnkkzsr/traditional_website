@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect ,get_object_or_404
 from django.contrib.auth import get_user_model
 from .forms import UUIDForm
-from .models import User,Asahiyaki,AsahiyakiEvaluation
+from .models import User,Asahiyaki,AsahiyakiEvaluation,Nakagawa,NakagawaEvaluation
 import json
 from django.http import JsonResponse
 import random
@@ -28,8 +28,6 @@ def login(request):
             return redirect(f"{reverse('index')}?uuid={uuid}")
     else:
         form = UUIDForm()
-        
-    
         
     return render(request, "render/login.html", {"form": form})
 
@@ -348,26 +346,28 @@ def mokkogei(request):
     else:
         user = user.first()
         
-    asahiyakis = Asahiyaki.objects.filter(is_example=False)[:3]
+    mokkogeis = list(Nakagawa.objects.filter(is_example=False).order_by('id')[:12])
+    random.shuffle(mokkogeis)
     
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
+            print(data)
+            nakagawa = Nakagawa.objects.get(id=data['nakagawa'])
             evaluation = data['evaluation']
-            asahiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki, is_learned=False)
+            nakagawa_evaluation = AsahiyakiEvaluation.objects.filter(user=user, nakagawa=nakagawa, is_learned=False)
             
-            if asahiyaki_evaluation.exists():
-                asahiyaki_evaluation.update(evaluation=evaluation)
+            if nakagawa_evaluation.exists():
+                nakagawa_evaluation.update(evaluation=evaluation)
             else:
-                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, evaluation=evaluation, is_learned=False)
+                NakagawaEvaluation.objects.create(user=user,nakagawa=nakagawa, evaluation=evaluation, is_learned=False)
             
             return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
     context = {
-        "asahiyakis": asahiyakis,
+        "mokkogeis": mokkogeis,
         "user": user,
     }
     return render(request, "render/mokkogei.html", context)

@@ -82,8 +82,12 @@ class Nakagawa(models.Model):
     # 画像フォルダのパス
     image_path = models.CharField(max_length=255)
     
+    # 正解のABC評価
+    correct_evaluation = models.CharField(max_length=1, choices=BaseEvaluation.EVALUATION_CHOICES,null=True, blank=True)
+    
+    is_example = models.BooleanField(default=False)
     def __str__(self):
-        return self.name
+        return self.correct_evaluation + "_" + str(self.is_example) + "_" + self.image_path
 
 
 class NakagawaEvaluation(BaseEvaluation):
@@ -93,6 +97,8 @@ class NakagawaEvaluation(BaseEvaluation):
     """
     # Nakagawaモデルへの外部キー
     nakagawa = models.ForeignKey('Nakagawa', on_delete=models.CASCADE)
+    
+    
     
     def __str__(self):
         return f"{super().__str__()} - {self.nakagawa.name} - {self.evaluation}"
