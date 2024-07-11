@@ -50,83 +50,75 @@
 <body>
 <div class="container mt-5">
     {% if user.username %}
-    <h1>{{ user.username }}の評価結果</h1>
+    <h1>{{ user.username }}さんの評価結果</h1>
     {% else %}
-    <h1>{{ user.uuid }}の評価結果</h1>
+    <h1>あなたの評価結果</h1>
     {% endif %}
     
 
     <h2>学習前の評価結果</h2>
     <p>正解率: {{ accuracy_before }}%</p>
-    <p>QWK: {{ qwk_before }}</p>
+    <p>QWK: {{ qwk_before }}  (順序を考慮した評価結果で最大値=1, 最小値=0。AをCと間違えたり、CをAと間違えると大きく下がる)</p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
                     <th>朝日焼き</th>
-                    <th>名前</th>
+                    
                     <th>あなたの評価</th>
                     <th>正解の評価</th>
                     <th>正誤</th>
-                    <th>正しい正面からのズレ</th>
+                    
                 </tr>
             </thead>
             <tbody>
                 {% for result in results_before_learning %}
-                    <tr class="{% if result.user_evaluation == 'A' and result.correct_evaluation == 'C' or result.user_evaluation == 'C' and result.correct_evaluation == 'A' %}severe-mistake{% endif %}">
+                    <tr class="{% if not result.is_correct %}severe-mistake{% endif %}">
                         <td>
                             <img src="{% static result.image_path %}01.png" alt="{{ result.asahiyaki.name }}" class="evaluation-img">
                         </td>
-                        <td>{{ result.asahiyaki.name }}</td>
+                        
                         <td>{{ result.user_evaluation }}</td>
                         <td>{{ result.correct_evaluation }}</td>
-                        <td>{{ result.is_correct|yesno:"正解,不正解" }}</td>
-                        <td>{{ result.image_difference }}</td>
+                        <td>{{ result.is_correct|yesno:"⚪︎,×" }}</td>
+                        
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <img src="{{ cm_before_image_url }}" alt="学習前のconfusion_matrix" class="img-fluid">
-
-    <h3>classification_report</h3>
-    <pre>{{ report_before }}</pre>
+    
 
     <h2>学習後の評価結果</h2>
     <p>正解率: {{ accuracy_after }}%</p>
-    <p>QWK: {{ qwk_after }}</p>
+    <p>QWK: {{ qwk_after }} (順序を考慮した評価結果で最大値=1, 最小値=0。AをCと間違えたり、CをAと間違えると大きく下がる)</p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
                     <th>朝日焼き</th>
-                    <th>名前</th>
                     <th>あなたの評価</th>
                     <th>正解の評価</th>
                     <th>正誤</th>
-                    <th>正しい正面からのズレ</th>
                 </tr>
             </thead>
             <tbody>
                 {% for result in results_after_learning %}
-                    <tr class="{% if result.user_evaluation == 'A' and result.correct_evaluation == 'C' or result.user_evaluation == 'C' and result.correct_evaluation == 'A' %}severe-mistake{% endif %}">
+                    <tr class="{% if not result.is_correct %}severe-mistake{% endif %}">
                         <td>
                             <img src="{% static result.image_path %}01.png" alt="{{ result.asahiyaki.name }}" class="evaluation-img">
                         </td>
-                        <td>{{ result.asahiyaki.name }}</td>
+                        
                         <td>{{ result.user_evaluation }}</td>
                         <td>{{ result.correct_evaluation }}</td>
-                        <td>{{ result.is_correct|yesno:"正解,不正解" }}</td>
-                        <td>{{ result.image_difference }}</td>
+                        <td>{{ result.is_correct|yesno:"⚪︎,×" }}</td>
+                        
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    <img src="{{ cm_after_image_url }}" alt="学習後のconfusion_matrix" class="img-fluid">
-
-    <h3>classification_report</h3>
-    <pre>{{ report_after }}</pre>
+    
 
     <a href="{% url 'index' %}?uuid={{ user.uuid }}" class="btn btn-primary">ホームへ</a>
 </div>

@@ -7,6 +7,9 @@ django.setup()
 
 from render.models import Asahiyaki
 
+# 既存のデータを削除
+Asahiyaki.objects.all().delete()
+
 # データのリスト
 data = [
     {'ID': 1, 'Name': 'A', 'Image Path': 'asahiyaki/export_20220223173209/', 'Correct Evaluation': 'A'},
@@ -27,11 +30,37 @@ data = [
     {'ID': 18, 'Name': 'C', 'Image Path': 'asahiyaki/export_20220914135509/', 'Correct Evaluation': 'C'},
     {'ID': 17, 'Name': 'C', 'Image Path': 'asahiyaki/export_20220914134013/', 'Correct Evaluation': 'C'},
     {'ID': 16, 'Name': 'C', 'Image Path': 'asahiyaki/export_20220914101558/', 'Correct Evaluation': 'C'},
+    {'ID': 19, 'Name': 'A見本3', 'Image Path': 'asahiyaki/export_20220507161704/', 'Correct Evaluation': 'A'},
+    {'ID': 20, 'Name': 'A見本4', 'Image Path': 'asahiyaki/export_20220507170746/', 'Correct Evaluation': 'A'},
+    {'ID': 21, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922144953/', 'Correct Evaluation': 'A'},
+    {'ID': 22, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922105000/', 'Correct Evaluation': 'A'},
+    {'ID': 23, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922104715/', 'Correct Evaluation': 'A'},
+    {'ID': 24, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922100259/', 'Correct Evaluation': 'A'},
+    {'ID': 25, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230517103830/', 'Correct Evaluation': 'A'},
+    {'ID': 26, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230922105241/', 'Correct Evaluation': 'A'},
+    {'ID': 27, 'Name': 'A', 'Image Path': 'asahiyaki/export_20220915114205/', 'Correct Evaluation': 'A'},
+    {'ID': 28, 'Name': 'A', 'Image Path': 'asahiyaki/export_20220915112144/', 'Correct Evaluation': 'A'},
+    {'ID': 29, 'Name': 'A', 'Image Path': 'asahiyaki/export_20230517101007/', 'Correct Evaluation': 'A'},
 ]
+
+# 名前に「見本」と入っているデータのis_exampleをTrueに設定
+for item in data:
+    if '見本' in item['Name']:
+        item['Is Example'] = True
+    else:
+        item['Is Example'] = False
+
+
 
 # データを一括で挿入
 asahiyaki_objects = [
-    Asahiyaki(id=item['ID'], name=item['Name'], image_path=item['Image Path'], correct_evaluation=item['Correct Evaluation'])
+    Asahiyaki(
+        id=item['ID'],
+        name=item['Name'],
+        image_path=item['Image Path'],
+        correct_evaluation=item['Correct Evaluation'],
+        is_example=item['Is Example']
+    )
     for item in data
 ]
 
