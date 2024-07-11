@@ -1,2 +1,4 @@
 *.jpg
-__pycache__
+__pycache__.DS_Store
+config/.DS_Store
+render/static/mokkogei/.DS_Store
