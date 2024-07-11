@@ -35,6 +35,8 @@ def login(request):
 
 def asahiyaki(request):
     uuid = request.GET.get("uuid")
+    if not uuid:
+        return redirect("/")
     
     user = User.objects.filter(uuid=uuid)
     if not user.exists():
@@ -44,7 +46,9 @@ def asahiyaki(request):
     
         
     # asahiyakis = Asahiyaki.objects.filter(is_example=False)[:12]
-    asahiyakis = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3]
+    asahiyakis = list(Asahiyaki.objects.filter(is_example=False).order_by('id')[:12])
+    random.shuffle(asahiyakis)
+    
     
     if request.method == 'POST':
         try:
@@ -77,10 +81,13 @@ def asahiyaki_learn(request):
     
     user = get_object_or_404(User, uuid=uuid)
     
-    asahiyaki_examples = Asahiyaki.objects.filter(is_example=True)
+    # asahiyaki_examples = Asahiyaki.objects.filter(is_example=True)
+    asahiyaki_examples_a = Asahiyaki.objects.filter(correct_evaluation='A',is_example=True).order_by('id')[:2]
+    asahiyaki_examples_b = Asahiyaki.objects.filter(correct_evaluation='B',is_example=True).order_by('id')[:2]
+    asahiyaki_examples_c = Asahiyaki.objects.filter(correct_evaluation='C',is_example=True).order_by('id')[:2]
     
-    asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('?')[:3] 
-    
+    asahiyakis_not_example = list(Asahiyaki.objects.filter(is_example=False).order_by('id')[:12])
+    random.shuffle(asahiyakis_not_example)
     
     if request.method == 'POST':
         try:
@@ -99,9 +106,12 @@ def asahiyaki_learn(request):
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
     context = {
-        "asahiyaki_examples": asahiyaki_examples,
+        # "asahiyaki_examples": asahiyaki_examples,
         "asahiyakis_not_example": asahiyakis_not_example,
         "user": user,
+        "asahiyaki_examples_a": asahiyaki_examples_a,
+        "asahiyaki_examples_b": asahiyaki_examples_b,
+        "asahiyaki_examples_c": asahiyaki_examples_c,
     }
     return render(request, "render/asahiyaki_learn.html", context)
 
@@ -152,8 +162,16 @@ def evaluation_results(request):
     
     user = get_object_or_404(User, uuid=uuid)
     
-    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False).order_by('asahiyaki__id')
-    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True).order_by('asahiyaki__id')
+    # 学習前の評価をフィルタリング
+    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(
+        user=user, is_learned=False
+    ).exclude(evaluation="").order_by('asahiyaki__id')
+
+    # 学習後の評価をフィルタリング
+    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(
+        user=user, is_learned=True
+    ).exclude(evaluation="").order_by('asahiyaki__id')
+
     
     results_before_learning = []
     results_after_learning = []
@@ -257,7 +275,8 @@ def asahiyaki_select_front(request):
     user = get_object_or_404(User, uuid=uuid)
     
     
-    asahiyakis_a = Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)
+    asahiyakis_a = list(Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)[:12])
+    random.shuffle(asahiyakis_a)
     
     if request.method == 'POST':
         try:
@@ -270,7 +289,7 @@ def asahiyaki_select_front(request):
             if asahiyaki_evaluation.exists():
                 asahiyaki_evaluation.update(front_image_name=selected_image,)
             else:
-                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, evaluation=evaluation, is_learned=True)
+                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, front_image_name=selected_image, is_learned=False)
             return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
@@ -291,7 +310,9 @@ def asahiyaki_front_select_learn(request):
     user = get_object_or_404(User, uuid=uuid)
     asahiyaki_examples_a = Asahiyaki.objects.filter(is_example=True,correct_evaluation='A')
     
-    asahiyakis_a = Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)
+    asahiyakis_a = list(Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)[:12])
+    random.shuffle(asahiyakis_a)
+
     
     if request.method == 'POST':
         try:
