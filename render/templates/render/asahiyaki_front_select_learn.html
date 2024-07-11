@@ -26,8 +26,8 @@
     <h2 class="col-12 text-center">以下に示すのは、朝日焼十六世松林豊斎さんが正面だと判断した画像です。</h2>
     <div class="row mb-4 text-center">
         {% for asahiyaki in asahiyaki_examples_a %}
-            {% if asahiyaki.correct_evaluation == 'A' %}
-                <div class="col-md-6">
+
+                <div class="col-md-4">
                     <div class="card mt-4">
                         <div class="card-body">
                             <div class="cloudimage-360" id="rating-a-{{ forloop.counter }}"
@@ -65,10 +65,8 @@
                         </div>
                     </div>
                 </div>
-                {% if forloop.counter|divisibleby:2 and not forloop.last %}
-                    </div><div class="row mb-4 text-center">
-                {% endif %}
-            {% endif %}
+                
+            
         {% endfor %}
     </div>
 </div>
