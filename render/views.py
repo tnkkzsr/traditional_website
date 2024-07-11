@@ -379,7 +379,7 @@ def mokkogei_learn(request):
         return redirect("/")
     
     user = get_object_or_404(User, uuid=uuid)
-    asahiyakis_examples = Asahiyaki.objects.filter(is_example=True)
+    
     
     asahiyakis_not_example = Asahiyaki.objects.filter(is_example=False).order_by('id')[:3] 
     
