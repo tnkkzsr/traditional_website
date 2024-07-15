@@ -18,7 +18,15 @@
                 朝日焼きの正面を判定しよう
             </h1>
             <h2>以下の朝日焼きの画像をを360度回転させて、正面だと思う画像を選択してください。<br>
-                職人朝日焼 十六世 松林豊斎さんが正面だと判断するところが正解です。</h2>
+                </h2>
+                <div class="container">
+                    <ul class="custom-list list-unstyled text-center">
+                        <li>次は、どの角度から見るのが一番良いかを判定していただきます。</li>
+                        <li>ドラッグアンドドロップで360度回転できます。</li>
+                        <li>器を回転させて、一番いいと思う角度の画像を選択してください</li>
+                        <li>すべての朝日焼の正面画像を選択してから次のページに進んでください。</li>
+                    </ul>
+                </div>
         </div>
     </div>  
 </header>
@@ -35,31 +43,10 @@
                         <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
                              data-folder="{% static asahiyaki.image_path %}"
                              data-image-list-x='[
-                                "01.png",
-                                "02.png",
-                                "03.png",
-                                "04.png",
-                                "05.png",
-                                "06.png",
-                                "07.png",
-                                "08.png",
-                                "09.png",
-                                "10.png",
-                                "11.png",
-                                "12.png",
-                                "13.png",
-                                "14.png",
-                                "15.png",
-                                "16.png",
-                                "17.png",
-                                "18.png",
-                                "19.png",
-                                "20.png",
-                                "21.png",
-                                "22.png",
-                                "23.png",
-                                "24.png"
-                             ]'
+                             {% for image in reordered_images %}
+                                 "{{ image }}"{% if not forloop.last %},{% endif %}
+                             {% endfor %}
+                            ]'
                              data-amount-x="24">
                         </div>
                     </div>
@@ -115,9 +102,14 @@
                 const formId = form.getAttribute('data-form-id');
                 const checkbox = document.getElementById(`fix-image-${formId}`);
                 const viewer = document.getElementById('gurkha-suv-' + formId);
+               
                 const images = JSON.parse(viewer.getAttribute('data-image-list-x'));
                 const selectedImageIndex = window.CI360.getActiveIndexByID('gurkha-suv-' + formId, 'x');
+                
                 const selectedImage = images[selectedImageIndex];
+                
+
+                console.log('Selected image:', selectedImage);
 
                 // CSRFトークンを取得
                 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -126,7 +118,11 @@
                     alert('正面画像を選択してください。');
                     return;
                 }
-
+                
+                viewer.setAttribute('data-disable-drag', 'true');
+                window.CI360.update(viewer.id, true);
+                window.CI360.update(viewer.id, {imageIndex: selectedImageIndex});
+                
                 // データの準備
                 const postData = {
                     asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
@@ -141,23 +137,22 @@
                         'X-CSRFToken': csrftoken
                     },
                     body: JSON.stringify(postData)
-                }).then(response => response.json())
-                  .then(data => {
-                      console.log('Success:', data);
-                      if (data.redirect_url) {
-                          window.location.href = data.redirect_url; // 結果ページにリダイレクト
-                      } else {
-                          submitButton.textContent = '保存済み'; // ボタンのテキストを更新
-                          submitButton.classList.add('btn-success'); // 成功時のスタイル変更
-                          submitButton.classList.remove('btn-primary'); // 失敗時のスタイル変更
-                          submitButton.disabled = true; // 保存ボタンを無効化
-                          form.setAttribute('data-saved', 'true');  // フォームの保存状態を更新
-                      }
-                  })
-                  .catch((error) => {
-                      console.error('Error:', error);
-                      alert('エラーが発生しました: ' + error.message);
-                  });
+                }).then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                }).then(data => {
+                    console.log('Success:', data);
+                    saveButton.textContent = '保存済み';
+                    saveButton.classList.add('btn-success');
+                    saveButton.classList.remove('btn-primary');
+                    saveButton.disabled = true; // 保存ボタンを無効化
+                    form.setAttribute('data-saved', 'true');  // フォームの保存状態を更新
+                }).catch((error) => {
+                    console.error('Error:', error);
+                    alert('エラーが発生しました: ' + error.message);
+                });
             });
 
             // 編集ボタンのクリックイベントリスナー
@@ -165,13 +160,19 @@
                 const formId = form.getAttribute('data-form-id');
                 const saveButton = form.querySelector('button.save-button');
                 const checkbox = document.getElementById(`fix-image-${formId}`);
+                const viewer = document.getElementById('gurkha-suv-' + formId);
+
+                // チェックボックスのチェックを外す
+                checkbox.checked = false;
                 
-                // 評価とチェックボックスを有効化
+                // チェックボックスを有効化
                 checkbox.disabled = false;
                 saveButton.disabled = false; // 保存ボタンを有効化
                 saveButton.textContent = '上記の選択を保存'; // テキストを変更
                 saveButton.classList.remove('btn-success');
                 saveButton.classList.add('btn-primary');
+                viewer.setAttribute('data-disable-drag', 'false');
+                window.CI360.update(viewer.id, {imageIndex:0}); // 画像のドラッグを有効化
             });
         });
     
@@ -180,9 +181,18 @@
             if (!allFormsSaved) {
                 event.preventDefault();
                 alert('すべての評価を保存してから次へ進んでください。');
+            } else {
+                window.location.href = "{% url 'front_select_result' %}?uuid={{user.uuid}}"; // 次のページへリダイレクト
             }
         });
     });
+
+    function resetToDefaultImage(viewerId) {
+        window.CI360.update(viewerId, {imageIndex: 0});
+    }
+    
+    
+    
 </script>
 
 </body>

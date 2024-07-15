@@ -23,7 +23,7 @@
 </header>
 
 <div class="container">
-    <h2 class="col-12 text-center">以下に示すのは、朝日焼十六世松林豊斎さんが正面だと判断した画像です。</h2>
+    <h2 class="col-12 text-center">以下に示すのは、朝日焼十六世松林豊斎さんが正面だと判断した例です。</h2>
     <div class="row mb-4 text-center">
         {% for asahiyaki in asahiyaki_examples_a %}
 
@@ -84,31 +84,10 @@
                         <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
                              data-folder="{% static asahiyaki.image_path %}"
                              data-image-list-x='[
-                                "01.png",
-                                "02.png",
-                                "03.png",
-                                "04.png",
-                                "05.png",
-                                "06.png",
-                                "07.png",
-                                "08.png",
-                                "09.png",
-                                "10.png",
-                                "11.png",
-                                "12.png",
-                                "13.png",
-                                "14.png",
-                                "15.png",
-                                "16.png",
-                                "17.png",
-                                "18.png",
-                                "19.png",
-                                "20.png",
-                                "21.png",
-                                "22.png",
-                                "23.png",
-                                "24.png"
-                             ]'
+                             {% for image in reordered_images %}
+                                 "{{ image }}"{% if not forloop.last %},{% endif %}
+                             {% endfor %}
+                            ]'
                              data-amount-x="24">
                         </div>
                     </div>
