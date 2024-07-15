@@ -387,17 +387,20 @@ def mokkogei_learn(request):
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
-            asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
+            mokkogei = Nakagawa.objects.get(id=data['mokkogei'])
             evaluation = data['evaluation']
-            asahiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki, is_learned=True)
-            
-            if asahiyaki_evaluation.exists():
-                asahiyaki_evaluation.update(evaluation=evaluation)
+            mokkogei_evaluation = NakagawaEvaluation.objects.filter(user=user, nakagawa=mokkogei, is_learned=True)
+            if mokkogei_evaluation.exists():
+                mokkogei_evaluation.update(evaluation=evaluation)
+                
             else:
-                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, evaluation=evaluation, is_learned=True)
+                NakagawaEvaluation.objects.create(user=user, nakagawa=mokkogei, evaluation=evaluation, is_learned=True)
             
             return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
         except Exception as e:
+            print(f"Exception: {e}")  # 例外の詳細を出力
+            import traceback
+            traceback.print_exc()  # スタックトレースを出力
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
     context = {
