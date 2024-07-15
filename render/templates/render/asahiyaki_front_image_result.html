@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>朝日焼きの評価結果</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        h1, h2 {
+            margin-top: 20px;
+            color: #343a40;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .table-responsive {
+            margin-top: 20px;
+        }
+        .evaluation-img {
+            width: 100px;
+            height: auto;
+        }
+        .btn-primary {
+            margin-top: 20px;
+        }
+        .difference {
+            font-weight: bold;
+            color: #ff0000;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    {% if user.username %}
+    <h1>{{ user.username }}さんの評価結果</h1>
+    {% else %}
+    <h1>正面画像選択の評価結果</h1>
+    {% endif %}
+
+    <h2>お手本を見る前の評価結果</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>選択された画像</th>
+                    <th>正面画像</th>
+                    <th>正面との差分</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results_before_learning %}
+                    <tr>
+                        
+                        <td>
+                            <img src="{% static result.image_path %}{{ result.front_image_name }}" alt="{{ result.name }}" class="evaluation-img">
+                        </td>
+                        <td>
+                            <img src="{% static result.image_path %}01.png" alt="{{ result.name }}" class="evaluation-img">
+                        </td>
+                        <td class="difference">{{ result.difference }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>お手本を見た後の評価結果</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    
+                    <th>選択された画像</th>
+                    <th>正面画像</th>
+                    <th>正面との差分</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results_after_learning %}
+                    <tr>
+                        
+                        <td>
+                            <img src="{% static result.image_path %}{{ result.front_image_name }}" alt="{{ result.name }}" class="evaluation-img">
+                        </td>
+                        <td>
+                            <img src="{% static result.image_path %}01.png" alt="{{ result.name }}" class="evaluation-img">
+                        </td>
+                        <td class="difference">{{ result.difference }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <a href="{% url 'index' %}?uuid={{ user.uuid }}" class="btn btn-primary">ホームへ</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
