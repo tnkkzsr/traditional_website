@@ -62,6 +62,8 @@ class Asahiyaki(models.Model):
         return self.name+ "_"+self.image_path
     
     
+    
+    
 class AsahiyakiEvaluation(BaseEvaluation):
     """
     朝日焼の評価モデル
@@ -74,7 +76,13 @@ class AsahiyakiEvaluation(BaseEvaluation):
     front_image_name = models.CharField(max_length=100)
     
     def __str__(self):
+    
         return f"{super().__str__()} - {self.asahiyaki.name} - {self.evaluation}"
+    
+    def calculate_image_difference(self):
+        image_number = int(self.front_image_name.split(".")[0])
+        difference = abs(image_number - 1)
+        return min(difference, 24 - difference)  # 最大のズレは12
 
 class Nakagawa(models.Model):
     """中川木工芸のモデル"""
@@ -82,8 +90,12 @@ class Nakagawa(models.Model):
     # 画像フォルダのパス
     image_path = models.CharField(max_length=255)
     
+    # 正解のABC評価
+    correct_evaluation = models.CharField(max_length=1, choices=BaseEvaluation.EVALUATION_CHOICES,null=True, blank=True)
+    
+    is_example = models.BooleanField(default=False)
     def __str__(self):
-        return self.name
+        return self.correct_evaluation + "_" + str(self.is_example) + "_" + self.image_path
 
 
 class NakagawaEvaluation(BaseEvaluation):
@@ -93,6 +105,8 @@ class NakagawaEvaluation(BaseEvaluation):
     """
     # Nakagawaモデルへの外部キー
     nakagawa = models.ForeignKey('Nakagawa', on_delete=models.CASCADE)
+    
+    
     
     def __str__(self):
         return f"{super().__str__()} - {self.nakagawa.name} - {self.evaluation}"

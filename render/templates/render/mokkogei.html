@@ -20,47 +20,26 @@
     <div class="row text-center justify-content-center">
         <div class="col">
             <h1 class="display-4">
-                伝統工芸品の判定・データ収集サイト
+                職人さんの評価を再現しよう
             </h1>
-            <div>それぞれの器に評価をつけてください</div>
-            <div>ドラッグして360度回転させて、評価を行ってください。</div>
+            <h2 class="mt-2">それぞれの朝日焼きに、ABC評価をつけてください</h2>
+            <h2>Aが最も良い評価、Cが最も悪い評価です。</h2>
         </div>
     </div>  
 </header>
 
 <main class="container">
     <div class="row">
-        {% for asahiyaki in asahiyakis %}
+        {% for mokkogei in mokkogeis %}
         <div class="col-md-4">
             <div class="card mt-4">
                 <div class="card-body">
-                    <h5 class="card-title">{{ asahiyaki.name }}</h5>
-                    <!-- ABC評価の選択 -->
-                    <div class="mb-3">
-                        <label class="form-label">評価:</label>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-A-{{ forloop.counter }}" value="A">
-                            <label class="form-check-label" for="evaluation-A-{{ forloop.counter }}">
-                                A
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-B-{{ forloop.counter }}" value="B">
-                            <label class="form-check-label" for="evaluation-B-{{ forloop.counter }}">
-                                B
-                            </label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-C-{{ forloop.counter }}" value="C">
-                            <label class="form-check-label" for="evaluation-C-{{ forloop.counter }}">
-                                C
-                            </label>
-                        </div>
-                    </div>
+                    <h5 class="card-title"></h5>
+                    
                     
                     <div class="container">
                         <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
-                             data-folder="{% static asahiyaki.image_path %}"
+                             data-folder="{% static mokkogei.image_path %}"
                              data-image-list-x='[
                                 "01.png",
                                 "02.png",
@@ -90,12 +69,34 @@
                              data-amount-x="24">
                         </div>
                     </div>
+                    <!-- ABC評価の選択 -->
+                    <div class="mt-3">
+                        <label class="form-label">評価:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-A-{{ forloop.counter }}" value="A">
+                            <label class="form-check-label" for="evaluation-A-{{ forloop.counter }}">
+                                A
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-B-{{ forloop.counter }}" value="B">
+                            <label class="form-check-label" for="evaluation-B-{{ forloop.counter }}">
+                                B
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="evaluation-{{ forloop.counter }}" id="evaluation-C-{{ forloop.counter }}" value="C">
+                            <label class="form-check-label" for="evaluation-C-{{ forloop.counter }}">
+                                C
+                            </label>
+                        </div>
+                    </div>
                     
                     <!-- 選択保存フォーム -->
                     <div class="container">
                         <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
+                            <input type="hidden" name= "mokkogei" value="{{ mokkogei.id }}">
                             <button type="submit" class="btn btn-primary mt-3 save-button">上記の選択を保存</button>
                             <button type="button" class="btn btn-secondary mt-3 edit-button">編集</button>
                         </form>
@@ -158,9 +159,9 @@
     
                 // データの準備
                 const postData = {
-                    asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
+                 mokkogei: form.elements['mokkogei'].value,
                     evaluation: selectedEvaluation,
-                    selected_image: selectedImage // 画像情報を含める
+                    
                 };
 
                 fetch(form.action, {

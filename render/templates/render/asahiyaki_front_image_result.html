@@ -5,19 +5,16 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>中川木工芸の評価結果</title>
+    <title>朝日焼きの評価結果</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f8f9fa;
         }
-        h1, h2, h3 {
+        h1, h2 {
             margin-top: 20px;
             color: #343a40;
-        }
-        .severe-mistake {
-            background-color: #ffdddd;
         }
         .container {
             background-color: #fff;
@@ -28,11 +25,6 @@
         .table-responsive {
             margin-top: 20px;
         }
-        .img-fluid {
-            margin-top: 20px;
-            max-width: 100%;
-            height: auto;
-        }
         .evaluation-img {
             width: 100px;
             height: auto;
@@ -40,10 +32,9 @@
         .btn-primary {
             margin-top: 20px;
         }
-        pre {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 5px;
+        .difference {
+            font-weight: bold;
+            color: #ff0000;
         }
     </style>
 </head>
@@ -52,65 +43,64 @@
     {% if user.username %}
     <h1>{{ user.username }}さんの評価結果</h1>
     {% else %}
-    <h1>あなたの評価結果</h1>
+    <h1>正面画像選択の評価結果</h1>
     {% endif %}
-    
+
     <h2>お手本を見る前の評価結果</h2>
-    <p>正解率: {{ accuracy_before }}%</p>
-    <p>QWK: {{ qwk_before }} (順序を考慮した評価結果で最大値=1, 最小値=0。AをCと間違えたり、CをAと間違えると大きく下がる)</p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
-                    <th>中川木工芸</th>
-                    <th>あなたの評価</th>
-                    <th>正解の評価</th>
-                    <th>正誤</th>
+                    <th>選択された画像</th>
+                    <th>正解の正面画像</th>
+                    <th>正解との差分(最大12)</th>
                 </tr>
             </thead>
             <tbody>
                 {% for result in results_before_learning %}
-                    <tr class="{% if not result.is_correct %}severe-mistake{% endif %}">
+                    <tr>
+                        
                         <td>
-                            <img src="{% static result.image_path %}01.png" alt="{{ result.nakagawa.name }}" class="evaluation-img">
+                            <img src="{% static result.image_path %}{{ result.front_image_name }}" alt="{{ result.name }}" class="evaluation-img">
                         </td>
-                        <td>{{ result.user_evaluation }}</td>
-                        <td>{{ result.correct_evaluation }}</td>
-                        <td>{{ result.is_correct|yesno:"⚪︎,×" }}</td>
+                        <td>
+                            <img src="{% static result.image_path %}01.png" alt="{{ result.name }}" class="evaluation-img">
+                        </td>
+                        <td class="difference">{{ result.difference }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    
+
     <h2>お手本を見た後の評価結果</h2>
-    <p>正解率: {{ accuracy_after }}%</p>
-    <p>QWK: {{ qwk_after }} (順序を考慮した評価結果で最大値=1, 最小値=0。AをCと間違えたり、CをAと間違えると大きく下がる)</p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
-                    <th>中川木工芸</th>
-                    <th>あなたの評価</th>
-                    <th>正解の評価</th>
-                    <th>正誤</th>
+                    
+                    <th>選択された画像</th>
+                    <th>正解の正面画像</th>
+                    <th>正解との差分(最大12)</th>
                 </tr>
             </thead>
             <tbody>
                 {% for result in results_after_learning %}
-                    <tr class="{% if not result.is_correct %}severe-mistake{% endif %}">
+                    <tr>
+                        
                         <td>
-                            <img src="{% static result.image_path %}01.png" alt="{{ result.nakagawa.name }}" class="evaluation-img">
+                            <img src="{% static result.image_path %}{{ result.front_image_name }}" alt="{{ result.name }}" class="evaluation-img">
                         </td>
-                        <td>{{ result.user_evaluation }}</td>
-                        <td>{{ result.correct_evaluation }}</td>
-                        <td>{{ result.is_correct|yesno:"⚪︎,×" }}</td>
+                        <td>
+                            <img src="{% static result.image_path %}01.png" alt="{{ result.name }}" class="evaluation-img">
+                        </td>
+                        <td class="difference">{{ result.difference }}</td>
                     </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
-    
+
     <a href="{% url 'index' %}?uuid={{ user.uuid }}" class="btn btn-primary">ホームへ</a>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>

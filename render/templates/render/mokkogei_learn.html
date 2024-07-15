@@ -28,7 +28,7 @@
     <div class="row mb-4 text-center">
         <div class="col-md-4">
             <h3>A評価</h3>
-            {% for asahiyaki in asahiyaki_examples %}
+            {% for asahiyaki in mokkogei_examples %}
                 {% if asahiyaki.correct_evaluation == 'A' %}
                     <div class="card mt-4">
                         <div class="card-body">
@@ -71,7 +71,7 @@
         <!-- B評価 -->
         <div class="col-md-4">
             <h3>B評価</h3>
-            {% for asahiyaki in asahiyaki_examples %}
+            {% for asahiyaki in mokkogei_examples %}
                 {% if asahiyaki.correct_evaluation == 'B' %}
                     <div class="card mt-4">
                         <div class="card-body">
@@ -114,7 +114,7 @@
         <!-- C評価 -->
         <div class="col-md-4">
             <h3>C評価</h3>
-            {% for asahiyaki in asahiyaki_examples %}
+            {% for asahiyaki in mokkogei_examples %}
                 {% if asahiyaki.correct_evaluation == 'C' %}
                     <div class="card mt-4">
                         <div class="card-body">
@@ -161,7 +161,7 @@
 <main class="container">
     <h2 class="col-12 text-center">上記の評価例を踏まえて、再評価してください</h2>
     <div class="row mb-4">  <!-- 行を追加 -->
-        {% for asahiyaki in asahiyakis_not_example %}
+        {% for mokkogei in mokkogei_not_example %}
         <div class="col-md-4">  <!-- 3列配置のためのカラム -->
             <div class="card mt-4">
                 <div class="card-body">
@@ -170,7 +170,7 @@
                         
                     <div class="container">
                         <div class="cloudimage-360" id="gurkha-suv-{{ forloop.counter }}"
-                             data-folder="{% static asahiyaki.image_path %}"
+                             data-folder="{% static mokkogei.image_path %}"
                              data-image-list-x='[
                                 "01.png",
                                 "02.png",
@@ -228,7 +228,7 @@
                     <div class="container">
                         <form class="selectionForm" data-form-id="{{ forloop.counter }}" method="post">
                             {% csrf_token %}
-                            <input type="hidden" name="asahiyaki" value="{{ asahiyaki.id }}">
+                            <input type="hidden" name="mokkogei" value="{{ mokkogei.id }}">
                             <button type="submit" class="btn btn-primary mt-3 save-button">上記の選択を保存</button>
                             <button type="button" class="btn btn-secondary mt-3 edit-button">編集</button>
                         </form>
@@ -241,7 +241,7 @@
 </main >
 
 <div class="text-center my-4">
-    <a href="#" class="btn btn-primary next-page-button">次のページへ</a>
+    <a href="#" class="btn btn-primary next-page-button">結果を見る</a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -284,7 +284,7 @@
 
                 // データの準備
                 const postData = {
-                    asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
+                    mokkogei: form.elements['mokkogei'].value, // asahiyaki IDを適切に取得
                     evaluation: selectedEvaluation,
                 };
 
@@ -337,7 +337,7 @@
                 event.preventDefault();
                 alert('すべての評価を保存してから次へ進んでください。');
             } else {
-                window.location.href = "{% url 'select_front' %}?uuid={{ user.uuid }}"; // 次のページへリダイレクト
+                window.location.href = "{% url 'mokkogei_result' %}?uuid={{ user.uuid }}"; // 次のページへリダイレクト
             }
         });
     });
