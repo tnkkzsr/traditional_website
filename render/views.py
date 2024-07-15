@@ -133,21 +133,6 @@ from django.conf import settings
 import matplotlib.pyplot as plt
 import numpy as np
 
-def save_confusion_matrix_image(cm, labels, title, filename):
-    plt.figure(figsize=(8, 6))
-    plt.imshow(cm, interpolation='nearest', cmap=plt.cm.Blues)
-    plt.title(title)
-    plt.colorbar()
-    tick_marks = np.arange(len(labels))
-    plt.xticks(tick_marks, labels)
-    plt.yticks(tick_marks, labels)
-    plt.ylabel('True label')
-    plt.xlabel('Predicted label')
-
-    image_path = os.path.join(settings.MEDIA_ROOT, filename)
-    plt.savefig(image_path)
-    
-    return os.path.join(settings.MEDIA_URL, filename)
 
 def evaluation_results(request):
     uuid = request.GET.get("uuid")
@@ -224,9 +209,7 @@ def evaluation_results(request):
     f1_before = f1_score(true_y_before, pred_y_before, average='weighted') if results_before_learning else 0
     qwk_before = cohen_kappa_score(true_y_before, pred_y_before, weights='quadratic') if results_before_learning else 0
     qwk_before_rounded = round(qwk_before, 4)
-    cm_before = confusion_matrix(true_y_before, pred_y_before, labels=["A", "B", "C"]).tolist()
     report_before = classification_report(true_y_before, pred_y_before, output_dict=True)
-    cm_before_image_url = save_confusion_matrix_image(cm_before, ["A", "B", "C"], "confusion_matrix", f"cm_before_{user.uuid}.png")
 
     # 学習後の評価
     accuracy_after = (sum([r['is_correct'] for r in results_after_learning]) / len(results_after_learning) * 100) if results_after_learning else 0
@@ -234,9 +217,7 @@ def evaluation_results(request):
     f1_after = f1_score(true_y_after, pred_y_after, average='weighted') if results_after_learning else 0
     qwk_after = cohen_kappa_score(true_y_after, pred_y_after, weights='quadratic') if results_after_learning else 0
     qwk_after_rounded = round(qwk_after, 4)
-    cm_after = confusion_matrix(true_y_after, pred_y_after, labels=["A", "B", "C"]).tolist()
     report_after = classification_report(true_y_after, pred_y_after, output_dict=True)
-    cm_after_image_url = save_confusion_matrix_image(cm_after, ["A", "B", "C"], "confusion_matrix", f"cm_after_{user.uuid}.png")
 
     context = {
         'user': user,
@@ -248,10 +229,6 @@ def evaluation_results(request):
         'f1_after': f1_after,
         'qwk_before': qwk_before_rounded,
         'qwk_after': qwk_after_rounded,
-        'cm_before': cm_before,
-        'cm_after': cm_after,
-        'cm_before_image_url': cm_before_image_url,
-        'cm_after_image_url': cm_after_image_url,
         'report_before': report_before,
         'report_after': report_after,
     }
@@ -418,9 +395,8 @@ def mokkogei_result(request):
     
     user = get_object_or_404(User, uuid=uuid)
 
-
-    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False).order_by('asahiyaki__id')
-    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True).order_by('asahiyaki__id')
+    evaluations_before_learning = NakagawaEvaluation.objects.filter(user=user, is_learned=False).order_by('nakagawa__id')
+    evaluations_after_learning = NakagawaEvaluation.objects.filter(user=user, is_learned=True).order_by('nakagawa__id')
     
     results_before_learning = []
     results_after_learning = []
@@ -430,62 +406,59 @@ def mokkogei_result(request):
     true_y_after = []
     pred_y_after = []
     
-    def calculate_image_difference(front_image_name):
-        if not front_image_name:
-            return 0  # もしくは他の適切なデフォルト値
-        image_number = int(front_image_name.split(".")[0])
-        difference = abs(image_number - 1)
-        return min(difference, 24 - difference)  # 最大のズレは12
+    
 
     for evaluation in evaluations_before_learning:
-        asahiyaki = evaluation.asahiyaki
-        true_y_before.append(asahiyaki.correct_evaluation)
+        nakagawa = evaluation.nakagawa
+        true_y_before.append(nakagawa.correct_evaluation)
         pred_y_before.append(evaluation.evaluation)
-        is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
-        image_difference = calculate_image_difference(evaluation.front_image_name)
+        is_correct = evaluation.evaluation == nakagawa.correct_evaluation
+        
         result = {
-            'asahiyaki_id': asahiyaki.id,
-            'name': asahiyaki.name,
+            'nakagawa_id': nakagawa.id,
+            'name': nakagawa.name,
             'user_evaluation': evaluation.evaluation,
-            'correct_evaluation': asahiyaki.correct_evaluation,
+            'correct_evaluation': nakagawa.correct_evaluation,
             'is_correct': is_correct,
-            'front_image_name': evaluation.front_image_name,
-            'image_difference': image_difference
+            'image_path': nakagawa.image_path
+            
         }
         results_before_learning.append(result)
 
     for evaluation in evaluations_after_learning:
-        asahiyaki = evaluation.asahiyaki
-        true_y_after.append(asahiyaki.correct_evaluation)
+        nakagawa = evaluation.nakagawa
+        true_y_after.append(nakagawa.correct_evaluation)
         pred_y_after.append(evaluation.evaluation)
-        is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
-        image_difference = calculate_image_difference(evaluation.front_image_name)
+        is_correct = evaluation.evaluation == nakagawa.correct_evaluation
+        
         result = {
-            'asahiyaki_id': asahiyaki.id,
-            'name': asahiyaki.name,
+            'nakagawa_id': nakagawa.id,
+            'name': nakagawa.name,
             'user_evaluation': evaluation.evaluation,
-            'correct_evaluation': asahiyaki.correct_evaluation,
+            'correct_evaluation': nakagawa.correct_evaluation,
             'is_correct': is_correct,
-            'front_image_name': evaluation.front_image_name,
-            'image_difference': image_difference
+            'image_path': nakagawa.image_path
+            
         }
         results_after_learning.append(result)
     
     # 学習前の評価
     accuracy_before = (sum([r['is_correct'] for r in results_before_learning]) / len(results_before_learning) * 100) if results_before_learning else 0
+    accuracy_before = round(accuracy_before, 2)
     f1_before = f1_score(true_y_before, pred_y_before, average='weighted') if results_before_learning else 0
     qwk_before = cohen_kappa_score(true_y_before, pred_y_before, weights='quadratic') if results_before_learning else 0
-    cm_before = confusion_matrix(true_y_before, pred_y_before, labels=["A", "B", "C"]).tolist()
+    qwk_before = round(qwk_before, 4)
     report_before = classification_report(true_y_before, pred_y_before, output_dict=True)
-    cm_before_image_url = save_confusion_matrix_image(cm_before, ["A", "B", "C"], "confusion_matrix", f"cm_before_{user.uuid}.png")
+    
 
     # 学習後の評価
     accuracy_after = (sum([r['is_correct'] for r in results_after_learning]) / len(results_after_learning) * 100) if results_after_learning else 0
+    accuracy_after = round(accuracy_after, 2)
     f1_after = f1_score(true_y_after, pred_y_after, average='weighted') if results_after_learning else 0
     qwk_after = cohen_kappa_score(true_y_after, pred_y_after, weights='quadratic') if results_after_learning else 0
-    cm_after = confusion_matrix(true_y_after, pred_y_after, labels=["A", "B", "C"]).tolist()
+    qwk_after = round(qwk_after, 4)
     report_after = classification_report(true_y_after, pred_y_after, output_dict=True)
-    cm_after_image_url = save_confusion_matrix_image(cm_after, ["A", "B", "C"], "confusion_matrix", f"cm_after_{user.uuid}.png")
+    
 
     context = {
         'user': user,
@@ -497,10 +470,6 @@ def mokkogei_result(request):
         'f1_after': f1_after,
         'qwk_before': qwk_before,
         'qwk_after': qwk_after,
-        'cm_before': cm_before,
-        'cm_after': cm_after,
-        'cm_before_image_url': cm_before_image_url,
-        'cm_after_image_url': cm_after_image_url,
         'report_before': report_before,
         'report_after': report_after,
     }
