@@ -214,6 +214,21 @@ def evaluation_results(request):
 
     return render(request, 'render/evaluation_results.html', context)
 
+
+def random_image_list():
+    """
+    画像名のリストの最初の要素をランダムに選択し、その位置からリストを再構成する
+    """
+      # 画像リストの作成
+    images = [f"{str(i).zfill(2)}.png" for i in range(1, 25)]
+
+    # ランダムな開始位置を決定
+    start_index = random.randint(0, len(images) - 1)
+
+    # リストを再構成
+    reordered_images = images[start_index:] + images[:start_index]
+    return reordered_images
+
 def asahiyaki_select_front(request):
     uuid = request.GET.get("uuid")
     
@@ -226,6 +241,9 @@ def asahiyaki_select_front(request):
     
     asahiyakis_a = list(Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)[:12])
     random.shuffle(asahiyakis_a)
+    
+    reordered_images = random_image_list()
+
     
     if request.method == 'POST':
         try:
@@ -246,6 +264,7 @@ def asahiyaki_select_front(request):
     context = {
         "asahiyakis_a": asahiyakis_a,
         "user": user,
+        'reordered_images': reordered_images,
     }
     return render(request, "render/asahiyaki_select_front.html", context)
 
@@ -260,6 +279,8 @@ def asahiyaki_front_select_learn(request):
     
     asahiyakis_a = list(Asahiyaki.objects.filter(correct_evaluation='A', is_example=False)[:12])
     random.shuffle(asahiyakis_a)
+
+    reordered_images = random_image_list()
 
     
     if request.method == 'POST':
@@ -282,6 +303,7 @@ def asahiyaki_front_select_learn(request):
         "asahiyakis_not_example": asahiyakis_a,
         "user": user,
         "user_uuid": user.uuid,
+        "reordered_images": reordered_images,
     }
     return render(request, "render/asahiyaki_front_select_learn.html", context)
 
@@ -304,32 +326,45 @@ def asahiyaki_front_select_result(request):
     results_before_learning = []
     results_after_learning = []
 
+    total_difference_before = 0
+    total_difference_after = 0
+
     for evaluation in evaluations_before_learning:
         asahiyaki = evaluation.asahiyaki
+        difference = evaluation.calculate_image_difference()
+        total_difference_before += difference
         result = {
             'asahiyaki_id': asahiyaki.id,
             'name': asahiyaki.name,
             'front_image_name': evaluation.front_image_name,
             'image_path': asahiyaki.image_path,
-            'difference': evaluation.calculate_image_difference(),
+            'difference': difference,
         }
         results_before_learning.append(result)
     
     for evaluation in evaluations_after_learning:
         asahiyaki = evaluation.asahiyaki
+        difference = evaluation.calculate_image_difference()
+        total_difference_after += difference
         result = {
             'asahiyaki_id': asahiyaki.id,
             'name': asahiyaki.name,
             'front_image_name': evaluation.front_image_name,
             'image_path': asahiyaki.image_path,
-            'difference': evaluation.calculate_image_difference(),
+            'difference': difference,
         }
         results_after_learning.append(result)
-    
+
+    # 平均値を計算
+    avg_difference_before = total_difference_before / len(evaluations_before_learning) if evaluations_before_learning else 0
+    avg_difference_after = total_difference_after / len(evaluations_after_learning) if evaluations_after_learning else 0
+
     context = {
         'user': user,
         'results_before_learning': results_before_learning,
         'results_after_learning': results_after_learning,
+        'avg_difference_before': avg_difference_before,
+        'avg_difference_after': avg_difference_after,
     }   
     
     return render(request, 'render/asahiyaki_front_image_result.html', context)

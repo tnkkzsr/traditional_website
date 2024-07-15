@@ -47,6 +47,7 @@
     {% endif %}
 
     <h2>お手本を見る前の評価結果</h2>
+    <p>正面からの平均ずれ値: {{ avg_difference_before }}</p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
@@ -71,9 +72,11 @@
                 {% endfor %}
             </tbody>
         </table>
+       
     </div>
 
     <h2>お手本を見た後の評価結果</h2>
+    <p>正面からの平均ずれ値: {{ avg_difference_after }}</p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
@@ -99,6 +102,7 @@
                 {% endfor %}
             </tbody>
         </table>
+       
     </div>
 
     <a href="{% url 'index' %}?uuid={{ user.uuid }}" class="btn btn-primary">ホームへ</a>
