@@ -164,9 +164,14 @@
                 const formId = form.getAttribute('data-form-id');
                 const checkbox = document.getElementById(`fix-image-${formId}`);
                 const viewer = document.getElementById('gurkha-suv-' + formId);
+               
                 const images = JSON.parse(viewer.getAttribute('data-image-list-x'));
                 const selectedImageIndex = window.CI360.getActiveIndexByID('gurkha-suv-' + formId, 'x');
+                
                 const selectedImage = images[selectedImageIndex];
+                
+
+                console.log('Selected image:', selectedImage);
 
                 // CSRFトークンを取得
                 const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
@@ -175,7 +180,11 @@
                     alert('正面画像を選択してください。');
                     return;
                 }
-
+                
+                viewer.setAttribute('data-disable-drag', 'true');
+                window.CI360.update(viewer.id, true);
+                window.CI360.update(viewer.id, {imageIndex: selectedImageIndex});
+                
                 // データの準備
                 const postData = {
                     asahiyaki: form.elements['asahiyaki'].value, // asahiyaki IDを適切に取得
@@ -213,6 +222,10 @@
                 const formId = form.getAttribute('data-form-id');
                 const saveButton = form.querySelector('button.save-button');
                 const checkbox = document.getElementById(`fix-image-${formId}`);
+                const viewer = document.getElementById('gurkha-suv-' + formId);
+
+                // チェックボックスのチェックを外す
+                checkbox.checked = false;
                 
                 // チェックボックスを有効化
                 checkbox.disabled = false;
@@ -220,6 +233,8 @@
                 saveButton.textContent = '上記の選択を保存'; // テキストを変更
                 saveButton.classList.remove('btn-success');
                 saveButton.classList.add('btn-primary');
+                viewer.setAttribute('data-disable-drag', 'false');
+                window.CI360.update(viewer.id, {imageIndex:0}); // 画像のドラッグを有効化
             });
         });
     
@@ -233,12 +248,13 @@
             }
         });
     });
-    function resetToDefaultImage(containerId) {
-        var viewer = document.getElementById(containerId);
-        if (viewer && viewer.ci360) {
-            viewer.ci360.goto(0); // 0は最初の画像（01.png）のインデックスです。
-        }
+
+    function resetToDefaultImage(viewerId) {
+        window.CI360.update(viewerId, {imageIndex: 0});
     }
+    
+    
+    
 </script>
 
 </body>
