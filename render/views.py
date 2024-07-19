@@ -365,6 +365,7 @@ def asahiyaki_front_select_result(request):
         'results_after_learning': results_after_learning,
         'avg_difference_before': avg_difference_before,
         'avg_difference_after': avg_difference_after,
+        
     }   
     
     return render(request, 'render/asahiyaki_front_image_result.html', context)
@@ -404,9 +405,12 @@ def mokkogei(request):
             traceback.print_exc()  # スタックトレースを出力
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
+    reorderd_images = random_image_list()
+
     context = {
         "mokkogeis": mokkogeis,
         "user": user,
+        'reordered_images': reorderd_images,
     }
     return render(request, "render/mokkogei.html", context)
 
@@ -442,10 +446,13 @@ def mokkogei_learn(request):
             traceback.print_exc()  # スタックトレースを出力
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
+    reorderd_images = random_image_list()
+    
     context = {
         "mokkogei_examples": mokkogei_examples,
         "mokkogei_not_example": mokkogei_not_example,
         "user": user,
+        "reordered_images": reorderd_images,
     }
     return render(request, "render/mokkogei_learn.html", context)
 
