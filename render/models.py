@@ -38,6 +38,8 @@ class BaseEvaluation(models.Model):
     #　学習したかどうか
     is_learned = models.BooleanField(default=False)
     
+    session = models.ForeignKey('EvaluationSession', on_delete=models.CASCADE, null=True, blank=True)
+    
     class Meta:
         abstract = True
 
@@ -111,37 +113,6 @@ class NakagawaEvaluation(BaseEvaluation):
     def __str__(self):
         return f"{super().__str__()} - {self.nakagawa.name} - {self.evaluation}"
 
-
-
-
-class EvaluationResult(models.Model):
-    """
-    計算された評価結果を保存するモデル
-    """
-    # ユーザーへの参照
-    user = models.ForeignKey('User', on_delete=models.CASCADE)
-    # 評価セッションへの参照
-    session = models.ForeignKey('EvaluationSession', on_delete=models.CASCADE, related_name='asahiyaki_evaluations')
-    # 評価のタイプ（学習前、学習後など）
-    evaluation_type = models.CharField(max_length=100, choices=[('before', 'Before Learning'), ('after', 'After Learning')])
-    # AsahiyakiEvaluationsオブジェクトへの多対多参照
-    asahiyaki_evaluations = models.ManyToManyField('AsahiyakiEvaluation', related_name='evaluation_results')
-    # 計算日
-    calculation_date = models.DateTimeField(auto_now_add=True)
-    # 正確度
-    accuracy = models.FloatField()
-    # F1スコア
-    f1_score = models.FloatField()
-    # Quadratic Weighted Kappa
-    qwk = models.FloatField()
-    # 混同行列の画像URL
-    confusion_matrix_image_url = models.URLField()
-    # 分類レポート（JSON形式で保存することもできる）
-    classification_report = models.JSONField()
-    
-    def __str__(self):
-        return f"{self.user.username} - {self.evaluation_type} - {self.calculation_date.strftime('%Y-%m-%d')}"
-
 class EvaluationSession(models.Model):
     """
     評価セッションを識別するためのモデル
@@ -152,3 +123,18 @@ class EvaluationSession(models.Model):
     
     def __str__(self):
         return f"Session {self.session_id} for User {self.user.username} at {self.created_at.strftime('%Y-%m-%d %H:%M:%S')}"
+    
+
+class AsahiyakiEvaluationResult(models.Model):
+    session = models.ForeignKey(EvaluationSession, on_delete=models.CASCADE, related_name='evaluation_results')
+    is_learned = models.BooleanField(default=False)  # 学習前はFalse、学習後はTrue
+    accuracy = models.FloatField(default=0.0)
+    f1_score = models.FloatField(default=0.0)
+    qwk = models.FloatField(default=0.0)
+    classification_report = models.JSONField()
+
+    def __str__(self):
+        learning_phase = "After Learning" if self.is_learned else "Before Learning"
+        return f"{self.session.user.username} - {learning_phase} - Accuracy: {self.accuracy}, F1 Score: {self.f1_score}"
+    
+    

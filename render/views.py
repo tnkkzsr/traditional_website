@@ -11,7 +11,7 @@ import os
 import matplotlib.pyplot as plt
 import numpy as np
 from .forms import UUIDForm
-from .models import User, Asahiyaki, AsahiyakiEvaluation, Nakagawa, NakagawaEvaluation
+from .models import User, Asahiyaki, AsahiyakiEvaluation, Nakagawa, NakagawaEvaluation, EvaluationSession, BaseEvaluation
 
 
 def index(request):
@@ -27,23 +27,33 @@ def login(request):
         form = UUIDForm(request.POST)
         if form.is_valid():
             uuid = form.cleaned_data["uuid"]
+            user, created = User.objects.get_or_create(uuid=uuid)
+            # 新しいセッションの作成
+            new_session = EvaluationSession.objects.create(user=user)
+            
+            request.session["current_session_id"] = str(new_session.session_id)
+            
             return redirect(f"{reverse('index')}?uuid={uuid}")
     else:
         form = UUIDForm()
         
     return render(request, "render/login.html", {"form": form})
 
-def asahiyaki(request):
+def get_user_and_session(request):
     uuid = request.GET.get("uuid")
     if not uuid:
-        return redirect("/")
-    
-    user = User.objects.filter(uuid=uuid)
-    if not user.exists():
-        user = User.objects.create(uuid=uuid)
-    else:
-        user = user.first()
-    
+        return None, None
+    user, created = User.objects.get_or_create(uuid=uuid)
+    session_id = request.session.get('current_session_id')
+    if not session_id:
+        return user, None
+    session = EvaluationSession.objects.get(session_id=session_id)
+    return user, session
+
+def asahiyaki(request):
+    user, session = get_user_and_session(request)
+    if not user or not session:
+        return redirect('login')
         
     # asahiyakis = Asahiyaki.objects.filter(is_example=False)[:12]
     asahiyakis = list(Asahiyaki.objects.filter(is_example=False).order_by('id')[:12])
@@ -56,13 +66,13 @@ def asahiyaki(request):
             print(data)  # デバッグ出力
             asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
             evaluation = data['evaluation']
-            asahiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki, is_learned=False)
-            
-            if asahiyaki_evaluation.exists():
-                asahiyaki_evaluation.update(evaluation=evaluation)
-            else:
-                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, evaluation=evaluation, is_learned=False)
-            
+            asahiyaki_evaluation, created = AsahiyakiEvaluation.objects.update_or_create(
+                user=user, 
+                asahiyaki=asahiyaki, 
+                session=session,  # セッション情報を評価に含める
+                is_learned=False,
+                defaults={'evaluation': evaluation}
+            )
             return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
         except Exception as e:
             print(f"Exception: {e}")  # 例外の詳細を出力
@@ -85,6 +95,12 @@ def asahiyaki_learn(request):
     
     user = get_object_or_404(User, uuid=uuid)
     
+    session_id = request.session.get('current_session_id')
+    if not session_id:
+        return redirect('login')  # セッションIDがなければ再ログインを促す
+    
+    session = EvaluationSession.objects.get(session_id=session_id)
+    
     # asahiyaki_examples = Asahiyaki.objects.filter(is_example=True)
     asahiyaki_examples_a = Asahiyaki.objects.filter(correct_evaluation='A',is_example=True).order_by('id')[:2]
     asahiyaki_examples_b = Asahiyaki.objects.filter(correct_evaluation='B',is_example=True).order_by('id')[:2]
@@ -98,14 +114,15 @@ def asahiyaki_learn(request):
             data = json.loads(request.body)
             asahiyaki = Asahiyaki.objects.get(id=data['asahiyaki'])
             evaluation = data['evaluation']
-            asahiyaki_evaluation = AsahiyakiEvaluation.objects.filter(user=user, asahiyaki=asahiyaki, is_learned=True)
-            
-            if asahiyaki_evaluation.exists():
-                asahiyaki_evaluation.update(evaluation=evaluation)
-            else:
-                AsahiyakiEvaluation.objects.create(user=user, asahiyaki=asahiyaki, evaluation=evaluation, is_learned=True)
-            
+            asahiyaki_evaluation, created = AsahiyakiEvaluation.objects.update_or_create(
+                user=user, 
+                asahiyaki=asahiyaki, 
+                session=session,  # セッション情報を評価に含める
+                is_learned=True,
+                defaults={'evaluation': evaluation}
+            )
             return JsonResponse({'status': 'success', 'message': 'データが正常に保存されました。'})
+            
         except Exception as e:
             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
     
