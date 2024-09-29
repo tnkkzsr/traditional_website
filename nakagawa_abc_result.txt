@@ -1,0 +1,167 @@
+Nakagawa: video0018
+Image Path: mokkogei/export_20220318195900/
+Correct Evaluation: A
+学習前 (is_learned=False):
+C C B B A A A A C C
+学習前の平均得点: 2.00
+学習前の標準偏差: 0.94
+学習前の正答率: 40.00%
+学習後(is_learned=True):
+A A C A B B B B B C
+学習後の平均得点: 2.10
+学習後の標準偏差: 0.74
+学習後の正答率: 30.00%
+
+Nakagawa: video0024
+Image Path: mokkogei/export_20220318195359/
+Correct Evaluation: A
+学習前 (is_learned=False):
+A A B B B B A A B B
+学習前の平均得点: 2.40
+学習前の標準偏差: 0.52
+学習前の正答率: 40.00%
+学習後(is_learned=True):
+C B B C B B B B B B
+学習後の平均得点: 1.80
+学習後の標準偏差: 0.42
+学習後の正答率: 0.00%
+
+Nakagawa: video0036
+Image Path: mokkogei/export_20220318194316/
+Correct Evaluation: A
+学習前 (is_learned=False):
+B C A C A A B B C B
+学習前の平均得点: 2.00
+学習前の標準偏差: 0.82
+学習前の正答率: 30.00%
+学習後(is_learned=True):
+A B C B A A C C B C
+学習後の平均得点: 1.90
+学習後の標準偏差: 0.88
+学習後の正答率: 30.00%
+
+Nakagawa: video0037
+Image Path: mokkogei/export_20220318194225/
+Correct Evaluation: A
+学習前 (is_learned=False):
+B C C A A C B B C A
+学習前の平均得点: 1.90
+学習前の標準偏差: 0.88
+学習前の正答率: 30.00%
+学習後(is_learned=True):
+A C C A C C B C A B
+学習後の平均得点: 1.80
+学習後の標準偏差: 0.92
+学習後の正答率: 30.00%
+
+Nakagawa: video0042
+Image Path: mokkogei/export_20220318193513/
+Correct Evaluation: B
+学習前 (is_learned=False):
+A B B A A A B A B B
+学習前の平均得点: 2.50
+学習前の標準偏差: 0.53
+学習前の正答率: 50.00%
+学習後(is_learned=True):
+C A A C B A A B C B
+学習後の平均得点: 2.10
+学習後の標準偏差: 0.88
+学習後の正答率: 30.00%
+
+Nakagawa: video004
+Image Path: mokkogei/export_20220318201058/
+Correct Evaluation: B
+学習前 (is_learned=False):
+A B C C B B B A C B
+学習前の平均得点: 1.90
+学習前の標準偏差: 0.74
+学習前の正答率: 50.00%
+学習後(is_learned=True):
+A A C A A B C B B B
+学習後の平均得点: 2.20
+学習後の標準偏差: 0.79
+学習後の正答率: 40.00%
+
+Nakagawa: video005
+Image Path: mokkogei/export_20220318201009/
+Correct Evaluation: B
+学習前 (is_learned=False):
+B A A A A C B C A A
+学習前の平均得点: 2.40
+学習前の標準偏差: 0.84
+学習前の正答率: 20.00%
+学習後(is_learned=True):
+B B A A B C B A A A
+学習後の平均得点: 2.40
+学習後の標準偏差: 0.70
+学習後の正答率: 40.00%
+
+Nakagawa: video0043
+Image Path: mokkogei/export_20220318193420/
+Correct Evaluation: B
+学習前 (is_learned=False):
+C B A A A B B C C A
+学習前の平均得点: 2.10
+学習前の標準偏差: 0.88
+学習前の正答率: 30.00%
+学習後(is_learned=True):
+B C A B A C A B A A
+学習後の平均得点: 2.30
+学習後の標準偏差: 0.82
+学習後の正答率: 30.00%
+
+Nakagawa: video0104
+Image Path: mokkogei/export_20220316143000/
+Correct Evaluation: C
+学習前 (is_learned=False):
+C C C C A B C A A A
+学習前の平均得点: 1.90
+学習前の標準偏差: 0.99
+学習前の正答率: 50.00%
+学習後(is_learned=True):
+C C C C C B C C B A
+学習後の平均得点: 1.40
+学習後の標準偏差: 0.70
+学習後の正答率: 70.00%
+
+Nakagawa: video0060
+Image Path: mokkogei/export_20220318191618/
+Correct Evaluation: C
+学習前 (is_learned=False):
+C C A C C C C C B B
+学習前の平均得点: 1.40
+学習前の標準偏差: 0.70
+学習前の正答率: 70.00%
+学習後(is_learned=True):
+B C A A C B C A A A
+学習後の平均得点: 2.20
+学習後の標準偏差: 0.92
+学習後の正答率: 30.00%
+
+Nakagawa: video0029
+Image Path: mokkogei/export_20220318194929/
+Correct Evaluation: C
+学習前 (is_learned=False):
+C A B A C A B B A B
+学習前の平均得点: 2.20
+学習前の標準偏差: 0.79
+学習前の正答率: 20.00%
+学習後(is_learned=True):
+B A A A A C A A A A
+学習後の平均得点: 2.70
+学習後の標準偏差: 0.67
+学習後の正答率: 10.00%
+
+Nakagawa: video0272
+Image Path: mokkogei/export_20220317093648/
+Correct Evaluation: C
+学習前 (is_learned=False):
+B B A B A C A C B B
+学習前の平均得点: 2.10
+学習前の標準偏差: 0.74
+学習前の正答率: 20.00%
+学習後(is_learned=True):
+A C A B C C A A C A
+学習後の平均得点: 2.10
+学習後の標準偏差: 0.99
+学習後の正答率: 40.00%

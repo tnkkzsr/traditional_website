@@ -50,13 +50,21 @@
 <body>
 <div class="container mt-5">
     {% if user.username %}
-    <h1>{{ user.username }}さんの評価結果</h1>
+    <h1>{{ user.username }}さんのスコア</h1>
     {% else %}
-    <h1>あなたの評価結果</h1>
+    <h1>あなたのスコア</h1>
     {% endif %}
-    
 
-    <h2>学習前の評価結果</h2>
+    <div class="fs-1 text-danger">
+        <p>お手本を見る前の正解率： {{accuracy_before}}%<p/>
+        <p>お手本を見た後の正解率：{{accuracy_after}}%<p/>
+    </div>
+    
+    <a href="{% url 'select_front' %}?uuid={{ user.uuid }}" class="btn btn-primary">次のページへ</a>
+
+    <h2>[詳細結果]</h2>
+
+    <h3>学習前の評価</h2>
     <p>正解率: {{ accuracy_before }}%</p>
     <p>QWK: {{ qwk_before }}  (順序を考慮した評価結果で最大値=1, 最小値=0。AをCと間違えたり、CをAと間違えると大きく下がる)</p>
     <div class="table-responsive">
@@ -89,7 +97,7 @@
     </div>
     
 
-    <h2>学習後の評価結果</h2>
+    <h3>学習後の評価結果</h2>
     <p>正解率: {{ accuracy_after }}%</p>
     <p>QWK: {{ qwk_after }} (順序を考慮した評価結果で最大値=1, 最小値=0。AをCと間違えたり、CをAと間違えると大きく下がる)</p>
     <div class="table-responsive">

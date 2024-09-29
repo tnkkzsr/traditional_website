@@ -41,13 +41,20 @@
 <body>
 <div class="container mt-5">
     {% if user.username %}
-    <h1>{{ user.username }}さんの評価結果</h1>
+    <h1>{{ user.username }}さんのスコア</h1>
     {% else %}
-    <h1>正面画像選択の評価結果</h1>
+    <h1>正面画像選択のスコア</h1>
     {% endif %}
 
-    <h2>お手本を見る前の評価結果</h2>
-    <p>正面からの平均ずれ値: {{ avg_difference_before }}</p>
+    <div class="fs-1 text-danger">
+        <p>お手本を見る前のスコア： {{avg_difference_before| floatformat:2}}<p/>
+        <p>お手本を見た後のスコア：{{avg_difference_after | floatformat:2}}<p/>
+        <p class ="fs-4 text-dark">(※正面からの差分の平均最大で12)</p>
+    
+    </div>
+    <h2>[詳細結果]</h2>
+    <h3>お手本を見る前のスコア</h3>
+    <p>正面からの平均ずれ値: {{ avg_difference_before | floatformat:2}}</p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
@@ -75,8 +82,8 @@
        
     </div>
 
-    <h2>お手本を見た後の評価結果</h2>
-    <p>正面からの平均ずれ値: {{ avg_difference_after }}</p>
+    <h3>お手本を見た後の評価結果</h3>
+    <p>正面からの平均ずれ値: {{ avg_difference_after  | floatformat:2}}</p>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
