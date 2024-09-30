@@ -52,6 +52,8 @@
         <p class ="fs-4 text-dark">(※正面からの差分の平均最大で12)</p>
     
     </div>
+
+    <a href="{% url 'index' %}?uuid={{ user.uuid }}" class="btn btn-primary">ホームへ</a>
     <h2>[詳細結果]</h2>
     <h3>お手本を見る前のスコア</h3>
     <p>正面からの平均ずれ値: {{ avg_difference_before | floatformat:2}}</p>

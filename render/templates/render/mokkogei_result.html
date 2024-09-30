@@ -59,6 +59,8 @@
         <p>お手本を見る前の正解率： {{accuracy_before}}%<p/>
         <p>お手本を見た後の正解率：{{accuracy_after}}%<p/>
     </div>
+
+    <a href="{% url 'index' %}?uuid={{ user.uuid }}" class="btn btn-primary">ホームへ</a>
     
     <h2>[詳細結果]</h2>
 
