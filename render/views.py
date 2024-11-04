@@ -20,7 +20,41 @@ def index(request):
     if not uuid:
         return redirect("/login")
     
-    return render(request, "render/index.html",{ "uuid": uuid})
+    user = User.objects.filter(uuid=uuid).first()
+    
+    
+    context = {}
+    context["uuid"] = uuid
+    context["user"] = user
+    if AsahiyakiEvaluation.objects.filter(user=user).exists():
+        # AsahiyakiEvaluationの学習前後のABC評価
+        asahiyaki_evaluations_before = user.get_evaluation_results(AsahiyakiEvaluation, 'asahiyaki', is_learned=False)
+        asahiyaki_evaluations_after = user.get_evaluation_results(AsahiyakiEvaluation, 'asahiyaki', is_learned=True)
+
+        # NakagawaEvaluationの学習前後のABC評価
+        nakagawa_evaluations_before = user.get_evaluation_results(NakagawaEvaluation, 'nakagawa', is_learned=False)
+        nakagawa_evaluations_after = user.get_evaluation_results(NakagawaEvaluation, 'nakagawa', is_learned=True)
+        
+        # AsahiyakiEvaluationの学習前後の正面画像評価
+        front_results_asahiyaki_before, avg_difference_asahiyaki_before = user.get_front_image_difference_results(AsahiyakiEvaluation, is_learned=False)
+        front_results_asahiyaki_after, avg_difference_asahiyaki_after = user.get_front_image_difference_results(AsahiyakiEvaluation, is_learned=True)
+
+        context["asahiyaki_ABC_before_acuuracy"] = asahiyaki_evaluations_before['accuracy']
+        context["asahiyaki_ABC_before_qwk"] = asahiyaki_evaluations_before['qwk']
+        context["asahiyaki_ABC_after_acuuracy"] = asahiyaki_evaluations_after['accuracy']
+        context["asahiyaki_ABC_after_qwk"] = asahiyaki_evaluations_after['qwk']
+        context["nakagawa_ABC_before_acuuracy"] = nakagawa_evaluations_before['accuracy']
+        context["nakagawa_ABC_before_qwk"] = nakagawa_evaluations_before['qwk']
+        context["nakagawa_ABC_after_acuuracy"] = nakagawa_evaluations_after['accuracy']
+        context["nakagawa_ABC_after_qwk"] = nakagawa_evaluations_after['qwk']
+        context["front_results_asahiyaki_before"] = front_results_asahiyaki_before
+        context["front_results_asahiyaki_after"] = front_results_asahiyaki_after
+        context["avg_difference_asahiyaki_before"] = avg_difference_asahiyaki_before
+        context["avg_difference_asahiyaki_after"] = avg_difference_asahiyaki_after
+    
+    return render(request, "render/index.html", context)
+
+
 
 def login(request):
     if request.method == "POST":
@@ -120,99 +154,59 @@ def asahiyaki_learn(request):
     return render(request, "render/asahiyaki_learn.html", context)
 
 
-def evaluation_results(request):
+def asahiyaki_results(request):
     uuid = request.GET.get("uuid")
     if not uuid:
         return redirect("/")
     
     user = get_object_or_404(User, uuid=uuid)
     
-    # 学習前の評価をフィルタリング
-    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(
-        user=user, is_learned=False
-    ).exclude(evaluation="").order_by('asahiyaki__id')
-
-    # 学習後の評価をフィルタリング
-    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(
-        user=user, is_learned=True
-    ).exclude(evaluation="").order_by('asahiyaki__id')
-
-    
-    results_before_learning = []
-    results_after_learning = []
-    
-    true_y_before = []
-    pred_y_before = []
-    true_y_after = []
-    pred_y_after = []
-    
-    
-
-    for evaluation in evaluations_before_learning:
-        asahiyaki = evaluation.asahiyaki
-        true_y_before.append(asahiyaki.correct_evaluation)
-        pred_y_before.append(evaluation.evaluation)
-        is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
-        
-        result = {
-            'asahiyaki_id': asahiyaki.id,
-            'name': asahiyaki.name,
-            'user_evaluation': evaluation.evaluation,
-            'correct_evaluation': asahiyaki.correct_evaluation,
-            'is_correct': is_correct,
-            'front_image_name': evaluation.front_image_name,
-            "image_path": asahiyaki.image_path
-        }
-        results_before_learning.append(result)
-
-    for evaluation in evaluations_after_learning:
-        asahiyaki = evaluation.asahiyaki
-        true_y_after.append(asahiyaki.correct_evaluation)
-        pred_y_after.append(evaluation.evaluation)
-        is_correct = evaluation.evaluation == asahiyaki.correct_evaluation
-        
-        result = {
-            'asahiyaki_id': asahiyaki.id,
-            'name': asahiyaki.name,
-            'user_evaluation': evaluation.evaluation,
-            'correct_evaluation': asahiyaki.correct_evaluation,
-            'is_correct': is_correct,
-            'front_image_name': evaluation.front_image_name,
-            "image_path": asahiyaki.image_path
-        }
-        results_after_learning.append(result)
-    
-    # 学習前の評価
-    accuracy_before = (sum([r['is_correct'] for r in results_before_learning]) / len(results_before_learning) * 100) if results_before_learning else 0
-    accuracy_before = round(accuracy_before, 2)
-    f1_before = f1_score(true_y_before, pred_y_before, average='weighted') if results_before_learning else 0
-    qwk_before = cohen_kappa_score(true_y_before, pred_y_before, weights='quadratic') if results_before_learning else 0
-    qwk_before_rounded = round(qwk_before, 4)
-    report_before = classification_report(true_y_before, pred_y_before, output_dict=True)
-
-    # 学習後の評価
-    accuracy_after = (sum([r['is_correct'] for r in results_after_learning]) / len(results_after_learning) * 100) if results_after_learning else 0
-    accuracy_after = round(accuracy_after, 2)
-    f1_after = f1_score(true_y_after, pred_y_after, average='weighted') if results_after_learning else 0
-    qwk_after = cohen_kappa_score(true_y_after, pred_y_after, weights='quadratic') if results_after_learning else 0
-    qwk_after_rounded = round(qwk_after, 4)
-    report_after = classification_report(true_y_after, pred_y_after, output_dict=True)
+    results_before = user.get_evaluation_results(AsahiyakiEvaluation, 'asahiyaki', is_learned=False)
+    results_after = user.get_evaluation_results(AsahiyakiEvaluation, 'asahiyaki', is_learned=True)
 
     context = {
         'user': user,
-        'results_before_learning': results_before_learning,
-        'results_after_learning': results_after_learning,
-        'accuracy_before': accuracy_before,
-        'accuracy_after': accuracy_after,
-        'f1_before': f1_before,
-        'f1_after': f1_after,
-        'qwk_before': qwk_before_rounded,
-        'qwk_after': qwk_after_rounded,
-        'report_before': report_before,
-        'report_after': report_after,
+        'results_before_learning': results_before['results'],
+        'results_after_learning': results_after['results'],
+        'accuracy_before': results_before['accuracy'],
+        'accuracy_after': results_after['accuracy'],
+        'f1_before': results_before['f1'],
+        'f1_after': results_after['f1'],
+        'qwk_before': results_before['qwk'],
+        'qwk_after': results_after['qwk'],
+        'report_before': results_before['report'],
+        'report_after': results_after['report'],
     }
 
-    return render(request, 'render/evaluation_results.html', context)
+    return render(request, 'render/asahiyaki_results.html', context)
+
+def mokkogei_results(request):
+    uuid = request.GET.get("uuid")
+    if not uuid:
+        return redirect("/")
+    
+    user = get_object_or_404(User, uuid=uuid)
+
+    results_before = user.get_evaluation_results(NakagawaEvaluation, 'nakagawa', is_learned=False)
+    results_after = user.get_evaluation_results(NakagawaEvaluation, 'nakagawa', is_learned=True)
+    
+    context = {
+        'user': user,
+        'results_before_learning': results_before['results'],
+        'results_after_learning': results_after['results'],
+        'accuracy_before': results_before['accuracy'],
+        'accuracy_after': results_after['accuracy'],
+        'f1_before': results_before['f1'],
+        'f1_after': results_after['f1'],
+        'qwk_before': results_before['qwk'],
+        'qwk_after': results_after['qwk'],
+        'report_before': results_before['report'],
+        'report_after': results_after['report'],
+    }
+
+    return render(request, 'render/mokkogei_results.html', context)
+
+
 
 
 def random_image_list():
@@ -320,52 +314,15 @@ def asahiyaki_front_select_result(request):
 
     user = get_object_or_404(User, uuid=uuid)
     
-    evaluations_before_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=False).exclude(front_image_name="").order_by('asahiyaki__id')
-    evaluations_after_learning = AsahiyakiEvaluation.objects.filter(user=user, is_learned=True).exclude(front_image_name="").order_by('asahiyaki__id')
-    
-    results_before_learning = []
-    results_after_learning = []
-
-    total_difference_before = 0
-    total_difference_after = 0
-
-    for evaluation in evaluations_before_learning:
-        asahiyaki = evaluation.asahiyaki
-        difference = evaluation.calculate_image_difference()
-        total_difference_before += difference
-        result = {
-            'asahiyaki_id': asahiyaki.id,
-            'name': asahiyaki.name,
-            'front_image_name': evaluation.front_image_name,
-            'image_path': asahiyaki.image_path,
-            'difference': difference,
-        }
-        results_before_learning.append(result)
-    
-    for evaluation in evaluations_after_learning:
-        asahiyaki = evaluation.asahiyaki
-        difference = evaluation.calculate_image_difference()
-        total_difference_after += difference
-        result = {
-            'asahiyaki_id': asahiyaki.id,
-            'name': asahiyaki.name,
-            'front_image_name': evaluation.front_image_name,
-            'image_path': asahiyaki.image_path,
-            'difference': difference,
-        }
-        results_after_learning.append(result)
-
-    # 平均値を計算
-    avg_difference_before = total_difference_before / len(evaluations_before_learning) if evaluations_before_learning else 0
-    avg_difference_after = total_difference_after / len(evaluations_after_learning) if evaluations_after_learning else 0
+    results_before, avg_difference_before = user.get_front_image_difference_results(AsahiyakiEvaluation, is_learned=False)
+    results_after, avg_difference_after = user.get_front_image_difference_results(AsahiyakiEvaluation, is_learned=True)
 
     context = {
         'user': user,
-        'results_before_learning': results_before_learning,
-        'results_after_learning': results_after_learning,
+        'results_before_learning': results_before,
+        'results_after_learning': results_after,
         'avg_difference_before': avg_difference_before,
         'avg_difference_after': avg_difference_after,
-        
     }   
     
     return render(request, 'render/asahiyaki_front_image_result.html', context)
@@ -456,90 +413,3 @@ def mokkogei_learn(request):
     }
     return render(request, "render/mokkogei_learn.html", context)
 
-def mokkogei_result(request):
-    uuid = request.GET.get("uuid")
-    if not uuid:
-        return redirect("/")
-    
-    user = get_object_or_404(User, uuid=uuid)
-
-    evaluations_before_learning = NakagawaEvaluation.objects.filter(user=user, is_learned=False).order_by('nakagawa__id')
-    evaluations_after_learning = NakagawaEvaluation.objects.filter(user=user, is_learned=True).order_by('nakagawa__id')
-    
-    results_before_learning = []
-    results_after_learning = []
-    
-    true_y_before = []
-    pred_y_before = []
-    true_y_after = []
-    pred_y_after = []
-    
-    
-
-    for evaluation in evaluations_before_learning:
-        nakagawa = evaluation.nakagawa
-        true_y_before.append(nakagawa.correct_evaluation)
-        pred_y_before.append(evaluation.evaluation)
-        is_correct = evaluation.evaluation == nakagawa.correct_evaluation
-        
-        result = {
-            'nakagawa_id': nakagawa.id,
-            'name': nakagawa.name,
-            'user_evaluation': evaluation.evaluation,
-            'correct_evaluation': nakagawa.correct_evaluation,
-            'is_correct': is_correct,
-            'image_path': nakagawa.image_path
-            
-        }
-        results_before_learning.append(result)
-
-    for evaluation in evaluations_after_learning:
-        nakagawa = evaluation.nakagawa
-        true_y_after.append(nakagawa.correct_evaluation)
-        pred_y_after.append(evaluation.evaluation)
-        is_correct = evaluation.evaluation == nakagawa.correct_evaluation
-        
-        result = {
-            'nakagawa_id': nakagawa.id,
-            'name': nakagawa.name,
-            'user_evaluation': evaluation.evaluation,
-            'correct_evaluation': nakagawa.correct_evaluation,
-            'is_correct': is_correct,
-            'image_path': nakagawa.image_path
-            
-        }
-        results_after_learning.append(result)
-    
-    # 学習前の評価
-    accuracy_before = (sum([r['is_correct'] for r in results_before_learning]) / len(results_before_learning) * 100) if results_before_learning else 0
-    accuracy_before = round(accuracy_before, 2)
-    f1_before = f1_score(true_y_before, pred_y_before, average='weighted') if results_before_learning else 0
-    qwk_before = cohen_kappa_score(true_y_before, pred_y_before, weights='quadratic') if results_before_learning else 0
-    qwk_before = round(qwk_before, 4)
-    report_before = classification_report(true_y_before, pred_y_before, output_dict=True)
-    
-
-    # 学習後の評価
-    accuracy_after = (sum([r['is_correct'] for r in results_after_learning]) / len(results_after_learning) * 100) if results_after_learning else 0
-    accuracy_after = round(accuracy_after, 2)
-    f1_after = f1_score(true_y_after, pred_y_after, average='weighted') if results_after_learning else 0
-    qwk_after = cohen_kappa_score(true_y_after, pred_y_after, weights='quadratic') if results_after_learning else 0
-    qwk_after = round(qwk_after, 4)
-    report_after = classification_report(true_y_after, pred_y_after, output_dict=True)
-    
-
-    context = {
-        'user': user,
-        'results_before_learning': results_before_learning,
-        'results_after_learning': results_after_learning,
-        'accuracy_before': accuracy_before,
-        'accuracy_after': accuracy_after,
-        'f1_before': f1_before,
-        'f1_after': f1_after,
-        'qwk_before': qwk_before,
-        'qwk_after': qwk_after,
-        'report_before': report_before,
-        'report_after': report_after,
-    }
-
-    return render(request, 'render/mokkogei_result.html', context)
