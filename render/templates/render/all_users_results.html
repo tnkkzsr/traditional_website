@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全ユーザーの評価結果</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-4">
+    <h1>全ユーザーの評価結果</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>UUID</th>
+                <th>ユーザー名</th>
+                <th>朝日焼 学習前 正答率</th>
+                <th>朝日焼 学習前 QWK</th>
+                <th>朝日焼 学習後 正答率</th>
+                <th>朝日焼 学習後 QWK</th>
+                <th>中川 学習前 正答率</th>
+                <th>中川 学習前 QWK</th>
+                <th>中川 学習後 正答率</th>
+                <th>中川 学習後 QWK</th>
+                <th>朝日焼 学習前 平均差分</th>
+                <th>朝日焼 学習後 平均差分</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users_results %}
+                <tr>
+                    <td>{{ user.uuid }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.asahiyaki_ABC_before_accuracy }}%</td>
+                    <td>{{ user.asahiyaki_ABC_before_qwk }}</td>
+                    <td>{{ user.asahiyaki_ABC_after_accuracy }}%</td>
+                    <td>{{ user.asahiyaki_ABC_after_qwk }}</td>
+                    <td>{{ user.nakagawa_ABC_before_accuracy }}%</td>
+                    <td>{{ user.nakagawa_ABC_before_qwk }}</td>
+                    <td>{{ user.nakagawa_ABC_after_accuracy }}%</td>
+                    <td>{{ user.nakagawa_ABC_after_qwk }}</td>
+                    <td>{{ user.avg_difference_asahiyaki_before }}</td>
+                    <td>{{ user.avg_difference_asahiyaki_after }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

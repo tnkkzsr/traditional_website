@@ -15,4 +15,5 @@ urlpatterns = [
     path("mokkogei/", views.mokkogei, name="mokkogei"),
     path("mokkogei/learn/", views.mokkogei_learn, name="mokkogei_learn"),
     path("mokkogei/result/", views.mokkogei_results, name="mokkogei_result"),
+    path("all_users_results/", views.all_users_results, name="all_users_results"),
 ]

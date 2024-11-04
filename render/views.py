@@ -413,3 +413,61 @@ def mokkogei_learn(request):
     }
     return render(request, "render/mokkogei_learn.html", context)
 
+
+
+def all_users_results(request):
+    # ユーザーのリストを取得
+    users = User.objects.all()
+    
+    # 各ユーザーの評価結果を格納するリスト
+    users_results = []
+
+    for user in users:
+        user_result = {
+            "uuid": user.uuid,
+            "username": user.username,
+            "asahiyaki_ABC_before_accuracy": None,
+            "asahiyaki_ABC_before_qwk": None,
+            "asahiyaki_ABC_after_accuracy": None,
+            "asahiyaki_ABC_after_qwk": None,
+            "nakagawa_ABC_before_accuracy": None,
+            "nakagawa_ABC_before_qwk": None,
+            "nakagawa_ABC_after_accuracy": None,
+            "nakagawa_ABC_after_qwk": None,
+            "avg_difference_asahiyaki_before": None,
+            "avg_difference_asahiyaki_after": None
+        }
+        
+        if AsahiyakiEvaluation.objects.filter(user=user).exists():
+            # 学習前後のAsahiyaki評価
+            asahiyaki_evaluations_before = user.get_evaluation_results(AsahiyakiEvaluation, 'asahiyaki', is_learned=False)
+            asahiyaki_evaluations_after = user.get_evaluation_results(AsahiyakiEvaluation, 'asahiyaki', is_learned=True)
+            
+            # 学習前後のNakagawa評価
+            nakagawa_evaluations_before = user.get_evaluation_results(NakagawaEvaluation, 'nakagawa', is_learned=False)
+            nakagawa_evaluations_after = user.get_evaluation_results(NakagawaEvaluation, 'nakagawa', is_learned=True)
+            
+            # Asahiyakiの学習前後の正面画像評価
+            _, avg_difference_asahiyaki_before = user.get_front_image_difference_results(AsahiyakiEvaluation, is_learned=False)
+            _, avg_difference_asahiyaki_after = user.get_front_image_difference_results(AsahiyakiEvaluation, is_learned=True)
+            
+            # 評価結果をユーザーデータに追加
+            user_result.update({
+                "asahiyaki_ABC_before_accuracy": asahiyaki_evaluations_before['accuracy'],
+                "asahiyaki_ABC_before_qwk": asahiyaki_evaluations_before['qwk'],
+                "asahiyaki_ABC_after_accuracy": asahiyaki_evaluations_after['accuracy'],
+                "asahiyaki_ABC_after_qwk": asahiyaki_evaluations_after['qwk'],
+                "nakagawa_ABC_before_accuracy": nakagawa_evaluations_before['accuracy'],
+                "nakagawa_ABC_before_qwk": nakagawa_evaluations_before['qwk'],
+                "nakagawa_ABC_after_accuracy": nakagawa_evaluations_after['accuracy'],
+                "nakagawa_ABC_after_qwk": nakagawa_evaluations_after['qwk'],
+                "avg_difference_asahiyaki_before": avg_difference_asahiyaki_before,
+                "avg_difference_asahiyaki_after": avg_difference_asahiyaki_after
+            })
+        
+        # ユーザーごとの結果をリストに追加
+        users_results.append(user_result)
+    
+    # テンプレートにデータを渡す
+    context = {"users_results": users_results}
+    return render(request, "render/all_users_results.html", context)
