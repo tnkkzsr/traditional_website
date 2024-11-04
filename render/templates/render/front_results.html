@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>評価結果</title>
+    <style>
+        .evaluation-img {
+            width: 100px;
+            height: auto;
+        }
+        .difference {
+            text-align: center;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h2>評価結果</h2>
+
+    {% for data in evaluation_data %}
+        <h3>{{ data.asahiyaki.name }}の評価結果</h3>
+        <p>正面からの平均ずれ値: {{ data.avg_difference_after|floatformat:2 }}</p>
+        
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>選択された画像</th>
+                        <th>正解の正面画像</th>
+                        <th>正解との差分 (最大12)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for result in data.results_after_learning %}
+                        <tr>
+                            <td>
+                                <img src="{% static result.image_path %}{{ result.front_image_name }}" alt="{{ result.name }}" class="evaluation-img">
+                            </td>
+                            <td>
+                                <img src="{% static result.image_path %}01.png" alt="{{ result.name }}" class="evaluation-img">
+                            </td>
+                            <td class="difference">{{ result.difference }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endfor %}
+</body>
+</html>

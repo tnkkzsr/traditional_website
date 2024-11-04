@@ -1,0 +1,179 @@
+Image Path: asahiyaki/export_20230517105001/
+正解の評価: A
+  学習前の評価 (is_learned=False):
+A A B B B A C A C A
+学習前の平均得点: 2.30
+学習前の標準偏差: 0.82
+学習前の正答率: 50.00%
+  学習後 (is_learned=True):
+C A B C A C B B C A
+学習後の平均得点: 1.90
+学習後の標準偏差: 0.88
+学習後の正答率: 30.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220223173209/
+正解の評価: A
+  学習前の評価 (is_learned=False):
+C B C C B A C A A C
+学習前の平均得点: 1.80
+学習前の標準偏差: 0.92
+学習前の正答率: 30.00%
+  学習後 (is_learned=True):
+C C C C A A C C C B
+学習後の平均得点: 1.50
+学習後の標準偏差: 0.85
+学習後の正答率: 20.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220223174624/
+正解の評価: A
+  学習前の評価 (is_learned=False):
+A B B B C B C A C A
+学習前の平均得点: 2.00
+学習前の標準偏差: 0.82
+学習前の正答率: 30.00%
+  学習後 (is_learned=True):
+A B A A A A A A A A
+学習後の平均得点: 2.90
+学習後の標準偏差: 0.32
+学習後の正答率: 90.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220507160946/
+正解の評価: A
+  学習前の評価 (is_learned=False):
+B C C C C C C B C B
+学習前の平均得点: 1.30
+学習前の標準偏差: 0.48
+学習前の正答率: 0.00%
+  学習後 (is_learned=True):
+B C C C C A C A C B
+学習後の平均得点: 1.60
+学習後の標準偏差: 0.84
+学習後の正答率: 20.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220223175214/
+正解の評価: B
+  学習前の評価 (is_learned=False):
+B A C B B A C A B A
+学習前の平均得点: 2.20
+学習前の標準偏差: 0.79
+学習前の正答率: 40.00%
+  学習後 (is_learned=True):
+B A B A B B B B B B
+学習後の平均得点: 2.20
+学習後の標準偏差: 0.42
+学習後の正答率: 80.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220507161217/
+正解の評価: B
+  学習前の評価 (is_learned=False):
+B B A A B B B A C A
+学習前の平均得点: 2.30
+学習前の標準偏差: 0.67
+学習前の正答率: 50.00%
+  学習後 (is_learned=True):
+A B B B B A A B B B
+学習後の平均得点: 2.30
+学習後の標準偏差: 0.48
+学習後の正答率: 70.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220507161451/
+正解の評価: B
+  学習前の評価 (is_learned=False):
+B B A B B B A A B A
+学習前の平均得点: 2.40
+学習前の標準偏差: 0.52
+学習前の正答率: 60.00%
+  学習後 (is_learned=True):
+B A C B B B A A B A
+学習後の平均得点: 2.30
+学習後の標準偏差: 0.67
+学習後の正答率: 50.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220507161921/
+正解の評価: B
+  学習前の評価 (is_learned=False):
+B A A A C B A A B A
+学習前の平均得点: 2.50
+学習前の標準偏差: 0.71
+学習前の正答率: 30.00%
+  学習後 (is_learned=True):
+B A C A B C A A B A
+学習後の平均得点: 2.30
+学習後の標準偏差: 0.82
+学習後の正答率: 30.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220914104359/
+正解の評価: C
+  学習前の評価 (is_learned=False):
+A B B A C A C B C C
+学習前の平均得点: 1.90
+学習前の標準偏差: 0.88
+学習前の正答率: 40.00%
+  学習後 (is_learned=True):
+B C A B B B B B A C
+学習後の平均得点: 2.00
+学習後の標準偏差: 0.67
+学習後の正答率: 20.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220914135509/
+正解の評価: C
+  学習前の評価 (is_learned=False):
+B B B C B B B A B B
+学習前の平均得点: 2.00
+学習前の標準偏差: 0.47
+学習前の正答率: 10.00%
+  学習後 (is_learned=True):
+B B C C B C A C B B
+学習後の平均得点: 1.70
+学習後の標準偏差: 0.67
+学習後の正答率: 40.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220914134013/
+正解の評価: C
+  学習前の評価 (is_learned=False):
+B A B B B C B A C B
+学習前の平均得点: 2.00
+学習前の標準偏差: 0.67
+学習前の正答率: 20.00%
+  学習後 (is_learned=True):
+B B B B B B A B C B
+学習後の平均得点: 2.00
+学習後の標準偏差: 0.47
+学習後の正答率: 10.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00
+
+Image Path: asahiyaki/export_20220914101558/
+正解の評価: C
+  学習前の評価 (is_learned=False):
+A A B C C B C B B C
+学習前の平均得点: 1.80
+学習前の標準偏差: 0.79
+学習前の正答率: 40.00%
+  学習後 (is_learned=True):
+B C B B C C B A B C
+学習後の平均得点: 1.70
+学習後の標準偏差: 0.67
+学習後の正答率: 40.00%
+学習前のQWK: 0.00
+学習後のQWK: 0.00s
